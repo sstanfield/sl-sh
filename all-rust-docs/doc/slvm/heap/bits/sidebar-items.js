@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["FLAG_MARK","FLAG_MUT","FLAG_STICKY","FLAG_TRACED"],"fn":["is_live","is_marked","is_mutable","is_traced"]};

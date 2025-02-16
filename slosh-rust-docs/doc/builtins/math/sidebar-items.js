@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["abs","add_math_builtins","intern_abs","intern_rem_as_percent","intern_rem_as_rem","intern_rem_euclid","parse_abs","parse_rem_as_percent","parse_rem_as_rem","parse_rem_euclid","rem_as_percent","rem_as_rem","rem_euclid"]};

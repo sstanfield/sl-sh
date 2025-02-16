@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["memfd","prctl","signal","signalfd","stat","statfs","statvfs","sysinfo","termios","time","utsname","wait"]};

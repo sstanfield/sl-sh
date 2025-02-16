@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Notes on how conversion works:"><title>bridge_adapters::lisp_adapters - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-42caa33d.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="bridge_adapters" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.1 (e71f9a9a9 2025-01-27)" data-channel="1.84.1" data-search-js="search-92e6798f.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../bridge_adapters/index.html">bridge_<wbr>adapters</a><span class="version">0.11.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module lisp_<wbr>adapters</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#accepting-argumets" title="Accepting argumets">Accepting argumets</a></li><li><a href="#returning-arguments" title="Returning Arguments">Returning Arguments</a></li><li><a href="#on-accepting-arguments-from-a-dynamically-typed-language-to-a-static-one" title="On accepting arguments from a dynamically typed language to a static one">On accepting arguments from a dynamically typed language to a static one</a></li><li><a href="#on-returning-arguments-from-a-statically-typed-language-to-a-dynamically-one" title="On returning arguments from a statically typed language to a dynamically one">On returning arguments from a statically typed language to a dynamically one</a></li><li><a href="#borrowing-and-mutable-borrowing-when-a-rust-type-does-not-implement-copy-demonstration-with-str-and-mut-string" title="Borrowing and Mutable Borrowing when a rust type does not implement `Copy`, demonstration with &#38;str and &#38;mut String">Borrowing and Mutable Borrowing when a rust type does not implement <code>Copy</code>, demonstration with &amp;str and &amp;mut String</a><ul><li><a href="#for-regular-borrows-copy-this-pattern-used-for-str" title="For regular borrows, copy this pattern used for &#38;str">For regular borrows, copy this pattern used for &amp;str</a></li></ul></li><li><a href="#mutable-borrowing-when-a-rust-type-does-not-implement-copy" title="Mutable borrowing when a rust type does not implement copy">Mutable borrowing when a rust type does not implement copy</a><ul><li><a href="#rosetta-stone-for-bridge-macros" title="rosetta stone for bridge macros">rosetta stone for bridge macros</a></li></ul></li></ul><h3><a href="#modules">Module Items</a></h3><ul class="block"><li><a href="#modules" title="Modules">Modules</a></li><li><a href="#traits" title="Traits">Traits</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate bridge_<wbr>adapters</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><span class="rustdoc-breadcrumbs"><a href="../index.html">bridge_adapters</a></span><h1>Module <span>lisp_adapters</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/bridge_adapters/lisp_adapters.rs.html#1-391">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Notes on how conversion works:</p>
+<h2 id="accepting-argumets"><a class="doc-anchor" href="#accepting-argumets">§</a>Accepting argumets</h2>
+<p>Check rust docs for <a href="trait.SlFrom.html" title="trait bridge_adapters::lisp_adapters::SlFrom"><code>SlFrom</code></a>, <a href="trait.SlFromRef.html" title="trait bridge_adapters::lisp_adapters::SlFromRef"><code>SlFromRef</code></a>, and <a href="trait.SlFromRefMut.html" title="trait bridge_adapters::lisp_adapters::SlFromRefMut"><code>SlFromRefMut</code></a> to get a feel for
+which rust types will work as parameters to the procedural macro.</p>
+<h2 id="returning-arguments"><a class="doc-anchor" href="#returning-arguments">§</a>Returning Arguments</h2>
+<p><a href="trait.SlInto.html" title="trait bridge_adapters::lisp_adapters::SlInto"><code>SlInto</code></a>, <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a>, and <a href="trait.SlIntoRefMut.html" title="trait bridge_adapters::lisp_adapters::SlIntoRefMut"><code>SlIntoRefMut</code></a> are all inverses of their respective from implementations
+and are used to transform the rust types tha function return into slosh values from the procedural macro.</p>
+<h2 id="on-accepting-arguments-from-a-dynamically-typed-language-to-a-static-one"><a class="doc-anchor" href="#on-accepting-arguments-from-a-dynamically-typed-language-to-a-static-one">§</a>On accepting arguments from a dynamically typed language to a static one</h2>
+<p>Helper types in this crate like [<code>LooseString</code>] use the rust type system to model various slosh
+types to avoid accepting a raw slosh <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a> as a parameter in the procedural macro. This is
+not necessary, however, and should only be done if one finds oneself constantly accepting a
+<a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a> type in multiple procedural macro functions and functionally duplicating similar
+parsing code.</p>
+<h2 id="on-returning-arguments-from-a-statically-typed-language-to-a-dynamically-one"><a class="doc-anchor" href="#on-returning-arguments-from-a-statically-typed-language-to-a-dynamically-one">§</a>On returning arguments from a statically typed language to a dynamically one</h2>
+<p>It is also possible to manually return a <a href="../../slvm/error/type.VMResult.html" title="type slvm::error::VMResult"><code>VMResult</code></a> of <a href="https://doc.rust-lang.org/1.84.1/core/result/enum.Result.html#variant.Ok" title="variant core::result::Result::Ok"><code>Ok</code></a>&lt;<a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>&gt; if the return
+type of the function should not be bound by strict typing.</p>
+<h2 id="borrowing-and-mutable-borrowing-when-a-rust-type-does-not-implement-copy-demonstration-with-str-and-mut-string"><a class="doc-anchor" href="#borrowing-and-mutable-borrowing-when-a-rust-type-does-not-implement-copy-demonstration-with-str-and-mut-string">§</a>Borrowing and Mutable Borrowing when a rust type does not implement <a href="https://doc.rust-lang.org/1.84.1/core/marker/trait.Copy.html" title="trait core::marker::Copy"><code>Copy</code></a>, demonstration with &amp;str and &amp;mut String</h2>
+<p><a href="trait.SlAsRef.html" title="trait bridge_adapters::lisp_adapters::SlAsRef"><code>SlAsRef</code></a> and <a href="trait.SlAsMut.html" title="trait bridge_adapters::lisp_adapters::SlAsMut"><code>SlAsMut</code></a> can be used to avoid cloning from the [<code>SloshVm</code>] into the scope of
+function generated by the procedural macro but the traits must be structured properly.</p>
+<h3 id="for-regular-borrows-copy-this-pattern-used-for-str"><a class="doc-anchor" href="#for-regular-borrows-copy-this-pattern-used-for-str">§</a>For regular borrows, copy this pattern used for &amp;str</h3>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code>
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SlFromRef&lt;<span class="lifetime">'a</span>, Value&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
+    <span class="kw">fn </span>sl_from_ref(value: Value, vm: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>SloshVm) -&gt; VMResult&lt;<span class="self">Self</span>&gt; {
+        (<span class="kw-2">&amp;</span>value).sl_as_ref(vm)
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SlAsRef&lt;<span class="lifetime">'a</span>, str&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Value {
+    <span class="kw">fn </span>sl_as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>, vm: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>SloshVm) -&gt; VMResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Value::String(h) =&gt; <span class="prelude-val">Ok</span>(vm.get_string(<span class="kw-2">*</span>h)),
+            Value::StringConst(i) =&gt; <span class="prelude-val">Ok</span>(vm.get_interned(<span class="kw-2">*</span>i)),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(VMError::new_conversion(
+                ErrorStrings::fix_me_mismatched_type(
+                    String::from(ValueTypes::from([
+                        ValueType::String,
+                        ValueType::StringConst,
+                    ])),
+                    <span class="self">self</span>.display_type(vm),
+                ),
+            )),
+        }
+    }
+}</code></pre></div>
+<h2 id="mutable-borrowing-when-a-rust-type-does-not-implement-copy"><a class="doc-anchor" href="#mutable-borrowing-when-a-rust-type-does-not-implement-copy">§</a>Mutable borrowing when a rust type does not implement copy</h2>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code>
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SlFromRefMut&lt;<span class="lifetime">'a</span>, Value&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>String {
+    <span class="kw">fn </span>sl_from_ref_mut(value: Value, vm: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SloshVm) -&gt; VMResult&lt;<span class="self">Self</span>&gt; {
+        (<span class="kw-2">&amp;</span>value).sl_as_mut(vm)
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SlAsMut&lt;<span class="lifetime">'a</span>, String&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>Value {
+    <span class="kw">fn </span>sl_as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, vm: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SloshVm) -&gt; VMResult&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>String&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Value::String(h) =&gt; vm.get_string_mut(<span class="kw-2">*</span>h),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(VMError::new_conversion(
+                ErrorStrings::fix_me_mismatched_type(
+                    &lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;::from(ValueType::String),
+                    <span class="self">self</span>.display_type(vm),
+                ),
+            )),
+        }
+    }
+}</code></pre></div>
+<h3 id="rosetta-stone-for-bridge-macros"><a class="doc-anchor" href="#rosetta-stone-for-bridge-macros">§</a>rosetta stone for bridge macros</h3><div><table><thead><tr><th>Rust Type</th><th>Slosh Type &amp; Traits   <br>  <br> S -&gt; R Convert Slosh -&gt; Rust <br>   - Occurs when coercing slush arguments to the parameter types in the signature of the annotated Rust function. <br> R -&gt; S Convert Rust -&gt; Slosh <br>   - Occurs when coercing some returned Rust type to a Slosh type.</th></tr></thead><tbody>
+<tr><td><a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value">Value</a><code>::String</code></td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a> <a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a> for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> - <a href="trait.SlFrom.html" title="trait bridge_adapters::lisp_adapters::SlFrom"><code>SlFrom</code></a> <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a> for <a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><code>&amp;</code><a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::String</code></td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a> <code>&amp;</code><a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a> for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> - take <a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a></td></tr>
+<tr><td></td><td> * uses Clone unless TODO PC ISSUE #7 the extant value problem</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><code>&amp;mut </code><a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::String</code></td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlAsMut.html" title="trait bridge_adapters::lisp_adapters::SlAsMut"><code>SlAsMut</code></a> <a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a> for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> - take <code>&amp;mut </code><a href="https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a></td></tr>
+<tr><td></td><td> * uses Clone unless TODO PC ISSUE #7 the extant value problem</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><code>&amp;</code><a href="https://doc.rust-lang.org/1.84.1/std/primitive.str.html" title="primitive str"><code>str</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::String</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::StringConst</code></td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlAsRef.html" title="trait bridge_adapters::lisp_adapters::SlAsRef"><code>SlAsRef</code></a> &amp;<a href="https://doc.rust-lang.org/1.84.1/std/primitive.str.html" title="primitive str"><code>str</code></a> for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td> - <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a> &amp;<a href="https://doc.rust-lang.org/1.84.1/std/primitive.str.html" title="primitive str"><code>str</code></a> for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> - <a href="trait.SlFrom.html" title="trait bridge_adapters::lisp_adapters::SlFrom"><code>SlFrom</code></a> for <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td> * uses Clone unless TODO PC ISSUE #7 - the extant value problem</td></tr>
+<tr><td></td><td> - TODO PC ISSUE #7 adjacent is it even possible to call vm.alloc_string_ro on something that was <em>newly</em> created in the current fcn and returned as a RO value OR should that be made as a custom type so the user can declare their intent.</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="https://doc.rust-lang.org/1.84.1/std/primitive.char.html" title="primitive char"><code>char</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::CodePoint</code></td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a> <a href="https://doc.rust-lang.org/1.84.1/std/primitive.char.html" title="primitive char"><code>char</code></a> for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> - <a href="trait.SlFrom.html" title="trait bridge_adapters::lisp_adapters::SlFrom"><code>SlFrom</code></a> <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a> for <a href="https://doc.rust-lang.org/1.84.1/std/primitive.char.html" title="primitive char"><code>char</code></a></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td>[SloshChar]</td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::CharClusterLong</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::CharCluster</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::CodePoint</code></td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a> [<code>SloshChar</code>] for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> - <a href="trait.SlFromRef.html" title="trait bridge_adapters::lisp_adapters::SlFromRef"><code>SlFromRef</code></a> <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a> for [<code>SloshChar</code>]</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td>[<code>LooseString</code>]</td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::String</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::CodePoint</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::CharCluster</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::CharClusterLong</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::Symbol</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::Keyword</code> / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::StringConst</code></td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a> [<code>LooseString</code>] for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> * Note: Always does an allocation and returns a <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a><code>::String</code> type.</td></tr>
+<tr><td></td><td> - <a href="trait.SlFromRef.html" title="trait bridge_adapters::lisp_adapters::SlFromRef"><code>SlFromRef</code></a> <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a> for [<code>LooseString</code>]</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="https://doc.rust-lang.org/1.84.1/std/primitive.bool.html" title="primitive bool"><code>bool</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::True / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::False / <a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Nil</td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a> <a href="https://doc.rust-lang.org/1.84.1/std/primitive.bool.html" title="primitive bool"><code>bool</code></a> for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> - <a href="trait.SlFrom.html" title="trait bridge_adapters::lisp_adapters::SlFrom"><code>SlFrom</code></a> <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a> for <a href="primitives/index.html" title="mod bridge_adapters::lisp_adapters::primitives"><code>primitives</code></a></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="https://doc.rust-lang.org/1.84.1/std/primitive.u8.html" title="primitive u8"><code>u8</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Byte</td></tr>
+<tr><td></td><td>S -&gt; R</td></tr>
+<tr><td></td><td> - <a href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef"><code>SlIntoRef</code></a> <a href="https://doc.rust-lang.org/1.84.1/std/primitive.u8.html" title="primitive u8"><code>u8</code></a> for <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a></td></tr>
+<tr><td></td><td>R -&gt; S</td></tr>
+<tr><td></td><td> - <a href="trait.SlFrom.html" title="trait bridge_adapters::lisp_adapters::SlFrom"><code>SlFrom</code></a> <code>&amp;</code><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a> for <a href="https://doc.rust-lang.org/1.84.1/std/primitive.i8.html" title="primitive i8"><code>i8</code></a></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="https://doc.rust-lang.org/1.84.1/std/primitive.u32.html" title="primitive u32"><code>u32</code></a>/<a href="https://doc.rust-lang.org/1.84.1/std/primitive.i32.html" title="primitive i32"><code>i32</code></a>/<a href="https://doc.rust-lang.org/1.84.1/std/primitive.u64.html" title="primitive u64"><code>u64</code></a>/<a href="https://doc.rust-lang.org/1.84.1/std/primitive.i64.html" title="primitive i64"><code>i64</code></a>/<a href="https://doc.rust-lang.org/1.84.1/std/primitive.usize.html" title="primitive usize"><code>usize</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Int</td></tr>
+<tr><td>TODO PC <em>current behavior overflows</em></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Int([[u8; 7]]), // Store a 7 byte int (i56…).</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="https://doc.rust-lang.org/1.84.1/std/primitive.f32.html" title="primitive f32"><code>f32</code></a>/<a href="https://doc.rust-lang.org/1.84.1/std/primitive.f64.html" title="primitive f64"><code>f64</code></a></td><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Float(F56)</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Pair(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::List(Handle, u16)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Vector(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Map(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Symbol(Interned)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Keyword(Interned)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Special(Interned) // Intended for symbols that are compiled.</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Builtin(u32)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Undefined</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Nil</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Bytes(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Lambda(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Closure(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Continuation(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::CallFrame(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td><a href="../../slvm/value/enum.Value.html" title="enum slvm::value::Value"><code>Value</code></a>::Error(Handle)</td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+</tbody></table>
+</div></div></details><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="collections/index.html" title="mod bridge_adapters::lisp_adapters::collections">collections</a><span title="Restricted Visibility">&nbsp;🔒</span> </div></li><li><div class="item-name"><a class="mod" href="numbers/index.html" title="mod bridge_adapters::lisp_adapters::numbers">numbers</a></div></li><li><div class="item-name"><a class="mod" href="primitives/index.html" title="mod bridge_adapters::lisp_adapters::primitives">primitives</a></div><div class="desc docblock-short">As of now for casting slosh value types to a boolean with the sl_sh_fn macro,
+Value::* and Value::True map to bool true rust values
+and Value::False, Value::Nil, and Value::Undefined map to bool false.</div></li><li><div class="item-name"><a class="mod" href="text/index.html" title="mod bridge_adapters::lisp_adapters::text">text</a></div></li></ul><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.SlAsMut.html" title="trait bridge_adapters::lisp_adapters::SlAsMut">SlAsMut</a></div></li><li><div class="item-name"><a class="trait" href="trait.SlAsRef.html" title="trait bridge_adapters::lisp_adapters::SlAsRef">SlAsRef</a></div><div class="desc docblock-short">Converts a [<code>BridgedType</code>] to some rust type</div></li><li><div class="item-name"><a class="trait" href="trait.SlFrom.html" title="trait bridge_adapters::lisp_adapters::SlFrom">SlFrom</a></div><div class="desc docblock-short">Use mutable [<code>SloshVm</code>] to take a rust value and convert it to a [<code>BridgedType</code>].</div></li><li><div class="item-name"><a class="trait" href="trait.SlFromRef.html" title="trait bridge_adapters::lisp_adapters::SlFromRef">SlFrom<wbr>Ref</a></div></li><li><div class="item-name"><a class="trait" href="trait.SlFromRefMut.html" title="trait bridge_adapters::lisp_adapters::SlFromRefMut">SlFrom<wbr>RefMut</a></div></li><li><div class="item-name"><a class="trait" href="trait.SlInto.html" title="trait bridge_adapters::lisp_adapters::SlInto">SlInto</a></div><div class="desc docblock-short">Inverse of <a href="trait.SlFrom.html" title="trait bridge_adapters::lisp_adapters::SlFrom"><code>SlFrom</code></a></div></li><li><div class="item-name"><a class="trait" href="trait.SlIntoRef.html" title="trait bridge_adapters::lisp_adapters::SlIntoRef">SlInto<wbr>Ref</a></div><div class="desc docblock-short">Inverse of <a href="trait.SlFromRef.html" title="trait bridge_adapters::lisp_adapters::SlFromRef"><code>SlFromRef</code></a></div></li><li><div class="item-name"><a class="trait" href="trait.SlIntoRefMut.html" title="trait bridge_adapters::lisp_adapters::SlIntoRefMut">SlInto<wbr>RefMut</a></div><div class="desc docblock-short">Inverse of <a href="trait.SlFromRefMut.html" title="trait bridge_adapters::lisp_adapters::SlFromRefMut"><code>SlFromRefMut</code></a></div></li></ul></section></div></main></body></html>

@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>String - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="string"><a class="header" href="#string">string</a></h2>
+<p>List of symbols:</p>
+<p><a href="#str">str</a>, <a href="#str-bytes">str-bytes</a>, <a href="#str-cat-list">str-cat-list</a>, <a href="#str-contains">str-contains</a>, <a href="#str-empty">str-empty?</a>, <a href="#str-lower">str-lower</a>, <a href="#str-map">str-map</a>, <a href="#str-push">str-push!</a>, <a href="#str-replace">str-replace</a>, <a href="#str-split">str-split</a>, <a href="#str-splitn">str-splitn</a>, <a href="#str-starts-with">str-starts-with</a>, <a href="#str-sub">str-sub</a>, <a href="#str-trim">str-trim</a>, <a href="#str-trim">str-trim!</a>, <a href="#str-upper">str-upper</a></p>
+<h3 id="str"><a class="header" href="#str">str</a></h3>
+<p><strong>Usage:</strong> (str arg0 ... argN) -&gt; string</p>
+<p>Make a new string with its arguments.</p>
+<p>Arguments will be turned into strings.  If an argument is a process then the
+output of the process will be captured and put into the string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "stringsome" (str "string" "some"))
+(test::assert-equal "string" (str "string" ""))
+(test::assert-equal "string 50" (str "string" " " 50))
+</code></pre>
+<h3 id="str-bytes"><a class="header" href="#str-bytes">str-bytes</a></h3>
+<p><strong>Usage:</strong> (str-bytes string) -&gt; int</p>
+<p>Return number of bytes in a string (may be more then length).</p>
+<p>Strings are utf8 so it chars and bytes may not be a one to one match.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 4 (str-bytes "Stau"))
+(test::assert-equal 0 (str-bytes ""))
+; Note 5 chars and 6 bytes because of the final char.
+(test::assert-equal 6 (str-bytes "StauΣ"))
+</code></pre>
+<h3 id="str-cat-list"><a class="header" href="#str-cat-list">str-cat-list</a></h3>
+<p><strong>Usage:</strong> (str-cat-list join-str sequence) -&gt; string</p>
+<p>Build a string by concatenating a sequence of strings by join-str.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "stringxxxyyyxxxsome" (str-cat-list "xxx" ["string" "yyy" "some"]))
+(test::assert-equal "string yyy some" (str-cat-list " " ["string" "yyy" "some"]))
+(test::assert-equal "stringyyysome" (str-cat-list "" ["string" "yyy" "some"]))
+</code></pre>
+<h3 id="str-contains"><a class="header" href="#str-contains">str-contains</a></h3>
+<p><strong>Usage:</strong> (str-contains string pattern) -&gt; #t/#f</p>
+<p>True if string contains pattern (pattern will be converted to a string first).</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (str-contains "Stausomething" "Stau"))
+(test::assert-false (str-contains "Stausomething" "StaU"))
+(test::assert-true (str-contains "Stausomething" "some"))
+(test::assert-false (str-contains "Stausomething" "Some"))
+(test::assert-true (str-contains "Stausomething" "thing"))
+(test::assert-false (str-contains "Stausomething" "Thing"))
+(test::assert-true (str-contains "StausomeΣthing" "someΣ"))
+</code></pre>
+<h3 id="str-empty"><a class="header" href="#str-empty">str-empty?</a></h3>
+<p><strong>Usage:</strong> (str-empty? string) -&gt; #t/#f</p>
+<p>Is a string empty?  Let's find out...</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (str-empty? ""))
+(test::assert-true (str-empty? (str-trim "   ")))
+(test::assert-false (str-empty? " "))
+(test::assert-false (str-empty? "string"))
+</code></pre>
+<h3 id="str-lower"><a class="header" href="#str-lower">str-lower</a></h3>
+<p><strong>Usage:</strong> (str-lower string) -&gt; string</p>
+<p>Get all lower case string from a string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "stau" (str-lower "STAU"))
+(test::assert-equal "stau" (str-lower "stau"))
+(test::assert-equal "stau" (str-lower "Stau"))
+(test::assert-equal "stau" (str-lower "StaU"))
+(test::assert-equal "stau" (str-lower "sTaU"))
+</code></pre>
+<h3 id="str-map"><a class="header" href="#str-map">str-map</a></h3>
+<p><strong>Usage:</strong> (str-map string lambda) -&gt; string</p>
+<p>Make a new string by applying lambda to each char in input string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "XstringXstrX" (str-map "xstringxstrx" (fn (ch) (if (= "x" ch) "X" ch))))
+(def test-str-map (str-map "xstringxstrx" (fn (ch) (if (= "x" ch) "X" ch))))
+(test::assert-equal "XstringXstrX" test-str-map)
+(test::assert-true (string? test-str-map))
+(def test-str-map (str-map (str "xstringxstrx") (fn (ch) (if (= "x" ch) "X" ch))))
+(test::assert-equal "XstringXstrX" test-str-map)
+(test::assert-true (string? test-str-map))
+</code></pre>
+<h3 id="str-push"><a class="header" href="#str-push">str-push!</a></h3>
+<p><strong>Usage:</strong> (str-push! string arg0 ... argN) -&gt; string</p>
+<p>Push the args (as strings) onto the string.  This is a destructive form.</p>
+<p>Arguments will be turned into strings.  Returns the string it was given.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "stringsome" (str-push! (str "string") "some"))
+(def test-str-push (str "def-string"))
+(test::assert-equal "def-stringsome" (str-push! test-str-push "some"))
+(test::assert-equal "def-stringsome" test-str-push)
+</code></pre>
+<h3 id="str-replace"><a class="header" href="#str-replace">str-replace</a></h3>
+<p><strong>Usage:</strong> (str-replace string old-pattern new-pattern) -&gt; string</p>
+<p>Replace occurrences of second string with third in the first string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "some yyy string" (str-replace "some xxx string" "xxx" "yyy"))
+(test::assert-equal "some yyy string yyy" (str-replace "some xxx string xxx" "xxx" "yyy"))
+(test::assert-equal "yyy some yyy string yyy" (str-replace "xxx some xxx string xxx" "xxx" "yyy"))
+</code></pre>
+<h3 id="str-split"><a class="header" href="#str-split">str-split</a></h3>
+<p><strong>Usage:</strong> (str-split string split-pattern) -&gt; vector</p>
+<p>Use a pattern to split a string (:whitespace to split on whitespace).</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal ["some" "yyy" "string"] (str-split "somexxxyyyxxxstring" "xxx"))
+(test::assert-equal ["some" "yyy" "string" ""] (str-split "somexxxyyyxxxstringxxx" "xxx"))
+(test::assert-equal ["" "some" "yyy" "string" ""] (str-split "xxxsomexxxyyyxxxstringxxx" "xxx"))
+(test::assert-equal ["some" "yyy" "string"] (str-split "some yyy string" :whitespace))
+(test::assert-equal ["somexxxyyyxxxstring"] (str-split "somexxxyyyxxxstring" :whitespace))
+(test::assert-equal ["somexxxyyyxxxstring"] (str-split "somexxxyyyxxxstring" "zzz"))
+</code></pre>
+<h3 id="str-splitn"><a class="header" href="#str-splitn">str-splitn</a></h3>
+<p><strong>Usage:</strong> (str-splitn n split-pattern string) -&gt; vector</p>
+<p>Use a pattern to split a string with at most n items.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal ["some" "yyy" "string"] (str-splitn 3 "xxx" "somexxxyyyxxxstring"))
+(test::assert-equal ["some" "yyy" "string"] (str-splitn 4 "xxx" "somexxxyyyxxxstring"))
+(test::assert-equal ["some" "yyy" "stringxxxother"] (str-splitn 3 "xxx" "somexxxyyyxxxstringxxxother"))
+(test::assert-equal ["somexxxyyyxxxstringxxxother"] (str-splitn 1 "xxx" "somexxxyyyxxxstringxxxother"))
+(test::assert-equal [] (str-splitn 0 "xxx" "somexxxyyyxxxstringxxxzero"))
+</code></pre>
+<h3 id="str-starts-with"><a class="header" href="#str-starts-with">str-starts-with</a></h3>
+<p><strong>Usage:</strong> (str-starts-with string pattern) -&gt; #t/#f</p>
+<p>True if string start with pattern.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (str-starts-with "Stausomething" "Stau"))
+(test::assert-false (str-starts-with "Stausomething" "StaU"))
+</code></pre>
+<h3 id="str-sub"><a class="header" href="#str-sub">str-sub</a></h3>
+<p><strong>Usage:</strong> (str-sub string start [length]) -&gt; string</p>
+<p>Return a substring from a string given start (0 based) and optional length.
+If length is 0 or not provided produces the rest of the string from start to
+string end.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "string" (str-sub "stringxxxyyyxxxsome" 0 6))
+(test::assert-equal "some" (str-sub "stringxxxyyyxxxsome" 15 4))
+(test::assert-equal "yyy" (str-sub "stringxxxyyyxxxsome" 9 3))
+(test::assert-equal "some" (str-sub "stringxxxyyyxxxsome" 15))
+</code></pre>
+<h3 id="str-trim"><a class="header" href="#str-trim">str-trim</a></h3>
+<p><strong>Usage:</strong> (str-trim string [:right | :left]) -&gt; string</p>
+<p>Trim right and/or left whitespace from string.  With no optional keywork trims both, otherwise :right
+or :left specify right or left trimming.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "some string" (str-trim "   some string"))
+(test::assert-equal "some string" (str-trim "   some string   "))
+(test::assert-equal "some string" (str-trim (str "   some string   ")))
+(test::assert-equal "some string" (str-trim "some string   "))
+(test::assert-equal "some string" (str-trim "some string"))
+
+(test::assert-equal "   some string" (str-trim "   some string" :right))
+(test::assert-equal "   some string" (str-trim "   some string   " :right))
+(test::assert-equal "   some string" (str-trim (str "   some string   ") :right))
+(test::assert-equal "some string" (str-trim "some string   " :right))
+(test::assert-equal "some string" (str-trim "some string" :right))
+
+(test::assert-equal "some string" (str-trim "   some string" :left))
+(test::assert-equal "some string   " (str-trim "   some string   " :left))
+(test::assert-equal "some string   " (str-trim (str "   some string   ")  :left))
+(test::assert-equal "some string   " (str-trim "some string   " :left))
+(test::assert-equal "some string" (str-trim "some string" :left))
+</code></pre>
+<h3 id="str-trim-1"><a class="header" href="#str-trim-1">str-trim!</a></h3>
+<p><strong>Usage:</strong> (str-trim! string [:right | :left]) -&gt; string</p>
+<p>Trim right and/or left whitespace from string in place.  With no optional keywork trims both,
+otherwise :right or :left specify right or left trimming.</p>
+<p>This is a destructive operation (unlike str-trim) and requires an actual non-const string as it's first
+argument.  It returns this string on success.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "some string" (str-trim! (str "   some string")))
+(test::assert-equal "some string" (str-trim! (str  "   some string   ")))
+(test::assert-equal "some string" (str-trim! (str  (str "   some string   "))))
+(test::assert-equal "some string" (str-trim! (str  "some string   ")))
+(test::assert-equal "some string" (str-trim! (str  "some string")))
+
+(test::assert-equal "   some string" (str-trim! (str  "   some string") :right))
+(test::assert-equal "   some string" (str-trim! (str  "   some string   ") :right))
+(test::assert-equal "   some string" (str-trim! (str  (str "   some string   "))  :right))
+(test::assert-equal "some string" (str-trim! (str  "some string   ") :right))
+(test::assert-equal "some string" (str-trim! (str  "some string") :right))
+
+(test::assert-equal "some string" (str-trim! (str  "   some string") :left))
+(test::assert-equal "some string   " (str-trim! (str  "   some string   ") :left))
+(test::assert-equal "some string   " (str-trim! (str  (str "   some string   "))  :left))
+(test::assert-equal "some string   " (str-trim! (str  "some string   ") :left))
+(test::assert-equal "some string" (str-trim! (str  "some string") :left))
+</code></pre>
+<h3 id="str-upper"><a class="header" href="#str-upper">str-upper</a></h3>
+<p><strong>Usage:</strong> (str-upper string) -&gt; string</p>
+<p>Get all upper case string from a string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "STAU" (str-upper "STAU"))
+(test::assert-equal "STAU" (str-upper "stau"))
+(test::assert-equal "STAU" (str-upper "Stau"))
+(test::assert-equal "STAU" (str-upper "StaU"))
+(test::assert-equal "STAU" (str-upper "sTaU"))
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/shell.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../src/generated-sections/system.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/shell.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../src/generated-sections/system.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Core - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="core"><a class="header" href="#core">core</a></h2>
+<p>List of symbols:</p>
+<p><a href="#">=</a>, <a href="#apply">apply</a>, <a href="#back-quote">back-quote</a>, <a href="#block">block</a>, <a href="#comp-time">comp-time</a>, <a href="#dec">dec!</a>, <a href="#def">def</a>, <a href="#defmacro">defmacro</a>, <a href="#defn">defn</a>, <a href="#do">do</a>, <a href="#doc">doc</a>, <a href="#dotimes">dotimes</a>, <a href="#dotimes-i">dotimes-i</a>, <a href="#dyn">dyn</a>, <a href="#err">err</a>, <a href="#eval">eval</a>, <a href="#fn">fn</a>, <a href="#get-error">get-error</a>, <a href="#get-globals">get-globals</a>, <a href="#get-in-namespace">get-in-namespace</a>, <a href="#get-namespaces">get-namespaces</a>, <a href="#identity">identity</a>, <a href="#import">import</a>, <a href="#inc">inc!</a>, <a href="#len">len</a>, <a href="#let">let</a>, <a href="#let-while">let-while</a>, <a href="#load">load</a>, <a href="#loop">loop</a>, <a href="#macro">macro</a>, <a href="#mk-err">mk-err</a>, <a href="#not">not=</a>, <a href="#not">not==</a>, <a href="#ns">ns</a>, <a href="#nsubstitute">nsubstitute!</a>, <a href="#occurs">occurs</a>, <a href="#on-raised-error">on-raised-error</a>, <a href="#quote">quote</a>, <a href="#recur">recur</a>, <a href="#set">set!</a>, <a href="#substitute">substitute</a>, <a href="#to-list">to-list</a>, <a href="#to-vec">to-vec</a>, <a href="#usage">usage</a>, <a href="#with-ns">with-ns</a></p>
+<h3 id=""><a class="header" href="#">=</a></h3>
+<p><strong>Usage:</strong> (= val0 val1)</p>
+<p>Test equality, works for most value types where it makes sense, not just primitives.</p>
+<p>Example:</p>
+<pre><code>(test::assert-false (= "aab" "aaa"))
+(test::assert-true (= "aaa" "aaa"))
+(test::assert-true (= "aaa" "aaa" "aaa"))
+(test::assert-false (= "aaa" "aaaa" "aaa"))
+(test::assert-false (= "ccc" "aab" "aaa"))
+(test::assert-false (= "aaa" "aab"))
+(test::assert-true (= (get-error (/ 1 0)) (get-error (/ 1 0))))
+</code></pre>
+<h3 id="apply"><a class="header" href="#apply">apply</a></h3>
+<p><strong>Usage:</strong> (apply function arg* list)</p>
+<p>Call the provided function with the supplied arguments, if last is a list or vector then it will
+be "spread" as arguments.  For instance (apply pr 1 2 3 [4 5 6]) is equivalent to (pr 1 2 3 4 5 6).</p>
+<p>Example:</p>
+<pre><code>(def test-apply-one (apply str "O" "NE"))
+(test::assert-equal "ONE" test-apply-one)
+(test::assert-equal 10 (apply + 1 2 7))
+(test::assert-equal 10 (apply + 1 [2 7]))
+(test::assert-equal 10 (apply + 1 '(2 7)))
+(test::assert-equal 10 (apply + [1 2 7]))
+(test::assert-equal 10 (apply + '(1 2 7)))
+(def test-apply-fn1 (fn (&amp; args) (apply + args)))
+(test::assert-equal 10 (apply test-apply-fn1 1 2 7))
+(test::assert-equal 10 (apply test-apply-fn1 1 [2 7]))
+(test::assert-equal 10 (apply test-apply-fn1 1 '(2 7)))
+(test::assert-equal 10 (apply test-apply-fn1 [1 2 7]))
+(test::assert-equal 10 (apply test-apply-fn1 '(1 2 7)))
+(def test-apply-fn2 (fn (x y z) (+ x y z)))
+(test::assert-equal 10 (apply test-apply-fn2 1 2 7))
+(test::assert-equal 10 (apply test-apply-fn2 1 [2 7]))
+(test::assert-equal 10 (apply test-apply-fn2 1 '(2 7)))
+(test::assert-equal 10 (apply test-apply-fn2 [1 2 7]))
+(test::assert-equal 10 (apply test-apply-fn2 '(1 2 7)))
+</code></pre>
+<h3 id="back-quote"><a class="header" href="#back-quote">back-quote</a></h3>
+<p><strong>Usage:</strong> `expression -&gt; expression</p>
+<p>Return expression without evaluation.
+Always use the ` reader macro or expansion will not work
+(i.e. (back-quote expression) will not do , expansion).</p>
+<p>Backquote (unlike quote) allows for symbol/form evaluation using , or ,@.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal (list 1 2 3) `(1 2 3))
+(test::assert-equal `(1 2 3) '(1 2 3))
+(def test-bquote-one 1)
+(def test-bquote-list '(1 2 3))
+(test::assert-equal (list 1 2 3) `(~test-bquote-one 2 3))
+(test::assert-equal (list 1 2 3) `(~@test-bquote-list))
+</code></pre>
+<h3 id="block"><a class="header" href="#block">block</a></h3>
+<p><strong>Usage:</strong> (get-error exp0 ... expN) -&gt; pair</p>
+<p>Evaluate each form (like do) but on error return (:error msg backtrace) instead of aborting.
+On success return (:ok . expN-result).</p>
+<p>If there is no error will return the value of the last expression as the cdr of
+the pair.  Always returns a pair with the first value either being :ok or :error.</p>
+<p>Example:</p>
+<pre><code>(let (get-error-t1 (get-error (err (mk-err :string (str "Some Error")))))
+    (test::assert-equal :error (car get-error-t1))
+    (test::assert-equal "error [string]: \"Some Error\"" (str (cdr get-error-t1))))
+(test::assert-equal "Some String" (get-error "Some String"))
+(test::assert-equal "Some Other String" (get-error (let (test-get-error "Some ") (str test-get-error "Other String"))))
+</code></pre>
+<h3 id="comp-time"><a class="header" href="#comp-time">comp-time</a></h3>
+<p><strong>Usage:</strong> (comp-time sexp+)</p>
+<p>Compile and execute sexp+ at compile time.  The result of the final sexp will then be compiled into
+the current module being compiled (produce nil to avoid this).</p>
+<p>Example:</p>
+<pre><code>(with-ns test-out
+    (comp-time '(def ttf (fn () '(1 2 3))))
+    (comp-time (def ttf2 (fn () '(1 2 3))) nil)
+    (test::assert-equal '(1 2 3) (ttf))
+    (test::assert-equal '(1 2 3) (test-out::ttf))
+    (test::assert-equal '(1 2 3) (ttf2))
+    (test::assert-equal '(1 2 3) (test-out::ttf2)))
+</code></pre>
+<h3 id="dec"><a class="header" href="#dec">dec!</a></h3>
+<p><strong>Usage:</strong> (dec! symbol [number]) -&gt; new value</p>
+<p>Decrement the value in symbol by one or the optional number</p>
+<p>Example:</p>
+<pre><code>(def *dec-test* 5)
+(test::assert-equal 4 (dec! *dec-test*))
+(test::assert-equal 4 *dec-test*)
+(test::assert-equal 1 (dec! *dec-test* 3))
+(test::assert-equal 1 *dec-test*)
+(let (dec-test 5)
+  (test::assert-equal 4 (dec! dec-test))
+  (test::assert-equal 4 dec-test)
+  (test::assert-equal 1 (dec! dec-test 3))
+  (test::assert-equal 1 dec-test))
+</code></pre>
+<h3 id="def"><a class="header" href="#def">def</a></h3>
+<p><strong>Usage:</strong> (def symbol doc_string? expression) -&gt; expression</p>
+<p>Adds an expression to the current namespace.  Return the expression that was defined.
+Symbol is not evaluated.  Can take an option doc string (docstrings can only be
+set on namespaced (global) symbols).</p>
+<p>Example:</p>
+<pre><code>(def test-do-one nil)
+(def test-do-two nil)
+(def test-do-three (do (set! test-do-one "One")(set! test-do-two "Two")"Three"))
+(test::assert-equal "One" test-do-one)
+(test::assert-equal "Two" test-do-two)
+(test::assert-equal "Three" test-do-three)
+(let (test-do-one nil)
+    ; Add this to the let's scope (shadow the outer test-do-two).
+    (test::assert-equal "Default" (def test-do-four "Default"))
+    ; set the currently scoped value.
+    (set! test-do-one "1111")
+    (set! test-do-two "2222")
+    (test::assert-equal "1111" test-do-one)
+    (test::assert-equal "2222" test-do-two)
+    (test::assert-equal "Default" test-do-four))
+; Original outer scope not changed.
+(test::assert-equal "One" test-do-one)
+(test::assert-equal "Default" test-do-four)
+</code></pre>
+<h3 id="defmacro"><a class="header" href="#defmacro">defmacro</a></h3>
+<p><strong>Usage:</strong> (defmacro name argument_list body)</p>
+<p>Create a macro and bind it to a symbol in the current scope.</p>
+<p>Example:</p>
+<pre><code>(defmacro test-mac (x) `(inc! ~x))
+(def test-mac-x 2)
+(test-mac test-mac-x)
+(test::assert-equal 3 test-mac-x)
+(defmacro test-mac (x) `(set! ~x 15))
+(test-mac test-mac-x)
+(test::assert-equal 15 test-mac-x)
+</code></pre>
+<h3 id="defn"><a class="header" href="#defn">defn</a></h3>
+<p><strong>Usage:</strong> (defn name args body)</p>
+<p>Define a named function in the current namespace.</p>
+<p>Example:</p>
+<pre><code>(defn defn-test (x y) (+ x y))
+(test::assert-equal 5 (defn-test 2 3))
+(defn defn-test (x y) (set! x (* x 2)) (+ x y))
+(test::assert-equal 7 (defn-test 2 3))
+(defn defn-test (x y) nil)
+(test::assert-false (defn-test 2 3))
+(defn defn-test (x y) #t)
+(test::assert-true (defn-test 2 3))
+</code></pre>
+<h3 id="do"><a class="header" href="#do">do</a></h3>
+<p><strong>Usage:</strong> (do exp0 ... expN) -&gt; expN</p>
+<p>Evaluate each form and return the last.</p>
+<p>Example:</p>
+<pre><code>(def test-do-one nil)
+(def test-do-two nil)
+(def test-do-three (do (set! test-do-one "One") (set! test-do-two "Two") "Three"))
+(test::assert-equal "One" test-do-one)
+(test::assert-equal "Two" test-do-two)
+(test::assert-equal "Three" test-do-three)
+</code></pre>
+<h3 id="doc"><a class="header" href="#doc">doc</a></h3>
+<p><strong>Usage:</strong> (doc sym [SCRATCH] [SCRATCH] docs has-usage)</p>
+<p>Print the documentation for provided symbol.</p>
+<p>No Examples</p>
+<h3 id="dotimes"><a class="header" href="#dotimes">dotimes</a></h3>
+<p><strong>Usage:</strong> (dotimes times body [SCRATCH] [SCRATCH] i-name)</p>
+<p>Evaluate body a number of times equal to times' numerical value.</p>
+<p>Example:</p>
+<pre><code>(def i 0)
+(dotimes 11 (set! i (+ 1 i)))
+(test::assert-equal 11 i)
+</code></pre>
+<h3 id="dotimes-i"><a class="header" href="#dotimes-i">dotimes-i</a></h3>
+<p><strong>Usage:</strong> (dotimes-i idx-bind times body)</p>
+<p>Evaluate body a number of times equal to times' numerical value. Includes an
+incrementing reference binding, idx-bind, accessible in body.</p>
+<p>Example:</p>
+<pre><code>(def i 0)
+(def i-tot 0)
+(dotimes-i idx 11 (do (set! i-tot (+ idx i-tot))(set! i (+ 1 i))))
+(test::assert-equal 11 i)
+(test::assert-equal 55 i-tot)
+</code></pre>
+<h3 id="dyn"><a class="header" href="#dyn">dyn</a></h3>
+<p><strong>Usage:</strong> (dyn key value expression) -&gt; result_of_expression</p>
+<p>Creates a dynamic binding for key, assigns value to it and evals expression under it.
+Note that if key must be a symbol and is not evaluated.</p>
+<p>The binding is gone once the dyn form ends. This is basically a set! on the
+binding in an unwind protect to reset it when done.  When used on a global will
+set the first binding found and reset it when done.
+Calls to dyn can be nested and previous dynamic values will
+be restored as interior dyn's exit.</p>
+<p>Example:</p>
+<pre><code>(def *dyn-test* 1)
+(defn test-dyn-fn (val) (str *dyn-test* val))
+(def out (dyn *dyn-test* 11 (test-dyn-fn 101)))
+(test::assert-equal "11101" (str out))
+;; when file handling works
+;;(defn test-dyn-fn () (prn "Print dyn out"))
+;;(dyn *stdout* (open "/tmp/sl-sh.dyn.test" :create :truncate) (test-dyn-fn))
+;;(test::assert-equal "Print dyn out" (read-line (open "/tmp/sl-sh.dyn.test" :read)))
+</code></pre>
+<h3 id="err"><a class="header" href="#err">err</a></h3>
+<p><strong>Usage:</strong> (err :keyword value)</p>
+<p>Raises an error with keyword and value.  By default this will break into the
+debugger like a runtime error (use get-error to avoid this).</p>
+<p>Example:</p>
+<pre><code>(let (error (get-error (err :test "Test error")))
+    (test::assert-equal :test (car error))
+    (test::assert-equal "Test error" (cdr error))
+    (test::assert-true (err? error)))
+</code></pre>
+<h3 id="eval"><a class="header" href="#eval">eval</a></h3>
+<p><strong>Usage:</strong> (eval expression)</p>
+<p>Evaluate the provided expression.  If expression is a list it will be compiled and executed and the result returned
+other values will just be returned (i.e. (eval 1) = 1, (eval "test") = "test", (eval [1 2 3]) = [1 2 3], etc).</p>
+<p>Note eval is a function not a special form, the provided expression will be evaluated as part of a call.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal "ONE" (eval "ONE"))
+(test::assert-equal 10 (eval 10))
+(test::assert-equal [1 2 3] (eval [1 2 3]))
+(test::assert-equal 10 (eval '(+ 1 2 7)))
+(test::assert-equal 10 (eval '(apply + 1 2 7)))
+(test::assert-equal 10 (eval '(apply + 1 '(2 7))))
+(test::assert-equal 10 (eval '(apply + '(1 2 7))))
+(test::assert-equal 10 (eval '(apply + 1 [2 7])))
+(test::assert-equal 10 (eval '(apply + [1 2 7])))
+</code></pre>
+<h3 id="fn"><a class="header" href="#fn">fn</a></h3>
+<p><strong>Usage:</strong> (fn (param*) expr*) -&gt; exprN</p>
+<p>Create a function (lambda).</p>
+<p>Example:</p>
+<pre><code>(def test-fn1 nil)
+(def test-fn2 nil)
+(def test-fn3 nil)
+(def test-fn-empty ((fn () nil)))
+(test::assert-false test-fn-empty)
+((fn () (set! test-fn1 1)))
+(test::assert-equal 1 test-fn1)
+((fn () (set! test-fn1 10)(set! test-fn2 2)))
+(test::assert-equal 10 test-fn1)
+(test::assert-equal 2 test-fn2)
+((fn () (set! test-fn1 11)(set! test-fn2 20)(set! test-fn3 3)))
+(test::assert-equal 11 test-fn1)
+(test::assert-equal 20 test-fn2)
+(test::assert-equal 3 test-fn3)
+((fn (x y z) (set! test-fn1 x)(set! test-fn2 y)(set! test-fn3 z)) 12 21 30)
+(test::assert-equal 12 test-fn1)
+(test::assert-equal 21 test-fn2)
+(test::assert-equal 30 test-fn3)
+(test::assert-equal 63 ((fn (x y z) (set! test-fn1 x)(set! test-fn2 y)(set! test-fn3 z)(+ x y z)) 12 21 30))
+</code></pre>
+<h3 id="get-error"><a class="header" href="#get-error">get-error</a></h3>
+<p><strong>Usage:</strong> (get-error exp0 ... expN) -&gt; pair</p>
+<p>Evaluate each form (like do) but on error return (:error msg backtrace) instead of aborting.
+On success return (:ok . expN-result).</p>
+<p>If there is no error will return the value of the last expression as the cdr of
+the pair.  Always returns a pair with the first value either being :ok or :error.</p>
+<p>Example:</p>
+<pre><code>(let (get-error-t1 (get-error (err (mk-err :string (str "Some Error")))))
+    (test::assert-equal :error (car get-error-t1))
+    (test::assert-equal "error [string]: \"Some Error\"" (str (cdr get-error-t1))))
+(test::assert-equal "Some String" (get-error "Some String"))
+(test::assert-equal "Some Other String" (get-error (let (test-get-error "Some ") (str test-get-error "Other String"))))
+</code></pre>
+<h3 id="get-globals"><a class="header" href="#get-globals">get-globals</a></h3>
+<p><strong>Usage:</strong> (get-globals)</p>
+<p>Return a vector containing all the symbols currently defined globally.</p>
+<p>No Examples</p>
+<h3 id="get-in-namespace"><a class="header" href="#get-in-namespace">get-in-namespace</a></h3>
+<p><strong>Usage:</strong> (get-in-namespace 'SYMBOL)</p>
+<p>Return a vector containing all the globals currently defined namespace SYMBOL.</p>
+<p>No Examples</p>
+<h3 id="get-namespaces"><a class="header" href="#get-namespaces">get-namespaces</a></h3>
+<p><strong>Usage:</strong> (get-namespaces)</p>
+<p>Return a vector containing all the namespaces currently defined globally.</p>
+<p>No Examples</p>
+<h3 id="identity"><a class="header" href="#identity">identity</a></h3>
+<p><strong>Usage:</strong> (identity arg)</p>
+<p>Identity function.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 0 (identity 0))
+</code></pre>
+<h3 id="import"><a class="header" href="#import">import</a></h3>
+<p><strong>Usage:</strong> (import namespace [:as symbol])</p>
+<p>Will import a namespace.  Without an :as then all symbols in the namespace will become available in the current
+namespace as if local.  With [:as symbol] then all namespace symbols become available with symbol:: prepended.</p>
+<p>Example:</p>
+<pre><code>(ns testing)
+(def x #t)
+(test::assert-true x)
+(ns ::)
+(test::assert-true testing::x)
+(import testing)
+(test::assert-true x)
+(import testing :as t)
+(test::assert-true t::x)
+</code></pre>
+<h3 id="inc"><a class="header" href="#inc">inc!</a></h3>
+<p><strong>Usage:</strong> (inc! symbol [number]) -&gt; new value</p>
+<p>Increment the value in symbol by one or the optional number</p>
+<p>Example:</p>
+<pre><code>(def *inc-test* 1)
+(test::assert-equal 2 (inc! *inc-test*))
+(test::assert-equal 2 *inc-test*)
+(test::assert-equal 5 (inc! *inc-test* 3))
+(test::assert-equal 5 *inc-test*)
+(let (inc-test 1)
+  (test::assert-equal 2 (inc! inc-test))
+  (test::assert-equal 2 inc-test)
+  (test::assert-equal 5 (inc! inc-test 3))
+  (test::assert-equal 5 inc-test))
+</code></pre>
+<h3 id="len"><a class="header" href="#len">len</a></h3>
+<p><strong>Usage:</strong> (len expression) -&gt; int</p>
+<p>Return length of supplied expression.  The length of an atom is 1.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 0 (len nil))
+(test::assert-equal 5 (len "12345"))
+; Note the unicode symbol is only one char even though it is more then one byte.
+(test::assert-equal 6 (len "12345Σ"))
+(test::assert-equal 3 (len '(1 2 3)))
+(test::assert-equal 3 (len [1 2 3]))
+(test::assert-equal 3 (len (list 1 2 3)))
+(test::assert-equal 3 (len (vec 1 2 3)))
+(test::assert-equal 1 (len 100))
+(test::assert-equal 1 (len 100.0))
+(test::assert-equal 1 (len \tab))
+</code></pre>
+<h3 id="let"><a class="header" href="#let">let</a></h3>
+<p><strong>Usage:</strong> (let vals &amp;rest let-body)</p>
+<p>Takes list, vals, of form ((binding0 sexp0) (binding1 sexp1) ...) and evaluates
+let-body with all values of binding bound to the result of the evaluation of
+sexp.</p>
+<p>Example:</p>
+<pre><code>(def test-do-one "One1")
+(def test-do-two "Two1")
+(def test-do-three (let (test-do-one "One") (set! test-do-two "Two")(test::assert-equal "One" test-do-one)"Three"))
+(test::assert-equal "One1" test-do-one)
+(test::assert-equal "Two" test-do-two)
+(test::assert-equal "Three" test-do-three)
+((fn (idx) (let (v2 (+ idx 2) v3 (+ idx 3))
+    (test::assert-equal (+ idx 2) v2)
+    (test::assert-equal (+ idx 3) v3)
+    (if (&lt; idx 5) (recur (+ idx 1)))))0)
+((fn (idx) (let (v2 (+ idx 2) v3 (+ idx 3))
+    (test::assert-equal (+ idx 2) v2)
+    (test::assert-equal (+ idx 3) v3)
+    (if (&lt; idx 5) (this-fn (+ idx 1)))))0)
+</code></pre>
+<h3 id="let-while"><a class="header" href="#let-while">let-while</a></h3>
+<p><strong>Usage:</strong> (let-while (initial-bindings) (loop bindings) condition &amp; let-body)</p>
+<p>Takes list of initial bindings (done once before loop) of form (binding0 sexp0, binding1 sexp1, ...),
+and a list of loop bindings (done at the start of each iteration including the first) and evaluates
+let-body with all values of binding bound to the result of the evaluation of
+both bindings while condition is true.</p>
+<p>Example:</p>
+<pre><code>; both of these examples create a vector and iterate to print all the elements
+; use traditional lisp structure
+(def test-res [])
+(let-while (l [1 2 3]) (done (empty? l), f (first l),  l (rest l)) (not done)
+  (prn f)
+  (vec-push! test-res f))
+(let ([x y z] test-res)
+  (test::assert-equal 1 x)
+  (test::assert-equal 2 y)
+  (test::assert-equal 3 z))
+; same thing using destructuring
+(def test-res [])
+(let-while (l [1 2 3]) (done (empty? l), [% f &amp; l] l) (not done)
+  (prn f)
+  (vec-push! test-res f))
+(let ([x y z] test-res)
+  (test::assert-equal 1 x)
+  (test::assert-equal 2 y)
+  (test::assert-equal 3 z))
+</code></pre>
+<h3 id="load"><a class="header" href="#load">load</a></h3>
+<p><strong>Usage:</strong> (load path) -&gt; [last form value]</p>
+<p>Read and eval a file (from path- a string).  The load special form executes at compile time.
+This means it's parameter must resolve at compile time.  Most of the time you will want to use
+this in conjunction with 'with-ns' to namespace the contents.
+Note: on it's own does nothing with namespaces.</p>
+<p>Example:</p>
+<pre><code>(comp-time (def test-temp-file (get-temp-file)) nil)
+(defer (fs-rm test-temp-file))
+(let (tst-file (fopen test-temp-file :create))
+    (defer (fclose tst-file))
+    (fprn tst-file "(with-ns test-load")
+    (fprn tst-file "    (defn test-fn () '(1 2 3)))"))
+(load test-temp-file) ; put stuff in it's own namespace
+(test::assert-equal '(1 2 3) (test-load::test-fn))
+
+
+(with-ns test-out2
+    (comp-time
+        (def test-temp-file (get-temp-file))
+        (let (tst-file (fopen test-temp-file :create))
+            (defer (fclose tst-file))
+            (fprn tst-file "(defn test-fn () '(1 2 3))"))
+        nil)
+    (defer (fs-rm test-temp-file))
+    (load test-temp-file) ; put new stuff in current namespace
+    (test::assert-equal '(1 2 3) (test-fn))
+    (test::assert-equal '(1 2 3) (test-out2::test-fn)))
+</code></pre>
+<h3 id="loop"><a class="header" href="#loop">loop</a></h3>
+<p><strong>Usage:</strong> (loop params bindings body)</p>
+<p>Binds bindings to parameters in body. Use recur with desired bindings for
+subsequent iteration.
+Within the loop the lambda 'break' will end the loop, break can take an option
+argument that is what the loop produces (nil if no argument).</p>
+<p>Example:</p>
+<pre><code>(def tot 0)
+(loop (idx) (3) (do
+    (set! tot (+ tot 1))
+    (if (&gt; idx 1) (recur (- idx 1)))))
+(test::assert-equal 3 tot)
+(def tot 0)
+(loop (idx) (0)
+    (set! tot (+ tot 1))
+    (when (not (= idx 2))
+        (recur (+ idx 1))))
+(test::assert-equal 3 tot)
+(test::assert-equal 11 (loop (idx) (0)
+    (if (= idx 2) (break 11))
+    (recur (+ idx 1))))
+(test::assert-false (loop (idx) (0)
+    (if (= idx 2) (break nil))
+    (recur (+ idx 1))))
+(test::assert-error (loop (idx) (0)
+    (if (= idx 2) (break 1 3))
+    (recur (+ idx 1))))
+</code></pre>
+<h3 id="macro"><a class="header" href="#macro">macro</a></h3>
+<p><strong>Usage:</strong> (macro (args) `(apply + ,@args))</p>
+<p>Define an anonymous macro.</p>
+<p>Example:</p>
+<pre><code>(def test-macro1 nil)
+(def test-macro2 nil)
+(def test-macro-empty (macro () nil))
+(test::assert-false (test-macro-empty))
+(def test-mac nil)
+(def mac-var 2)
+(let (mac-var 3)
+  (set! test-mac (macro (x) (set! test-macro2 100) (test::assert-equal 3 mac-var) (* mac-var x))))
+(set! test-macro1 (test-mac 10))
+(test::assert-equal 30 test-macro1)
+(test::assert-equal 100 test-macro2)
+</code></pre>
+<h3 id="mk-err"><a class="header" href="#mk-err">mk-err</a></h3>
+<p><strong>Usage:</strong> (mk-err :keyword value)</p>
+<p>Create an error object.  This does not raise the error but merely creates it.
+Can use car/cdr to extract the keyword and value.</p>
+<p>Example:</p>
+<pre><code>(let (error (mk-err :test "Test error"))
+    (test::assert-equal :test (car error))
+    (test::assert-equal "Test error" (cdr error))
+    (test::assert-true (err? error)))
+</code></pre>
+<h3 id="not"><a class="header" href="#not">not=</a></h3>
+<p><strong>Usage:</strong> (not= arg1 arg2)</p>
+<p>Test if two values are not equal using <code>=</code></p>
+<p>Example:</p>
+<pre><code>(test::assert-true (not= 0 1))
+(test::assert-true (not= 1 1.0))
+(test::assert-false (not= 2 2))
+(test::assert-false (not= 0.0 -0.0))
+</code></pre>
+<h3 id="not-1"><a class="header" href="#not-1">not==</a></h3>
+<p><strong>Usage:</strong> (not== arg1 arg2)</p>
+<p>Test if two values are not numerically equal using <code>==</code></p>
+<p>Example:</p>
+<pre><code>(test::assert-true (not== 0 1))
+(test::assert-false (not== 1 1.0))
+(test::assert-false (not== 0.0 -0.0))
+(test::assert-false (not== 2 2))
+</code></pre>
+<h3 id="ns"><a class="header" href="#ns">ns</a></h3>
+<p><strong>Usage:</strong> (ns SYMBOL)</p>
+<p>Changes to namespace.  This is "open-ended" change and is intended for use with
+the REPL prefer with-ns for scripts.
+The symbol "::" will return to the "root" namespace (i.e. no namespace prepended to globals).
+This will cause all globals defined to have namespace:: prepended.
+This will also clear any existing imports.</p>
+<p>Example:</p>
+<pre><code>(ns testing)
+(def x #t)
+(test::assert-true x)
+(ns ::)
+(test::assert-true testing::x)
+</code></pre>
+<h3 id="nsubstitute"><a class="header" href="#nsubstitute">nsubstitute!</a></h3>
+<p><strong>Usage:</strong> (nsubstitute! lst old-item new-item mods [SCRATCH] [SCRATCH] early-return)</p>
+<p>Replaces all instances of old-item in lst with new-item. If last argument
+passed in is keyword :first only the first instance of old-item will be
+replaced.</p>
+<p>Example:</p>
+<pre><code>(let (lst (list 1 2 3 4 5))
+    (test::assert-equal (list 1 2 2 4 5) (nsubstitute! lst 3 2))
+    (test::assert-equal (list 1 2 2 4 5) lst)
+    (test::assert-equal (list 1 3 2 4 5) (nsubstitute! lst 2 3 :first)))
+</code></pre>
+<h3 id="occurs"><a class="header" href="#occurs">occurs</a></h3>
+<p><strong>Usage:</strong> (occurs (list 1 2 ...) 7)</p>
+<p>Counts instances of item in sequence.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 1 (occurs (list 1 3 5 2 4 8 2 4 88 2 1) 8))
+(test::assert-equal 3 (occurs (list 1 3 5 2 4 10 2 4 88 2 1) 2))
+(test::assert-equal 0 (occurs (list 1 3 5 2 4 10 2 4 88 2 1) 42))
+</code></pre>
+<h3 id="on-raised-error"><a class="header" href="#on-raised-error">on-raised-error</a></h3>
+<p><strong>Usage:</strong> (on-raised-error (fn (error) ...))</p>
+<p>Low level (consider this unstable) interface to the raised error machinery.
+Useful for building higher level error handling (get-error for instance).
+It takes either Nil or a callable with one parameter.  That parameter will be
+the error that was raised.  The entire running "chunk" of code will be
+displaced for the installed handler.  Probably best to use this with a
+continuation or a function that ends in a continuation call otherwise it
+may be difficult to reason about...</p>
+<p>Will return the previously installed handler or Nil if one is not installed.
+Calling with Nil will return the old handler and clear it (no handler
+installed).</p>
+<p>This special form will override breaking into the debugger when an error is
+raised.</p>
+<p>Example:</p>
+<pre><code>(defmacro get-error-test (&amp; body)
+`(let (old-error (on-raised-error nil))
+    (defer (on-raised-error old-error))
+    (call/cc (fn (k) (on-raised-error (fn (err) (k (cons (car err)(cdr err)))))
+                (cons :ok (do ~@body))))))
+
+(test::assert-equal (cons :ok 6) (get-error-test (let (x 1, y 5) (+ x y))))
+(test::assert-equal '(:test . "error") (get-error-test (let (x 1, y 5) (err :test "error")(+ x y))))
+</code></pre>
+<h3 id="quote"><a class="header" href="#quote">quote</a></h3>
+<p><strong>Usage:</strong> 'expression -&gt; expression</p>
+<p>Return expression without evaluation.
+The reader macro 'expression will expand to (quote expression).</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal (list 1 2 3) (quote (1 2 3)))
+(test::assert-equal (list 1 2 3) '(1 2 3))
+(test::assert-equal '(1 2 3) (quote (1 2 3)))
+</code></pre>
+<h3 id="recur"><a class="header" href="#recur">recur</a></h3>
+<p><strong>Usage:</strong> (recur &amp;rest)</p>
+<p>Recursively call the enclosing function with the given parameters.  Recur uses
+tail call optimization and must be in the tail position or it is an error.  For
+a named function it would be equivalent to a normal recursive call in a tail
+position but it requires a tail position and does not need a name (a normal
+recursive call would work in a non-tail position but could blow the stack if
+it is to deep- unlike a recur or tail position recursive call).
+NOTE: potential footgun, the let macro expands to a lambda (fn) and a recur used
+inside the let would bind with the let not the enclosing lambda (this would
+apply to any macro that also expands to a lambda- this is by design with the
+loop macro but would be unexpected with let).</p>
+<p>Example:</p>
+<pre><code>(def tot 0)
+(loop (idx) (3) (do
+    (set! tot (+ tot 1))
+    (if (&gt; idx 1) (recur (- idx 1)))))
+(test::assert-equal 3 tot)
+(set! tot 0)
+((fn (idx) (do
+    (set! tot (+ tot 1))
+    (if (&gt; idx 1) (recur (- idx 1)))))5)
+(test::assert-equal 5 tot)
+</code></pre>
+<h3 id="set"><a class="header" href="#set">set!</a></h3>
+<p><strong>Usage:</strong> (set! symbol expression) -&gt; expression</p>
+<p>Sets an existing expression in the current scope(s).  Return the expression that was set.
+Symbol is not evaluated.</p>
+<p>Set will set the first binding it finds starting in the current scope and then
+trying enclosing scopes until exhausted.</p>
+<p>Example:</p>
+<pre><code>(def test-do-one nil)
+(def test-do-two nil)
+(def test-do-three (do (set! test-do-one "One")(set! test-do-two "Two")"Three"))
+(test::assert-equal "One" test-do-one)
+(test::assert-equal "Two" test-do-two)
+(test::assert-equal "Three" test-do-three)
+(let (test-do-one nil)
+    ; set the currently scoped value.
+    (test::assert-equal "1111" (set! test-do-one "1111"))
+    (test::assert-equal "1111" test-do-one))
+; Original outer scope not changed.
+(test::assert-equal "One" test-do-one)
+</code></pre>
+<h3 id="substitute"><a class="header" href="#substitute">substitute</a></h3>
+<p><strong>Usage:</strong> (substitute lst old-item new-item mods)</p>
+<p>Replaces all instances of old-item in copy of lst with new-item.  If last
+argument passed in is keyword :first only the first instance of old-item will be
+replaced.</p>
+<p>Example:</p>
+<pre><code>(let (lst (list 1 2 3 4 3)
+      olst (list 1 2 3 4 3)
+       lst2 (list 1 2 3 3 3 4 5)
+      olst2 (list 1 2 3 3 3 4 5))
+     (test::assert-equal (list 1 2 10 4 10) (substitute lst 3 10))
+     (test::assert-equal (list 1 2 10 4 3) (substitute lst 3 10 :first))
+     (test::assert-equal olst lst)
+     (test::assert-equal (list 1 2 4 4 4 4 5) (substitute lst2 3 4))
+     (test::assert-equal (list 1 2 4 3 3 4 5) (substitute lst2 3 4 :first))
+     (test::assert-equal olst2 lst2))
+</code></pre>
+<h3 id="to-list"><a class="header" href="#to-list">to-list</a></h3>
+<p><strong>Usage:</strong> (to-list any)</p>
+<p>Turns any one value into a list. If that value or if it was a sequence
+a new sequence with the same values.</p>
+<p>No Examples</p>
+<h3 id="to-vec"><a class="header" href="#to-vec">to-vec</a></h3>
+<p><strong>Usage:</strong> (to-list any)</p>
+<p>Turns any one value into a vector. If that value or if it was a sequence
+a new sequence with the same values.</p>
+<p>No Examples</p>
+<h3 id="usage"><a class="header" href="#usage">usage</a></h3>
+<p><strong>Usage:</strong> (usage 'symbol)</p>
+<p>Provides usage information derived from the bytecode. Documentation can also have it's
+own usage string provided in the doc string but this function returns what the actual
+function's compiled code provides.</p>
+<p>No Examples</p>
+<h3 id="with-ns"><a class="header" href="#with-ns">with-ns</a></h3>
+<p><strong>Usage:</strong> (with-ns SYMBOL sexp+)</p>
+<p>Create a namespace and compile sexp+ within it.  Restore the previous namespace when scope ends.
+THe symbol "::" will return to the "root" namespace (i.e. no namespace prepended to globals).
+This will cause all globals defined to have namespace:: prepended.
+This will also clear any existing imports.</p>
+<p>Example:</p>
+<pre><code>(with-ns test-with-ns
+    (def ttf (fn () '(1 2 3)))
+    (test::assert-equal '(1 2 3) (ttf))
+    (test::assert-equal '(1 2 3) (test-out::ttf)))
+(test::assert-equal '(1 2 3) (test-out::ttf))
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/conversion.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../src/generated-sections/doc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/conversion.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../src/generated-sections/doc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

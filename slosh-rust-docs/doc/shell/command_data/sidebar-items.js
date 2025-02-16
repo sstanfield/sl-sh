@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Arg","RedirArg","RedirType","Run"],"fn":["write_seq"],"struct":["CommandArgs","CommandWithArgs","Redirects"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["alias","cd","cd_expand_all_dots","compress_tilde","expand_tilde","export","run_builtin","set_arg_flags","set_var","ulimit","ulimit_parm_list","umask","unalias"]};

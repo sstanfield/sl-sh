@@ -1,0 +1,1 @@
+searchState.loadedDescShard("bridge_macros", 0, "TODO PC ISSUE #9 macro crate wish list\nmacro that creates a bridge between rust native code and …")

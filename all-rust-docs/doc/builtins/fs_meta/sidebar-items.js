@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["add_fs_meta_builtins","get_file"]};

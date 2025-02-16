@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Event","KeyCode","KeyMod","MouseButton","MouseEvent"],"fn":["parse_event"],"struct":["Key"]};

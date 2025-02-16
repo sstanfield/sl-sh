@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["flatten","hash_hashkey","hash_keys","hash_remove","is_in","occurs","reverse","setup_collection_builtins","to_list","to_vec","vec_slice","vec_to_list"]};

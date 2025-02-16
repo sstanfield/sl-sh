@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":["binary_math","compare_numeric","div_math","get_primitive_float","get_primitive_int"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["add_rand_builtins","rand_alphanumeric_str"]};

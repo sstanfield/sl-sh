@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["UNNECESSARY_IN_SLOSH"],"enum":["ImplStatus"],"fn":["build_report","full_legacy_sl_sh_forms_metadata","get_legacy_sl_sh_form_syms","unimplemented_report"],"struct":["StatusEntry","StatusReport"]};

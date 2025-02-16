@@ -1,0 +1,117 @@
+name: Bencher
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  workflow_dispatch:
+
+env:
+  RUST_BACKTRACE: 1
+
+jobs:
+  target_branch:
+    runs-on: ubuntu-latest
+    outputs:
+      branch_name: ${{ steps.get_branch.outputs.branch_name }}
+    steps:
+      - id: get_branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: echo "branch_name=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" | tee $GITHUB_OUTPUT
+
+  backup_branch:
+    runs-on: ubuntu-latest
+    outputs:
+      branch_name: ${{ steps.get_branch.outputs.branch_name }}
+    steps:
+      - id: get_branch
+        if: github.event_name != 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: echo "branch_name=main" >> "$GITHUB_OUTPUT"
+
+  benchmark_pr_with_bencher_iai:
+    needs: [target_branch, backup_branch]
+    permissions:
+      pull-requests: write
+    name: Continuous Benchmarking with Bencher Iai
+    runs-on: ubuntu-latest
+    env:
+      BENCHER_PROJECT: sl-sh
+      BENCHER_TESTBED: ubuntu-latest
+      BENCHER_ADAPTER: rust_iai_callgrind
+      BENCHER_API_TOKEN: ${{ secrets.BENCHER_API_TOKEN }}
+      BRANCH: ${{ needs.target_branch.outputs.branch_name || needs.backup_branch.outputs.branch_name || github.event.pull_request.base.ref || 'main' }}
+    steps:
+      - run: sudo apt-get update
+      - run: sudo apt install -y valgrind gnuplot
+      - uses: actions/checkout@v4
+      - uses: bencherdev/bencher@main
+      - run: rustup toolchain install stable --profile minimal
+      - uses: seepine/hash-files@v1
+        id: get-hash
+        with:
+          patterns: 'Cargo.lock'
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+          cache-all-crates: true
+          shared-key: "${{ steps.get-hash.outputs.hash }}"
+      - run: cargo install iai-callgrind-runner --version 0.14.0
+      - name: cargo test --no-run benches (debug mode) to check compile
+        run: cargo test --benches --no-run
+      - name: Track Benchmarks with Bencher
+        run: |
+          echo "Running bencher for branch ${BRANCH}."
+          bencher run \
+          --testbed "ubuntu-latest" \
+          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
+          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --err \
+          --branch "${BRANCH}" \
+          --branch-start-point "main" \
+          --branch-reset \
+          "cargo bench --all"
+
+  benchmark_pr_with_bencher_criterion:
+    needs: [target_branch, backup_branch]
+    permissions:
+      pull-requests: write
+    name: Continuous Benchmarking with Bencher Criterion
+    runs-on: ubuntu-latest
+    env:
+      BENCHER_PROJECT: sl-sh
+      BENCHER_TESTBED: ubuntu-latest
+      BENCHER_ADAPTER: rust_criterion
+      BENCHER_API_TOKEN: ${{ secrets.BENCHER_API_TOKEN }}
+      BRANCH: ${{ needs.target_branch.outputs.branch_name || needs.backup_branch.outputs.branch_name || github.event.pull_request.base.ref || 'main' }}
+    steps:
+      - run: sudo apt-get update
+      - run: sudo apt install -y valgrind gnuplot
+      - uses: actions/checkout@v4
+      - uses: bencherdev/bencher@main
+      - run: rustup toolchain install stable --profile minimal
+      - uses: seepine/hash-files@v1
+        id: get-hash
+        with:
+          patterns: 'Cargo.lock'
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+          cache-all-crates: true
+          shared-key: "${{ steps.get-hash.outputs.hash }}"
+      - run: cargo install iai-callgrind-runner --version 0.14.0
+      - name: cargo test --no-run benches (debug mode) to check compile
+        run: cargo test --benches --no-run
+
+      - name: Track Benchmarks with Bencher
+        run: |
+          echo "Running bencher for branch $BRANCH."
+          bencher run \
+          --testbed "ubuntu-latest" \
+          --github-actions "${{ secrets.GITHUB_TOKEN }}" \
+          --token "${{ secrets.BENCHER_API_TOKEN }}" \
+          --err \
+          --branch "$BRANCH" \
+          --branch-start-point "main" \
+          --branch-reset \
+          "cargo bench --all"

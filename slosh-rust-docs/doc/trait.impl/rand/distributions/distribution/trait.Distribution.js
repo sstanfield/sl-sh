@@ -1,0 +1,9 @@
+(function() {
+    var implementors = Object.fromEntries([["builtins",[["impl <a class=\"trait\" href=\"https://rust-random.github.io/rand/rand/distributions/distribution/trait.Distribution.html\" title=\"trait rand::distributions::distribution::Distribution\">Distribution</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.84.1/std/primitive.u8.html\">u8</a>&gt; for <a class=\"struct\" href=\"builtins/rand/struct.Ascii.html\" title=\"struct builtins::rand::Ascii\">Ascii</a>"],["impl <a class=\"trait\" href=\"https://rust-random.github.io/rand/rand/distributions/distribution/trait.Distribution.html\" title=\"trait rand::distributions::distribution::Distribution\">Distribution</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.84.1/std/primitive.u8.html\">u8</a>&gt; for <a class=\"struct\" href=\"builtins/rand/struct.Hex.html\" title=\"struct builtins::rand::Hex\">Hex</a>"],["impl <a class=\"trait\" href=\"https://rust-random.github.io/rand/rand/distributions/distribution/trait.Distribution.html\" title=\"trait rand::distributions::distribution::Distribution\">Distribution</a>&lt;<a class=\"struct\" href=\"https://doc.rust-lang.org/1.84.1/alloc/string/struct.String.html\" title=\"struct alloc::string::String\">String</a>&gt; for <a class=\"struct\" href=\"builtins/rand/struct.UserProvidedGraphemes.html\" title=\"struct builtins::rand::UserProvidedGraphemes\">UserProvidedGraphemes</a>"]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":57,"fragment_lengths":[1378]}

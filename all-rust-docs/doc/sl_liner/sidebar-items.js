@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Action","EventKind"],"mod":["cursor","editor_rules","keymap","prompt"],"struct":["BasicCompleter","Buffer","Context","Editor","EmptyCompleter","Event","FilenameCompleter","History"],"trait":["Completer"],"type":["ColorClosure"]};

@@ -1,0 +1,23 @@
+// https://github.com/streetsidesoftware/cspell
+// This is the configuration file for cspell, a spellchecker for code.
+// There is a vscode extension https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
+// you can run cspell from the command line with `npx cspell .`
+// you can check which dictionary has a word with `npx cspell trace yourWord`
+{
+    "version": "0.2",
+    "ignorePaths": ["target", "legacy", "**/*.lock"],
+    "useGitignore": false,
+    "enableFiletypes": ["*", "Vimscript"],
+    "dictionaryDefinitions": [
+        {
+            "name": "custom-dictionary",
+            "path": "./custom-dictionary.txt",
+            "addWords": true
+        }
+    ],
+    "dictionaries": ["custom-dictionary", "rust", "makefile", "softwareTerms"],
+    "words": [],
+    "flagWords": [],
+    "ignoreWords": ["Emmmmm", "atwo", "btwo", "ctwo", "dtwo", "hexy"],
+    "import": []
+}

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CompType","HookResult"],"fn":["escape","find_exes","find_file_completions","find_lisp_fns","find_lisp_symbols","find_lisp_things","get_dir_matches","get_env_matches","get_path_matches","unescape"],"struct":["ShellCompleter"]};

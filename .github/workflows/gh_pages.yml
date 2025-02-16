@@ -1,0 +1,33 @@
+name: GitHub Pages
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # To push a branch
+      pull-requests: write  # To create a PR from that branch
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Deploy GitHub Pages
+      run: |
+        # change to documentation directory
+        cd doc
+        # mk-site.sh writes the static site to the book directory
+        ./mk-site.sh
+        git worktree add gh-pages
+        git config user.name "Deploy from CI"
+        git config user.email ""
+        cd gh-pages
+        # Delete the ref to avoid keeping history.
+        git update-ref -d refs/heads/gh-pages
+        rm -rf *
+        mv ../book/* .
+        git add .
+        git commit -m "Deploy $GITHUB_SHA to gh-pages"
+        git push --force --set-upstream origin gh-pages

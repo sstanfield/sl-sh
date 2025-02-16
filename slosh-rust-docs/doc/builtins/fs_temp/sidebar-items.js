@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["LEN"],"fn":["add_fs_temp_builtins","builtin_temp_dir","create_temp_dir","create_temp_file","get_provided_or_default_temp","get_temp","get_temp_file","intern_builtin_temp_dir","intern_get_temp","intern_get_temp_file","parse_builtin_temp_dir","parse_get_temp","parse_get_temp_file","random_name","temp_dir"]};

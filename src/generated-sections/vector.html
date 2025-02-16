@@ -1,0 +1,262 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Vector - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="vector"><a class="header" href="#vector">vector</a></h2>
+<p>List of symbols:</p>
+<p><a href="#make-vec">make-vec</a>, <a href="#vec">vec</a>, <a href="#vec-list">vec-&gt;list</a>, <a href="#vec-pop">vec-pop!</a>, <a href="#vec-push">vec-push!</a>, <a href="#vec-slice">vec-slice</a></p>
+<h3 id="make-vec"><a class="header" href="#make-vec">make-vec</a></h3>
+<p><strong>Usage:</strong> (make-vec capacity default)</p>
+<p>Make a new vector with capacity and default item(s).</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal [] (make-vec))
+(test::assert-equal ['x 'x 'x] (make-vec 3 'x))
+(test::assert-equal [nil nil nil nil nil] (make-vec 5 nil))
+(test::assert-equal [] (make-vec 5))
+</code></pre>
+<h3 id="vec"><a class="header" href="#vec">vec</a></h3>
+<p><strong>Usage:</strong> (vec item1 item2 .. itemN)</p>
+<p>Make a new vector with items.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal [] (vec))
+(test::assert-equal [1 2 3] (vec 1 2 3))
+</code></pre>
+<h3 id="vec-list"><a class="header" href="#vec-list">vec-&gt;list</a></h3>
+<p><strong>Usage:</strong> (vec-&gt;list vector)</p>
+<p>Convert a vector to a list.</p>
+<p>No Examples</p>
+<h3 id="vec-pop"><a class="header" href="#vec-pop">vec-pop!</a></h3>
+<p><strong>Usage:</strong> (vec-pop! vector) -&gt; object</p>
+<p>Pops the last object off of the end of the vector.  This is destructive!</p>
+<p>Example:</p>
+<pre><code>(def test-pop-vec (vec 1 2 3))
+(test::assert-equal 3 (vec-pop! test-pop-vec))
+(test::assert-equal [1 2] test-pop-vec)
+(test::assert-equal 2 (vec-pop! test-pop-vec))
+(test::assert-equal [1] test-pop-vec)
+(test::assert-equal 1 (vec-pop! test-pop-vec))
+(test::assert-equal [] test-pop-vec)
+</code></pre>
+<h3 id="vec-push"><a class="header" href="#vec-push">vec-push!</a></h3>
+<p><strong>Usage:</strong> (vec-push! vector object) -&gt; vector</p>
+<p>Pushes the provided object onto the end of the vector.  This is destructive!</p>
+<p>Example:</p>
+<pre><code>(def test-push-vec (vec))
+(test::assert-equal [1] (vec-push! test-push-vec 1))
+(test::assert-equal [1] test-push-vec)
+(test::assert-equal [1 2] (vec-push! test-push-vec 2))
+(test::assert-equal [1 2] test-push-vec)
+(test::assert-equal [1 2 3] (vec-push! test-push-vec 3))
+(test::assert-equal [1 2 3] test-push-vec)
+</code></pre>
+<h3 id="vec-slice"><a class="header" href="#vec-slice">vec-slice</a></h3>
+<p><strong>Usage:</strong> (vec-slice vector start end)</p>
+<p>Returns a slice of a vector (0 based indexes, end is exclusive).</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal [5 6] (vec-slice [1 2 3 4 5 6] 4 6))
+(test::assert-equal [1 2 3] (vec-slice [1 2 3 4 5 6] 0 3))
+(test::assert-equal [3 4 5] (vec-slice [1 2 3 4 5 6] 2 5))
+(test::assert-equal [3 4 5 6] (vec-slice [1 2 3 4 5 6] 2))
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/type.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../src/generated-sections/sl-sh -&gt; slosh port.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/type.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../src/generated-sections/sl-sh -&gt; slosh port.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

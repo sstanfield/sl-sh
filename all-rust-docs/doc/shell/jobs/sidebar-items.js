@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["JobStatus","PidStatus"],"struct":["Job","Jobs"]};

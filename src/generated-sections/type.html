@@ -1,0 +1,324 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Type - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="type"><a class="header" href="#type">type</a></h2>
+<p>List of symbols:</p>
+<p><a href="#callable">callable?</a>, <a href="#char">char?</a>, <a href="#err">err?</a>, <a href="#io">io?</a>, <a href="#list">list?</a>, <a href="#nil">nil?</a>, <a href="#ok">ok?</a>, <a href="#pair">pair?</a>, <a href="#seq">seq?</a>, <a href="#str-float">str-&gt;float</a>, <a href="#string">string?</a>, <a href="#symbol">symbol?</a>, <a href="#vec">vec?</a></p>
+<h3 id="callable"><a class="header" href="#callable">callable?</a></h3>
+<p><strong>Usage:</strong> (callable? v [SCRATCH] [SCRATCH] t)</p>
+<p>Usage: (callable? to-test)</p>
+<p>No Examples</p>
+<h3 id="char"><a class="header" href="#char">char?</a></h3>
+<p><strong>Usage:</strong> (char? expression)</p>
+<p>True if the expression is a char, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (char? \a))
+(test::assert-false (char? 1))
+(test::assert-false (char? "a"))
+</code></pre>
+<h3 id="err"><a class="header" href="#err">err?</a></h3>
+<p><strong>Usage:</strong> (err? expression)</p>
+<p>True if the expression is an error, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (err? (mk-err :arr "test")))
+(test::assert-false (err? nil))
+</code></pre>
+<h3 id="io"><a class="header" href="#io">io?</a></h3>
+<p><strong>Usage:</strong> (io? expression)</p>
+<p>True if the expression is an IO object (file), false otherwise.</p>
+<p>Example:</p>
+<pre><code>(def iotst (fopen "/tmp/iotst" :create))
+(test::assert-true (io? iotst))
+(test::assert-false (io? 1))
+(test::assert-false (io? '(1 2 3)))
+(test::assert-false (io? (list)))
+</code></pre>
+<h3 id="list"><a class="header" href="#list">list?</a></h3>
+<p><strong>Usage:</strong> (list? expression)</p>
+<p>True if the expression is a list, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (list? '(1 2 3)) "reader macro")
+(test::assert-true (list? (list 1 2 3)) "list")
+(test::assert-false (list? 1))
+(test::assert-false (list? [1 2 3]))
+(test::assert-false (list? []))
+(test::assert-false (list? '(1 . 2)))
+</code></pre>
+<h3 id="nil"><a class="header" href="#nil">nil?</a></h3>
+<p><strong>Usage:</strong> (nil? v)</p>
+<p>True if the expression is nil, false otherwise</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (nil? ()))
+(test::assert-true (nil? '()))
+(test::assert-true (nil? nil))
+(test::assert-true (nil? (list)))
+(test::assert-false (nil? #f))
+</code></pre>
+<h3 id="ok"><a class="header" href="#ok">ok?</a></h3>
+<p><strong>Usage:</strong> (ok? expression)</p>
+<p>True if the expression is NOT an error, false if it is an error.</p>
+<p>Example:</p>
+<pre><code>(test::assert-false (ok? (mk-err :arr "test")))
+(test::assert-true (ok? nil))
+</code></pre>
+<h3 id="pair"><a class="header" href="#pair">pair?</a></h3>
+<p><strong>Usage:</strong> (pair? expression)</p>
+<p>True if the expression is a pair, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (pair? '(1 . 2)) "reader macro")
+(test::assert-true (pair? (cons 1 2)) "cons")
+(test::assert-true (pair? '(1 2)))
+(test::assert-false (pair? 1))
+(test::assert-false (pair? [1 2 3]))
+(test::assert-false (pair? (vec)))
+</code></pre>
+<h3 id="seq"><a class="header" href="#seq">seq?</a></h3>
+<p><strong>Usage:</strong> (seq? expression)</p>
+<p>True if expression is a list or vector, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (seq? '(1 2 3)))
+(test::assert-true (seq? [1 2 3]))
+(test::assert-true (seq? []))
+(test::assert-false (seq? "aaa"))
+(test::assert-false (seq? 1))
+</code></pre>
+<h3 id="str-float"><a class="header" href="#str-float">str-&gt;float</a></h3>
+<p><strong>Usage:</strong> (str-&gt;float string) -&gt; float</p>
+<p>If string is a valid representation of a float return that float.  Error if not.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 0.0 (str-&gt;float "0"))
+(test::assert-equal 10.0 (str-&gt;float "10.0"))
+(test::assert-equal 10.5 (str-&gt;float "10.5"))
+(test::assert-equal 101.0 (str-&gt;float "101"))
+(test::assert-equal -101.95 (str-&gt;float "-101.95"))
+(test::assert-error (str-&gt;float "not int"))
+(test::assert-error (str-&gt;float "--10"))
+</code></pre>
+<h3 id="string"><a class="header" href="#string">string?</a></h3>
+<p><strong>Usage:</strong> (string? expression)</p>
+<p>True if the expression is a string, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (string? "string"))
+(test::assert-false (string? 1))
+</code></pre>
+<h3 id="symbol"><a class="header" href="#symbol">symbol?</a></h3>
+<p><strong>Usage:</strong> (symbol? expression)</p>
+<p>True if the expression is a symbol, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (symbol? 'symbol))
+(test::assert-false (symbol? 1))
+</code></pre>
+<h3 id="vec"><a class="header" href="#vec">vec?</a></h3>
+<p><strong>Usage:</strong> (vec? expression)</p>
+<p>True if the expression is a vector, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (vec? [1 2 3]) "reader macro")
+(test::assert-true (vec? (make-vec)) "make-vec")
+(test::assert-true (vec? (vec 1 2 3)) "vec")
+(test::assert-false (vec? 1))
+(test::assert-false (vec? '(1 2 3)))
+(test::assert-false (vec? (list)))
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/test.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../src/generated-sections/vector.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/test.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../src/generated-sections/vector.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

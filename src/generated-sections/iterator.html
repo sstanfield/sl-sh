@@ -1,0 +1,444 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Iterator - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="iterator"><a class="header" href="#iterator">iterator</a></h2>
+<p>List of symbols:</p>
+<p><a href="#iterenumerate">iter::enumerate</a>, <a href="#iterfile-iter">iter::file-iter</a>, <a href="#iterfilter">iter::filter</a>, <a href="#iterfor">iter::for</a>, <a href="#iteriter">iter::iter</a>, <a href="#iteriter-or-single">iter::iter-or-single</a>, <a href="#iteriter">iter::iter?</a>, <a href="#iterlist-iter">iter::list-iter</a>, <a href="#itermap">iter::map</a>, <a href="#itermk-iter">iter::mk-iter</a>, <a href="#iteronce-iter">iter::once-iter</a>, <a href="#iterrange">iter::range</a>, <a href="#iterreduce">iter::reduce</a>, <a href="#iterrepeat-iter">iter::repeat-iter</a>, <a href="#iterstring-iter">iter::string-iter</a>, <a href="#itervec-iter">iter::vec-iter</a>, <a href="#itervec-iter-pair">iter::vec-iter-pair</a>, <a href="#itervec-iter-rev">iter::vec-iter-rev</a></p>
+<h3 id="iterenumerate"><a class="header" href="#iterenumerate">iter::enumerate</a></h3>
+<p><strong>Usage:</strong> (iter::enumerate iter start [SCRATCH] [SCRATCH] idx [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that wraps an iterator and generates pairs of current index and value.
+Index is 0 based by default, takes an optional second parameter with the start
+index.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-iter (enumerate (vec-iter [:a :b :c])))
+    (let ([i v] (test-iter)) (test::assert-equal 0 i) (test::assert-equal :a v))
+    (let ([i v] (test-iter)) (test::assert-equal 1 i) (test::assert-equal :b v))
+    (let ([i v] (test-iter)) (test::assert-equal 2 i) (test::assert-equal :c v))
+    (test::assert-equal :*iter-empty* (test-iter)))
+(let (test-iter (enumerate (vec-iter [:a :b :c]) 5))
+    (let ([i v] (test-iter)) (test::assert-equal 5 i) (test::assert-equal :a v))
+    (let ([i v] (test-iter)) (test::assert-equal 6 i) (test::assert-equal :b v))
+    (let ([i v] (test-iter)) (test::assert-equal 7 i) (test::assert-equal :c v))
+    (test::assert-equal :*iter-empty* (test-iter)))
+</code></pre>
+<h3 id="iterfile-iter"><a class="header" href="#iterfile-iter">iter::file-iter</a></h3>
+<p><strong>Usage:</strong> (iter::file-iter f [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that wraps a file.  Each call produces the next line (with
+trailing newline).</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(with-temp-file (fn (file-name)
+    (let (tst-file (fopen file-name :create :truncate))
+        (defer (fclose tst-file))
+        (fprn tst-file "line 1")
+        (fprn tst-file "line 2")
+        (fprn tst-file "line 3")
+        (fpr tst-file "line 4"))
+    (let (tst-file (fopen file-name), test-iter (file-iter tst-file))
+        (defer (fclose tst-file))
+        (test::assert-equal "line 1\n" (test-iter))
+        (test::assert-equal "line 2\n" (test-iter))
+        (test::assert-equal "line 3\n" (test-iter))
+        (test::assert-equal "line 4" (test-iter))
+        (test::assert-equal :*iter-empty* (test-iter)))))
+</code></pre>
+<h3 id="iterfilter"><a class="header" href="#iterfilter">iter::filter</a></h3>
+<p><strong>Usage:</strong> (iter::filter iter lambda [SCRATCH] [SCRATCH] iter)</p>
+<p>Returns a filter-iter around iter.
+Iterator that applies a lambda to each element to determine if is returned- is lazy.</p>
+<p>Example:</p>
+<pre><code>(let (test-iter (iter::filter (iter::vec-iter [1 2 3]) (fn (x) (not (= x 2)))))
+    (test::assert-equal 1 (test-iter))
+    (test::assert-equal 3 (test-iter))
+    (test::assert-equal :*iter-empty* (test-iter)))
+</code></pre>
+<h3 id="iterfor"><a class="header" href="#iterfor">iter::for</a></h3>
+<p><strong>Usage:</strong> (iter::for bind in items body [SCRATCH] [SCRATCH] i-name actual-bind)</p>
+<p>Loops over each element in an iterator.
+The bind parameter is bound to the current element of items and is accessible
+in body. Body is evaluated a number of times equal to the items in the iterator.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (i 0)
+    (for x in (range 0 11) (set! i (+ 1 i)))
+    (test::assert-equal 11 i))
+(let (v [:a :b :c], iter (enumerate (vec-iter v)))
+    (for [idx, val] in iter (test::assert-equal v.~idx val)))
+</code></pre>
+<h3 id="iteriter"><a class="header" href="#iteriter">iter::iter</a></h3>
+<p><strong>Usage:</strong> (iter::iter thing)</p>
+<p>Return thing as an iterator if possible (if it is an iterator just return thing).</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(test::assert-true (iter? (iter '(1 2 3))))
+(test::assert-true (iter? (iter [1 2 3])))
+(test::assert-true (iter? (iter "abc")))
+(test::assert-true (iter? (iter (iter '(1 2 3)))))
+</code></pre>
+<h3 id="iteriter-or-single"><a class="header" href="#iteriter-or-single">iter::iter-or-single</a></h3>
+<p><strong>Usage:</strong> (iter::iter-or-single thing)</p>
+<p>Return thing as an iterator if possible (if it is an iterator just return thing).
+If not possible then wrap thing in a once iter and return that.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(test::assert-true (iter? (iter-or-single '(1 2 3))))
+(test::assert-true (iter? (iter-or-single [1 2 3])))
+(test::assert-true (iter? (iter-or-single "abc")))
+(test::assert-true (iter? (iter-or-single (iter '(1 2 3)))))
+(test::assert-true (iter? (iter-or-single 1)))
+(test::assert-true (iter? (iter-or-single \A)))
+</code></pre>
+<h3 id="iteriter-1"><a class="header" href="#iteriter-1">iter::iter?</a></h3>
+<p><strong>Usage:</strong> (iter::iter? test)</p>
+<p>Return true if thing is an iterator, false otherwise.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(test::assert-true (iter? (list-iter '(1 2 3))))
+(test::assert-false (iter? '(1 2 3)))
+</code></pre>
+<h3 id="iterlist-iter"><a class="header" href="#iterlist-iter">iter::list-iter</a></h3>
+<p><strong>Usage:</strong> (iter::list-iter l [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that wraps a list.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-list-iter (list-iter '(1 2 3)))
+    (test::assert-equal 1 (test-list-iter))
+    (test::assert-equal 2 (test-list-iter))
+    (test::assert-equal 3 (test-list-iter))
+    (test::assert-equal :*iter-empty* (test-list-iter))
+    (set! test-list-iter (list-iter '()))
+    (test::assert-equal :*iter-empty* (test-list-iter)))
+</code></pre>
+<h3 id="itermap"><a class="header" href="#itermap">iter::map</a></h3>
+<p><strong>Usage:</strong> (iter::map i lambda [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that applies a lambda to each element of another iterator- is lazy.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-map-iter (map (list-iter '(1 2 3)) (fn (x) (* x 2))))
+    (test::assert-equal 2 (test-map-iter))
+    (test::assert-equal 4 (test-map-iter))
+    (test::assert-equal 6 (test-map-iter))
+    (test::assert-equal :*iter-empty* (test-map-iter)))
+</code></pre>
+<h3 id="itermk-iter"><a class="header" href="#itermk-iter">iter::mk-iter</a></h3>
+<p><strong>Usage:</strong> (iter::mk-iter body)</p>
+<p>Helper to create an iterator.  Will make sure it has the correct
+property set.</p>
+<p>Example:</p>
+<pre><code>
+</code></pre>
+<h3 id="iteronce-iter"><a class="header" href="#iteronce-iter">iter::once-iter</a></h3>
+<p><strong>Usage:</strong> (iter::once-iter i [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that wraps and returns a single object once.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-iter (once-iter 3))
+    (test::assert-equal 3 (test-iter))
+    (test::assert-equal :*iter-empty* (test-iter))
+    (set! test-iter (once-iter "iter"))
+    (test::assert-equal "iter" (test-iter))
+    (test::assert-equal :*iter-empty* (test-iter)))
+</code></pre>
+<h3 id="iterrange"><a class="header" href="#iterrange">iter::range</a></h3>
+<p><strong>Usage:</strong> (iter::range start end [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that generates numbers within a range.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-iter (range 3 6))
+    (test::assert-equal 3 (test-iter))
+    (test::assert-equal 4 (test-iter))
+    (test::assert-equal 5 (test-iter))
+    (test::assert-equal :*iter-empty* (test-iter)))
+</code></pre>
+<h3 id="iterreduce"><a class="header" href="#iterreduce">iter::reduce</a></h3>
+<p><strong>Usage:</strong> (iter::reduce iter acc reducing-fn [SCRATCH] [SCRATCH] #<a href="SYM:367:2">SYM:367:2</a> #<a href="SYM:367:3">SYM:367:3</a> #<a href="SYM:367:3">SYM:367:3</a> [SCRATCH] val)</p>
+<p>reduce is used to amalgamate an iterator and an initial value,
+according to the reducing function provided. The reducing-fcn should be a function
+of two arguments. In the first iteration of reduce, the init-val will be used as
+the first argument to the reducing-fcn and (iter) will be used as the
+second argument. For all subsequent iterations, The result from the previous
+application of the reducing-fcn will be used as the first argument to the
+reducing-fcn and the second argument will be the next item in the collection
+when the collection is empty reduce will return the amalgamated result.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(test::assert-true (= 15 (iter::reduce (iter::vec-iter [1 2 3 4 5]) 0 +)))
+(test::assert-true (= 16 (iter::reduce (iter::vec-iter [1 2 3 4 5]) 1 +)))
+(test::assert-true (= "one hoopy frood" (iter::reduce (iter::vec-iter ["one " "hoopy " "frood"]) "" str)))
+</code></pre>
+<h3 id="iterrepeat-iter"><a class="header" href="#iterrepeat-iter">iter::repeat-iter</a></h3>
+<p><strong>Usage:</strong> (iter::repeat-iter i [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that wraps and returns a single object on each call.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-iter (repeat-iter 3))
+    (test::assert-equal 3 (test-iter))
+    (test::assert-equal 3 (test-iter))
+    (test::assert-equal 3 (test-iter))
+    (test::assert-equal 3 (test-iter))
+    (test::assert-equal 3 (test-iter))
+    (set! test-iter (repeat-iter "iter"))
+    (test::assert-equal "iter" (test-iter))
+    (test::assert-equal "iter" (test-iter))
+    (test::assert-equal "iter" (test-iter))
+    (test::assert-equal "iter" (test-iter))
+    (test::assert-equal "iter" (test-iter)))
+</code></pre>
+<h3 id="iterstring-iter"><a class="header" href="#iterstring-iter">iter::string-iter</a></h3>
+<p><strong>Usage:</strong> (iter::string-iter s [SCRATCH] [SCRATCH] idx slen [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that wraps a string.  Each element is the next character.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-string-iter (string-iter "123"))
+    (test::assert-equal \1 (test-string-iter))
+    (test::assert-equal \2 (test-string-iter))
+    (test::assert-equal \3 (test-string-iter))
+    (test::assert-equal :*iter-empty* (test-string-iter)))
+</code></pre>
+<h3 id="itervec-iter"><a class="header" href="#itervec-iter">iter::vec-iter</a></h3>
+<p><strong>Usage:</strong> (iter::vec-iter v [SCRATCH] [SCRATCH] idx vlen [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator that wraps a vector.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-vec-iter (vec-iter [1 2 3]))
+    (test::assert-equal 1 (test-vec-iter))
+    (test::assert-equal 2 (test-vec-iter))
+    (test::assert-equal 3 (test-vec-iter))
+    (test::assert-equal :*iter-empty* (test-vec-iter))
+    (set! test-vec-iter (vec-iter (vec)))
+    (test::assert-equal :*iter-empty* (test-vec-iter)))
+</code></pre>
+<h3 id="itervec-iter-pair"><a class="header" href="#itervec-iter-pair">iter::vec-iter-pair</a></h3>
+<p><strong>Usage:</strong> (iter::vec-iter-pair v [SCRATCH] [SCRATCH] fidx bidx [SCRATCH] [SCRATCH] iter iter)</p>
+<p>Return a pair of iterators, one forward and one reverse for a vector.
+The two iterators will not overlap (i.e. the forward and reverse will never
+produce the same items).</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let ([fwd-iter, rev-iter] (vec-iter-pair [1 2 3]))
+    (test::assert-equal 1 (fwd-iter))
+    (test::assert-equal 3 (rev-iter))
+    (test::assert-equal 2 (fwd-iter))
+    (test::assert-equal :*iter-empty* (rev-iter))
+    (test::assert-equal :*iter-empty* (fwd-iter)))
+(let ([fwd-iter, rev-iter] (vec-iter-pair (vec)))
+    (test::assert-equal :*iter-empty* (fwd-iter))
+    (test::assert-equal :*iter-empty* (rev-iter)))
+</code></pre>
+<h3 id="itervec-iter-rev"><a class="header" href="#itervec-iter-rev">iter::vec-iter-rev</a></h3>
+<p><strong>Usage:</strong> (iter::vec-iter-rev v [SCRATCH] [SCRATCH] idx [SCRATCH] [SCRATCH] iter)</p>
+<p>Iterator produces a vector in reverse.</p>
+<p>Example:</p>
+<pre><code>(import iter)
+(let (test-vec-iter (vec-iter-rev [1 2 3]))
+    (test::assert-equal 3 (test-vec-iter))
+    (test::assert-equal 2 (test-vec-iter))
+    (test::assert-equal 1 (test-vec-iter))
+    (test::assert-equal :*iter-empty* (test-vec-iter))
+    (set! test-vec-iter (vec-iter-rev (vec)))
+    (test::assert-equal :*iter-empty* (test-vec-iter)))
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/io.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../src/generated-sections/math.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/io.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../src/generated-sections/math.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

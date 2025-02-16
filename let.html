@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Let Bindings and Destructuring - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="let-bindings"><a class="header" href="#let-bindings">LET Bindings</a></h1>
+<h2 id="basic-form"><a class="header" href="#basic-form">Basic form</a></h2>
+<p>(let ([name value]<em>) forms</em>)</p>
+<p>Let will create a new lexical scope and will bind names to local variables with provided values. After the binding it is
+an implicit do form. The bound symbols will only be in scope within this implicit do. Afterwards they will be unbound
+or will revert to their previous shadowed value.</p>
+<p>Note all bindings are required to be pairs (name value), name is a symbol and value can be any form (it will be
+evaluated).</p>
+<p>Let will shadow any variable names from outer scopes (including globals), it does not interact with dynamic scopes at
+all.
+Let is similar to let-rec in scheme, the bindings are created in order and later binding can see the values of previous
+bindings. It will also allow an early reference to "see" a later binding (like let-rec) allowing some recursive forms to
+be bound easily. Note that when doing this the later form must NOT be something being shadowed or the existing binding
+will be used not the new one in the let.</p>
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<pre><code class="language-slosh">(let (a 1, b 2, c 3) `(~a ~b ~c))
+
+;; =&gt; (1 2 3)
+</code></pre>
+<p>Produces (1 2 3)</p>
+<pre><code class="language-slosh">(let (a 1, b 2, c 3) (let (b 20, c (+ b 10)) `(~a ~b ~c)))
+
+;; =&gt; (1 20 30)
+</code></pre>
+<p>Produces (1 20 30)</p>
+<pre><code class="language-slosh">(let (a 1, b 2, c 3) (let (x (+ b 1), b 20, c (+ b 10)) `(~a ~x ~b ~c)))
+
+;; =&gt; (1 3 20 30)
+</code></pre>
+<p>Produces (1 3 20 30)</p>
+<pre><code class="language-slosh">(let (fnx (fn (x) (if (= x 0) #t (fny (- x 1))))
+      fny (fn (y) (if (= y 0) #t (fnx (- y 1)))))
+    (fnx 10))
+
+;; =&gt; true
+</code></pre>
+<p>Example of recursive references (a dumb one). It will produce #t (true) after ping ponging between fnx and fny.</p>
+<pre><code class="language-slosh">(let (fny (fn (y) y))
+    (let (fnx (fn (x) (if (= x 0) #t (fny (- x 1))))
+          fny (fn (y) (if (= y 0) #t (fnx (- y 1)))))
+        (fny 10)))
+
+;; =&gt; 8
+</code></pre>
+<p>This example will produce 8 because fnx will use the outer fny instead of the next fny.</p>
+<h2 id="destructure-bindings"><a class="header" href="#destructure-bindings">Destructure bindings</a></h2>
+<p>Let supports destructure bindings of sequences (list, vector) and hashmaps. It can support optional bindings as well
+as rest (&amp;) for sequences.</p>
+<p>For sequences use [name+], if &amp; is before the last name then it will get all the leftover values. A % indicates that all
+the names after are optional (default to nil) and you can use := to set the default value. Patterns must match exactly,
+for instance [a b c] requires a sequence with exactly three elements.  [a b c &amp; rest] requires a sequence with at least
+three elements.  [% a b c &amp; rest] will take any sequence and bind the first, second and third values to a b and c if
+available.</p>
+<p>For maps use {[name key]+} (i.e. a map of symbols to keys), if this map contains :or then it's value will be a map of
+key to default value used for any missing keys. It requires all keys to be included in the destructured map or to have a
+default.</p>
+<p>Note that destructures can be applied recursively and sequence destructure can contain map destructures and vice versa.</p>
+<h3 id="examples-1"><a class="header" href="#examples-1">Examples</a></h3>
+<pre><code class="language-slosh">(def x '(1 2 3))
+(let ([a b c] x) `(~a ~b ~c))
+
+;; =&gt; (1 2 3)
+</code></pre>
+<p>Produces (1 2 3).</p>
+<pre><code class="language-slosh">(let ([a b % c d] '(1 2)) (list a b c d))
+
+;; =&gt; (1 2 nil nil)
+</code></pre>
+<p>Produces (1 2 nil nil).</p>
+<pre><code class="language-slosh">(let ({a :one, b 'two, c "three" [d e] :vec} {:one 1, 'two 2, "three" 3, :vec [4 5]}) (list a b c d e))
+
+;; =&gt; (1 2 3 4 5)
+</code></pre>
+<p>Produces (1 2 3 4 5).</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="shell-redirects.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="namespaces.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="shell-redirects.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="namespaces.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

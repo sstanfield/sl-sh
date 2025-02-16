@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["main","modify_vm","version"],"mod":["config"]};

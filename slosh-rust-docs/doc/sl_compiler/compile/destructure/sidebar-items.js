@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DestructType","Register"],"fn":["resolve_destruct_containers","setup_dbg"],"struct":["DestructState","Destructure"]};

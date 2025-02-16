@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>sl-sh documentation</title>
+        <description>documentation for Simple Lisp SHell</description>
+        <link>https://sl-sh-dev.github.io/</link>
+        <atom:link href="https://sl-sh-dev.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+        <pubDate>Mon, 08 May 2023 18:50:44 +0000</pubDate>
+        <lastBuildDate>Mon, 08 May 2023 18:50:44 +0000</lastBuildDate>
+        <generator>Jekyll v3.9.3</generator>
+        
+        <item>
+            <title>Sl-sh gets new jekyll documentation theme</title>
+            <description>&lt;p&gt;Testing post functionality. New documentation site has capability for
+time based article sharing.&lt;/p&gt;
+
+</description>
+            <pubDate>Mon, 01 Mar 2021 00:00:00 +0000</pubDate>
+            <link>https://sl-sh-dev.github.io/sl-sh-new-documentation.html</link>
+            <guid isPermaLink="true">https://sl-sh-dev.github.io/sl-sh-new-documentation.html</guid>
+            
+            <category>news</category>
+            
+            
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["HeapIoError"],"struct":["HeapIo","IoGuard"]};

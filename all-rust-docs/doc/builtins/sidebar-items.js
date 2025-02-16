@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["add_global_value","add_misc_builtins"],"mod":["bridge_macro_tests","collections","conversions","fs_meta","fs_temp","io","math","print","rand","string"]};

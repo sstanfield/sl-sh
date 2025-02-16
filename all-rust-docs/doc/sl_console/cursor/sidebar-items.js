@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["cursor_pos","goto"],"struct":["BlinkingBar","BlinkingBlock","BlinkingUnderline","Down","Goto","Hide","HideCursor","Left","Restore","Right","Save","Show","SteadyBar","SteadyBlock","SteadyUnderline","Up"]};

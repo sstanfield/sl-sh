@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["add_io_builtins","builtin_flush","builtin_read_line","fclose","fopen","fs_rm","intern_fs_rm","parse_fs_rm"]};

@@ -1,0 +1,61 @@
+name: Rust
+
+on:
+  push:
+  pull_request:
+
+env:
+  RUSTFLAGS: -Dwarnings
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  build-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Format
+      run: |
+          cargo version
+          rustc --version
+          cargo fmt --verbose -- --check
+    - name: Clippy
+      run: |
+          cargo version
+          rustc --version
+          cargo clippy --verbose -- -D warnings
+    - name: Build
+      run: |
+          cargo version
+          rustc --version
+          cargo build --workspace --verbose
+    - name: Run rust tests
+      run: cargo test --verbose
+    - name: Run lisp integration tests
+      run: cargo test --workspace
+
+
+  build-macos:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: |
+          cargo version
+          rustc --version
+          cargo build --workspace --verbose
+    - name: Run rust tests
+      run: cargo test --verbose
+    - name: Run lisp integration tests
+      run: cargo test --workspace
+
+# if this gets too slow consider
+# https://github.com/Swatinem/rust-cache
+# along with
+#    - name: Compile rust tests
+#      run: cargo test --no-run
+#      in linux AND macos tests

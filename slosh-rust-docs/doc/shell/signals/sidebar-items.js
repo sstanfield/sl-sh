@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["install_sigint_handler","mask_signals","sig_int_handle","test_clear_sigint"],"static":["SIG_INT"]};

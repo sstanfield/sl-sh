@@ -1,0 +1,327 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Math - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="math"><a class="header" href="#math">math</a></h2>
+<p>List of symbols:</p>
+<p><a href="#">%</a>, <a href="#">*</a>, <a href="#">+</a>, <a href="#-">-</a>, <a href="#">/</a>, <a href="#abs">abs</a>, <a href="#rem">rem</a>, <a href="#remeuclid">rem_euclid</a></p>
+<h3 id=""><a class="header" href="#">%</a></h3>
+<p><strong>Usage:</strong> (% int int)</p>
+<p>Remainder from dividing (arg 1) by (arg 2).
+Note: Remainder and Modulo are two similar mathematical operations,
+called <code>rem</code> and <code>rem_euclid</code> in Rust.
+This function uses <code>rem</code> which is the same as the <code>%</code> operator in C.
+With <code>rem</code>, the sign of the result is the same as the dividend (arg 1).
+With <code>rem_euclid</code>, the sign of the result is always positive.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 0 (% 50 10))
+(test::assert-equal 5 (% 55 10))
+(test::assert-equal 1 (% 1 2))
+(test::assert-equal -1 (% -10 3))
+(test::assert-equal  1 (% 10 -3))
+(test::assert-equal -1 (% -10 -3))
+
+(test::assert-error (%))
+(test::assert-error (% 1))
+(test::assert-error (% 1 2 3))
+(test::assert-error (% 1 2.0))
+</code></pre>
+<h3 id="-1"><a class="header" href="#-1">*</a></h3>
+<p><strong>Usage:</strong> (* number*)</p>
+<p>Multiply a sequence of numbers.  (*) will return 1.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 1 (*))
+(test::assert-equal 5 (* 5))
+(test::assert-equal 5 (* 1 5))
+(test::assert-equal 5.0 (* 1.0 5))
+(test::assert-equal 7.5 (* 1.5 5))
+(test::assert-equal 7.5 (* 1.5 5.0))
+(test::assert-equal 15 (* 3 5))
+(test::assert-equal 8 (* 1 2 4))
+(test::assert-equal 16 (* 2 2 4))
+(test::assert-equal 16.0 (* 2 2.0 4))
+(test::assert-equal 16.0 (* 2.0 2.0 4.0))
+(test::assert-equal 54.9999999999999 (* 100 0.55))
+(test::assert-error (* 1 2 4 "5"))
+</code></pre>
+<h3 id="-2"><a class="header" href="#-2">+</a></h3>
+<p><strong>Usage:</strong> (+ number*)</p>
+<p>Add a sequence of numbers.  (+) will return 0.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 0 (+))
+(test::assert-equal 5 (+ 5))
+(test::assert-equal 10 (+ 5 5))
+(test::assert-equal 6 (+ 1 5))
+(test::assert-equal 6.5 (+ 1 5.5))
+(test::assert-equal 7 (+ 1 2 4))
+(test::assert-error (+ 1 2 4 "5"))
+</code></pre>
+<h3 id="-"><a class="header" href="#-">-</a></h3>
+<p><strong>Usage:</strong> (- number+)</p>
+<p>Subtract a sequence of numbers.  Requires at least one number (negate if only one number).</p>
+<p>Example:</p>
+<pre><code>(test::assert-error (- 5 "2"))
+(test::assert-equal -5 (- 5))
+(test::assert-equal -5.0 (- 5.0))
+(test::assert-equal -4 (- 1 5))
+(test::assert-equal -4.5 (- 1 5.5))
+(test::assert-equal 4 (- 10 2 4))
+(test::assert-equal 4.5 (- 10 2 3.5))
+</code></pre>
+<h3 id="-3"><a class="header" href="#-3">/</a></h3>
+<p><strong>Usage:</strong> (/ number+)</p>
+<p>Divide a sequence of numbers.  Requires at least two numbers.</p>
+<p>No Examples</p>
+<h3 id="abs"><a class="header" href="#abs">abs</a></h3>
+<p><strong>Usage:</strong> (abs arg)</p>
+<p>Returns absolute value of arg.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 2 (abs 2))
+(test::assert-equal 144 (abs -144))
+(test::assert-equal 4.53 (abs -4.53))
+(test::assert-equal 36028797018963967 (abs -36028797018963967))
+</code></pre>
+<h3 id="rem"><a class="header" href="#rem">rem</a></h3>
+<p><strong>Usage:</strong> (rem int int)</p>
+<p>Remainder from dividing (arg 1) by (arg 2).
+Note: Remainder and Modulo are two similar mathematical operations,
+called <code>rem</code> and <code>rem_euclid</code> in Rust.
+This function uses <code>rem</code> which is the same as the <code>%</code> operator in C.
+With <code>rem</code>, the sign of the result is the same as the dividend (arg 1).
+With <code>rem_euclid</code>, the sign of the result is always positive.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 0 (rem 50 10))
+(test::assert-equal 5 (rem 55 10))
+(test::assert-equal 1 (rem 1 2))
+(test::assert-equal -1 (rem -10 3))
+(test::assert-equal  1 (rem 10 -3))
+(test::assert-equal -1 (rem -10 -3))
+
+(test::assert-error (rem))
+(test::assert-error (rem 1))
+(test::assert-error (rem 1 2 3))
+(test::assert-error (rem 1 2.0))
+</code></pre>
+<h3 id="rem_euclid"><a class="header" href="#rem_euclid">rem_euclid</a></h3>
+<p><strong>Usage:</strong> (rem_euclid int int)</p>
+<p>Least Non-negative number that can be added to a multiple of the divisor (arg 2) to get the dividend (arg 1).
+The result should always be 0 &lt;= result &lt; divisor (arg 2).
+Note: Remainder and Modulo are two similar mathematical operations,
+called <code>rem</code> and <code>rem_euclid</code> in Rust.
+With <code>rem</code>, the sign of the result is the same as the dividend (arg 1).
+With <code>rem_euclid</code>, the sign of the result is always positive.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal 0 (rem_euclid 50 10))
+(test::assert-equal 5 (rem_euclid 55 10))
+(test::assert-equal 1 (rem_euclid 1 2))
+(test::assert-equal 2 (rem_euclid -10 3))
+(test::assert-equal 1 (rem_euclid 10 -3))
+(test::assert-equal 2 (rem_euclid -10 -3))
+
+(test::assert-error (rem_euclid))
+(test::assert-error (rem_euclid 1))
+(test::assert-error (rem_euclid 1 2 3))
+(test::assert-error (rem_euclid 1 2.0))
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/iterator.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../src/generated-sections/pair.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/iterator.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../src/generated-sections/pair.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

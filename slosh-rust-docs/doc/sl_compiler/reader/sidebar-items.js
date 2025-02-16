@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ReadReturn"],"fn":["char_to_hex_num","end_symbol","is_digit","is_whitespace"],"struct":["ReadError","Reader","ReaderCharIter"],"trait":["PeekableIterator"],"type":["CharIter"]};

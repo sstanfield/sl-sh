@@ -1,0 +1,671 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>File - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="file"><a class="header" href="#file">file</a></h2>
+<p>List of symbols:</p>
+<p><a href="#cd">cd</a>, <a href="#fclose">fclose</a>, <a href="#fflush">fflush</a>, <a href="#fopen">fopen</a>, <a href="#fs-accessed">fs-accessed</a>, <a href="#fs-base">fs-base</a>, <a href="#fs-crawl">fs-crawl</a>, <a href="#fs-dir">fs-dir?</a>, <a href="#fs-exists">fs-exists?</a>, <a href="#fs-file">fs-file?</a>, <a href="#fs-len">fs-len</a>, <a href="#fs-modified">fs-modified</a>, <a href="#fs-parent">fs-parent</a>, <a href="#fs-rm">fs-rm</a>, <a href="#fs-same">fs-same?</a>, <a href="#get-temp">get-temp</a>, <a href="#get-temp-file">get-temp-file</a>, <a href="#glob">glob</a>, <a href="#read">read</a>, <a href="#read-all">read-all</a>, <a href="#read-line">read-line</a>, <a href="#temp-dir">temp-dir</a>, <a href="#with-temp">with-temp</a>, <a href="#with-temp-file">with-temp-file</a></p>
+<h3 id="cd"><a class="header" href="#cd">cd</a></h3>
+<p><strong>Usage:</strong> (cd dir-to-change-to)</p>
+<p>Change directory.</p>
+<p>Example:</p>
+<pre><code>(with-temp (fn (tmp)
+(fclose (fopen (str tmp "/fs-cd-marker") :create :truncate))
+(test::assert-false (fs-exists? "fs-cd-marker"))
+(cd tmp)
+(test::assert-true (fs-exists? "fs-cd-marker"))
+(cd)))
+</code></pre>
+<h3 id="fclose"><a class="header" href="#fclose">fclose</a></h3>
+<p><strong>Usage:</strong> (fclose file)</p>
+<p>Close a file.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp-file)
+    (let (tst-file (fopen tmp-file :create :truncate))
+        (fprn tst-file "Test Line Two")
+        (fclose tst-file)
+        (set! tst-file (fopen tmp-file :read))
+        (defer (fclose tst-file))
+        (test::assert-equal "Test Line Two
+" (read-line tst-file)))))
+</code></pre>
+<h3 id="fflush"><a class="header" href="#fflush">fflush</a></h3>
+<p><strong>Usage:</strong> (flush file)</p>
+<p>Flush a file.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp-file)
+    (let (tst-file (fopen tmp-file :create :truncate)
+          tst-file-read (fopen tmp-file :read))
+        (defer (fclose tst-file))
+        (defer (fclose tst-file-read))
+        (fprn tst-file "Test Line Three")
+        (fflush tst-file)
+        (test::assert-equal "Test Line Three
+" (read-line tst-file-read)))))
+</code></pre>
+<h3 id="fopen"><a class="header" href="#fopen">fopen</a></h3>
+<p><strong>Usage:</strong> (fopen filename option*)</p>
+<p>Open a file.  If you use :read and :write then you get a read/write unbuffered file.  Including
+one of :read or :write will provide a file buffered for read or write (this is faster).
+Note: :append, :truncate, :create, :create-new all imply :write.</p>
+<p>Options are:
+:read
+:write
+:append
+:truncate
+:create
+:create-new
+:on-error-nil</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp-file)
+    (let (test-open-f (fopen tmp-file :create :truncate))
+        (fprn test-open-f "Test Line One")
+        (fclose test-open-f)
+        (set! test-open-f (fopen tmp-file :read))
+        (defer (fclose test-open-f))
+        (test::assert-equal "Test Line One
+" (read-line test-open-f)))))
+</code></pre>
+<h3 id="fs-accessed"><a class="header" href="#fs-accessed">fs-accessed</a></h3>
+<p><strong>Usage:</strong> (fs-accessed /path/to/file/or/dir)</p>
+<p>Returns the unix time file last accessed in ms.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp)
+(let (tst-file (fopen tmp :create)
+last-acc (fs-accessed tmp))
+(fclose tst-file)
+(let (tst-file (fopen tmp :read))
+(test::assert-true (&gt;= (fs-accessed tmp) last-acc))
+(fclose tst-file)))))
+</code></pre>
+<h3 id="fs-base"><a class="header" href="#fs-base">fs-base</a></h3>
+<p><strong>Usage:</strong> (fs-base /path/to/file/or/dir)</p>
+<p>Returns base name of file or directory passed to function.</p>
+<p>No Examples</p>
+<h3 id="fs-crawl"><a class="header" href="#fs-crawl">fs-crawl</a></h3>
+<p><strong>Usage:</strong> (fs-crawl /path/to/file/or/dir (fn (x) (prn "found path" x) [max-depth]
+[:follow-syms])</p>
+<p>If a directory is provided the path is recursively searched and every
+file and directory is called as an argument to the provided function.
+If a file is provided the path is provided as an argument to the provided
+function. Takes two optional arguments (in any order) an integer,
+representing max depth to traverse if file is a directory, or the
+symbol, :follow-syms, to follow symbol links when traversing if
+desired.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp-file)
+(let (cnt 0)
+(fs-crawl tmp-file (fn (x)
+(test::assert-equal (fs-base tmp-file) (fs-base x))
+(set! cnt (+ 1 cnt))))
+(test::assert-equal 1 cnt))))
+
+
+(defn create-in (in-dir num-files visited)
+(dotimes-i i num-files
+(let (tmp-file (get-temp-file in-dir))
+(set! visited.~tmp-file #f))))
+
+(defn create-dir (tmp-dir visited)
+(let (new-tmp (get-temp tmp-dir))
+(set! visited.~new-tmp #f)
+new-tmp))
+
+(with-temp (fn (root-tmp-dir)
+(let (tmp-file-count 5
+visited {}
+cnt 0)
+(set! visited.~root-tmp-dir #f)
+(create-in root-tmp-dir tmp-file-count visited)
+(let (tmp-dir (create-dir root-tmp-dir visited)
+new-files (create-in tmp-dir tmp-file-count visited)
+tmp-dir (create-dir tmp-dir visited)
+new-files (create-in tmp-dir tmp-file-count visited))
+(fs-crawl root-tmp-dir (fn (x)
+(let (file visited.~x)
+(test::assert-true (not file)) ;; also tests double counting
+(set! visited.~x #t)
+(inc! cnt))))
+(test::assert-equal (+ 3 (* 3 tmp-file-count)) cnt)
+(test::assert-equal (+ 3 (* 3 tmp-file-count)) (len visited))
+(seq-for key in (hash-keys visited) (test::assert-true visited.~key))))))
+
+(with-temp (fn (root-tmp-dir)
+(let (tmp-file-count 5
+visited {}
+cnt 0)
+(set! visited.~root-tmp-dir #f)
+(create-in root-tmp-dir tmp-file-count visited)
+(let (tmp-dir (create-dir root-tmp-dir visited)
+new-files (create-in tmp-dir tmp-file-count visited)
+tmp-dir (create-dir tmp-dir {})
+new-files (do (set! visited.~tmp-dir #f)(create-in tmp-dir tmp-file-count {})))
+(fs-crawl root-tmp-dir (fn (x)
+(let (file visited.~x)
+(test::assert-true (not file)) ;; also tests double counting
+(set! visited.~x #t)
+(inc! cnt))) 2)
+(test::assert-equal (+ 3 (* 2 tmp-file-count)) cnt)
+(test::assert-equal (+ 3 (* 2 tmp-file-count)) (len visited))
+(seq-for key in (hash-keys visited) (test::assert-true visited.~key))))))
+
+(with-temp (fn (root-tmp-dir)
+(let (tmp-file-count 5
+visited {}
+cnt 0)
+(set! visited.~root-tmp-dir #f)
+(create-in root-tmp-dir tmp-file-count visited)
+(let (tmp-dir (create-dir root-tmp-dir {})
+new-files (do (set! visited.~tmp-dir #f)(create-in tmp-dir tmp-file-count {}))
+tmp-dir (create-dir tmp-dir {})
+new-files (create-in tmp-dir tmp-file-count {}))
+(fs-crawl root-tmp-dir (fn (x)
+(let (file visited.~x)
+(test::assert-true (not file)) ;; also tests double counting
+(set! visited.~x #t)
+(inc! cnt))) 1)
+(test::assert-equal (+ 2 tmp-file-count) cnt)
+(test::assert-equal (+ 2 tmp-file-count) (len visited))
+(seq-for key in (hash-keys visited) (test::assert-true visited.~key))))))
+</code></pre>
+<h3 id="fs-dir"><a class="header" href="#fs-dir">fs-dir?</a></h3>
+<p><strong>Usage:</strong> (fs-dir? path-to-test)</p>
+<p>Is the given path a directory?</p>
+<p>Example:</p>
+<pre><code>(with-temp (fn (tmp)
+(fclose (fopen (str tmp "/fs-dir-file") :create :truncate))
+(test::assert-false (fs-dir? (str tmp "/fs-dir-file")))
+(test::assert-true (fs-dir? tmp))
+(test::assert-false (fs-file? (str tmp "/fs-dir-nope")))))
+</code></pre>
+<h3 id="fs-exists"><a class="header" href="#fs-exists">fs-exists?</a></h3>
+<p><strong>Usage:</strong> (fs-exists? path-to-test)</p>
+<p>Does the given path exist?</p>
+<p>Example:</p>
+<pre><code>(with-temp (fn (tmp)
+(fclose (fopen (str tmp "/fs-exists") :create :truncate))
+(test::assert-true (fs-exists? (str tmp "/fs-exists")))
+(test::assert-true (fs-exists? tmp))
+(test::assert-false (fs-exists? (str tmp "/fs-exists-nope")))))
+</code></pre>
+<h3 id="fs-file"><a class="header" href="#fs-file">fs-file?</a></h3>
+<p><strong>Usage:</strong> (fs-file? path-to-test)</p>
+<p>Is the given path a file?</p>
+<p>Example:</p>
+<pre><code>(with-temp (fn (tmp)
+(fclose (fopen (str tmp "/fs-file") :create :truncate))
+(test::assert-true (fs-file? (str tmp "/fs-file")))
+(test::assert-false (fs-file? tmp))
+(test::assert-false (fs-file? (str tmp "/fs-file-nope")))))
+</code></pre>
+<h3 id="fs-len"><a class="header" href="#fs-len">fs-len</a></h3>
+<p><strong>Usage:</strong> (fs-len /path/to/file/or/dir)</p>
+<p>Returns the size of the file in bytes.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp)
+(let (tst-file (fopen tmp :create :truncate))
+(fprn tst-file "Test Line Read Line One")
+(fpr tst-file "Test Line Read Line Two")
+(fclose tst-file)
+(test::assert-equal 47 (fs-len tmp)))))
+</code></pre>
+<h3 id="fs-modified"><a class="header" href="#fs-modified">fs-modified</a></h3>
+<p><strong>Usage:</strong> (fs-modified /path/to/file/or/dir)</p>
+<p>Returns the unix time file last modified in ms.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp)
+(let (tst-file (fopen tmp :create :truncate)
+last-mod (fs-modified tmp))
+(fprn tst-file "Test Line Read Line One")
+(fpr tst-file "Test Line Read Line Two")
+(fflush tst-file)
+(fclose tst-file)
+(test::assert-true (&gt;= (fs-modified tmp) last-mod)))))
+</code></pre>
+<h3 id="fs-parent"><a class="header" href="#fs-parent">fs-parent</a></h3>
+<p><strong>Usage:</strong> (fs-parent /path/to/file/or/dir)</p>
+<p>Returns base name of file or directory passed to function.</p>
+<p>No Examples</p>
+<h3 id="fs-rm"><a class="header" href="#fs-rm">fs-rm</a></h3>
+<p><strong>Usage:</strong> (fs-rm "/dir/or/file/to/remove")</p>
+<p>Takes a file or directory as a string and removes it. Works recursively for directories.</p>
+<p>Example:</p>
+<pre><code>(def fp nil)
+(let (a-file (get-temp-file))
+(test::assert-true (fs-exists? a-file))
+(set! fp a-file)
+(fs-rm a-file))
+(test::assert-false (nil? fp))
+(test::assert-false (fs-exists? fp))
+</code></pre>
+<h3 id="fs-same"><a class="header" href="#fs-same">fs-same?</a></h3>
+<p><strong>Usage:</strong> (fs-same? /path/to/file/or/dir /path/to/file/or/dir)</p>
+<p>Returns true if the two provided file paths refer to the same file or directory.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp-file)
+(test::assert-true (fs-same? tmp-file tmp-file))))
+</code></pre>
+<h3 id="get-temp"><a class="header" href="#get-temp">get-temp</a></h3>
+<p><strong>Usage:</strong> (get-temp ["/path/to/directory/to/use/as/base" "optional-prefix" "optional-suffix" length])</p>
+<p>Creates a directory inside of an OS specific temporary directory. See <a href="root::temp-dir">temp-dir</a>
+for OS specific notes. Also accepts an optional prefix, an optional suffix, and an optional
+length for the random number of characters in the temporary file created. Defaults to prefix of
+".tmp", no suffix, and five random characters.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (str-contains (get-temp) (temp-dir)))
+
+(with-temp (fn (tmp)
+(let (tmp-dir (get-temp tmp))
+(test::assert-true (str-contains tmp-dir tmp)))))
+
+(with-temp (fn (tmp)
+(let (tmp-dir (get-temp tmp "some-prefix"))
+(test::assert-true (str-contains tmp-dir tmp))
+(test::assert-true (str-contains tmp-dir "some-prefix")))))
+
+(with-temp (fn (tmp)
+(let (tmp-dir (get-temp tmp "some-prefix" "some-suffix"))
+(test::assert-true (str-contains tmp-dir tmp))
+(test::assert-true (str-contains tmp-dir "some-prefix"))
+(test::assert-true (str-contains tmp-dir "some-suffix")))))
+
+(with-temp (fn (tmp)
+(let (tmp-dir (get-temp tmp "some-prefix" "some-suffix" 6))
+(test::assert-true (str-contains tmp-dir tmp))
+(test::assert-true (str-contains tmp-dir "some-prefix"))
+(test::assert-true (str-contains tmp-dir "some-suffix"))
+(test::assert-equal (len "some-prefix012345some-suffix") (len (fs-base tmp-dir))))))
+</code></pre>
+<h3 id="get-temp-file"><a class="header" href="#get-temp-file">get-temp-file</a></h3>
+<p><strong>Usage:</strong> (get-temp-file ["/path/to/directory/to/use/as/base" "optional-prefix" "optional-suffix" length])</p>
+<p>Returns name of file created inside temporary directory. Optionally takes a directory to use as
+the parent directory of the temporary file. Also accepts an optional prefix, an optional suffix,
+and an optional length for the random number of characters in the temporary files created. Defaults
+to prefix of ".tmp", no suffix, and five random characters.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (str-contains (get-temp-file) (temp-dir)))
+
+(with-temp (fn (tmp)
+(let (tmp-file (get-temp-file tmp))
+(test::assert-true (str-contains tmp-file tmp)))))
+
+(with-temp (fn (tmp)
+(let (tmp-file (get-temp-file tmp "some-prefix"))
+(test::assert-true (str-contains tmp-file "some-prefix")))))
+
+(with-temp (fn (tmp)
+(let (tmp-file (get-temp-file tmp "some-prefix" "some-suffix"))
+(test::assert-true (str-contains tmp-file "some-prefix"))
+(test::assert-true (str-contains tmp-file "some-suffix")))))
+
+(with-temp (fn (tmp)
+(let (tmp-file (get-temp-file tmp "some-prefix" "some-suffix" 10))
+(test::assert-true (str-contains tmp-file "some-prefix"))
+(test::assert-true (str-contains tmp-file "some-suffix"))
+(test::assert-equal (len "some-prefix0123456789some-suffix") (len (fs-base tmp-file))))))
+</code></pre>
+<h3 id="glob"><a class="header" href="#glob">glob</a></h3>
+<p><strong>Usage:</strong> (glob /path/with/*)</p>
+<p>Takes a list/varargs of globs and return the list of them expanded.</p>
+<p>Example:</p>
+<pre><code>(with-temp (fn (tmp)
+(fclose (fopen (str tmp "/g1") :create :truncate))
+(fclose (fopen (str tmp "/g2") :create :truncate))
+(fclose (fopen (str tmp "/g3") :create :truncate))
+(test::assert-equal [(str tmp "/g1") (str tmp "/g2") (str tmp "/g3")] (glob (str tmp "/*")))))
+</code></pre>
+<h3 id="read"><a class="header" href="#read">read</a></h3>
+<p><strong>Usage:</strong> (read file|string end-exp?) -&gt; expression</p>
+<p>Read a file or string and return the next object (symbol, string, list, etc).
+Raises an error if the file or string has been read unless end-exp is provided
+then returns that on the end condition.
+Note: When reading a string read always starts at the beginning of the string.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp)
+    (let (tst-file (fopen tmp :create :truncate)
+          test-str nil)
+        (fprn tst-file "(1 2 3)(x y z)")
+        (fclose tst-file)
+        (set! tst-file (fopen tmp :read))
+        (test::assert-equal '(1 2 3) (read tst-file))
+        (test::assert-equal '(x y z) (read tst-file))
+        (test::assert-error (read tst-file))
+        (fclose tst-file)
+        (set! tst-file (fopen tmp :read))
+        (test::assert-equal '(1 2 3) (read tst-file :done))
+        (test::assert-equal '(x y z) (read tst-file :done))
+        (test::assert-equal :done (read tst-file :done))
+        (fclose tst-file)
+        (test::assert-equal '(4 5 6) (read "(4 5 6)"))
+        (set! test-str "7 8 9")
+        (test::assert-equal 7 (read test-str))
+        (test::assert-equal 7 (read test-str))
+        (test::assert-equal '(x y z) (read "(x y z)")))))
+</code></pre>
+<h3 id="read-all"><a class="header" href="#read-all">read-all</a></h3>
+<p><strong>Usage:</strong> (read-all file|string) -&gt; vec</p>
+<p>Read a file or string and return the vector of contained expressions.  This reads the entire
+file or string and will wrap it in an outer vector (always returns a vector).</p>
+<p>Unlike most lisp readers this one will put loose symbols in a vector (i.e. you
+enter things at the repl without the enclosing parens).</p>
+<p>If the read item is empty (including a comment) then will return an empty vector.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp)
+    (let (tst-file (fopen tmp :create :truncate)
+          test-str nil)
+        (fprn tst-file "(1 2 3)(x y z)")
+        (fclose tst-file)
+        (set! tst-file (fopen tmp :read))
+        (test::assert-equal ['(1 2 3)'(x y z)] (read-all tst-file))
+        (fclose tst-file)
+        (test::assert-equal ['(4 5 6)] (read-all "(4 5 6)"))
+        (test::assert-equal [7 8 9] (read-all "7 8 9"))
+        (test::assert-equal ['(x y z)] (read-all "(x y z)"))
+        (test::assert-equal [] (read-all ";(x y z)")))))
+</code></pre>
+<h3 id="read-line"><a class="header" href="#read-line">read-line</a></h3>
+<p><strong>Usage:</strong> (read-line file) -&gt; string</p>
+<p>Read a line from a file.  Returns Nil if there is nothing left to read.</p>
+<p>Example:</p>
+<pre><code>(with-temp-file (fn (tmp)
+    (let (tst-file (fopen tmp :create :truncate))
+        (fprn tst-file "Test Line Read Line One")
+        (fpr tst-file "Test Line Read Line Two")
+        (fclose tst-file)
+        (set! tst-file (fopen tmp :read))
+        (defer (fclose tst-file))
+        (test::assert-equal "Test Line Read Line One\n" (read-line tst-file))
+        (test::assert-equal "Test Line Read Line Two" (read-line tst-file)))))
+</code></pre>
+<h3 id="temp-dir"><a class="header" href="#temp-dir">temp-dir</a></h3>
+<p><strong>Usage:</strong> (temp-dir)</p>
+<p>Returns a string representing the temporary directory. See <a href="root::get-temp">get-temp</a> for higher
+level temporary directory creation mechanism.</p>
+<p>On Unix:
+Returns the value of the TMPDIR environment variable if it is set, otherwise for non-Android it
+returns /tmp. If Android, since there is no global temporary folder (it is usually allocated
+per-app), it returns /data/local/tmp.</p>
+<p>On Windows:
+Returns the value of, in order, the TMP, TEMP, USERPROFILE environment variable if any are set and
+not the empty string. Otherwise, temp_dir returns the path of the Windows directory. This behavior
+is identical to that of GetTempPath, which this function uses internally.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (fs-dir? (temp-dir)))
+</code></pre>
+<h3 id="with-temp"><a class="header" href="#with-temp">with-temp</a></h3>
+<p><strong>Usage:</strong> (with-temp (fn (x) (println "given temp dir:" x)) ["optional-prefix" "optional-suffix" length])</p>
+<p>Takes a function that accepts a temporary directory. This directory will be recursively removed
+when the provided function is finished executing. Also accepts an optional prefix, an optional
+suffix, and an optional length for the random number of characters in the temporary directory
+created. Defaults to prefix of ".tmp", no suffix, and five random characters.</p>
+<p>Example:</p>
+<pre><code>(def fp nil)
+(with-temp (fn (tmp-dir)
+    (let (tmp-file (str tmp-dir "/sl-sh-tmp-file.txt")
+         a-file (fopen tmp-file :create :truncate))
+        (test::assert-true (fs-exists? tmp-file))
+        (set! fp tmp-file)
+        (fclose a-file))))
+(test::assert-false (nil? fp))
+(test::assert-false (fs-exists? fp))
+
+(with-temp
+    (fn (tmp)
+        (test::assert-true (str-contains tmp "some-prefix")))
+    "some-prefix")
+
+(with-temp
+    (fn (tmp)
+        (test::assert-true (str-contains tmp "some-prefix"))
+        (test::assert-true (str-contains tmp "some-suffix")))
+    "some-prefix"
+    "some-suffix")
+
+(with-temp
+    (fn (tmp)
+        (test::assert-true (str-contains tmp "some-prefix"))
+        (test::assert-true (str-contains tmp "some-suffix"))
+        (test::assert-equal (len "some-prefix0123456789some-suffix") (len (fs-base tmp))))
+    "some-prefix"
+    "some-suffix"
+    10)
+</code></pre>
+<h3 id="with-temp-file"><a class="header" href="#with-temp-file">with-temp-file</a></h3>
+<p><strong>Usage:</strong> (with-temp-file (fn (x) (println "given temp file:" x)) ["optional-prefix" "optional-suffix" length])</p>
+<p>Takes a function that accepts a temporary file. This file will be removed when the provided function
+is finished executing. Also accepts an optional prefix, an optional suffix, and an optional
+length for the random number of characters in the temporary file created. Defaults to prefix of
+".tmp", no suffix, and five random characters.</p>
+<p>Example:</p>
+<pre><code>(def fp nil)
+(with-temp-file (fn (tmp-file)
+    (let (a-file (fopen tmp-file :create :truncate))
+        (test::assert-true (fs-exists? tmp-file))
+        (set! fp tmp-file)
+        (fclose a-file))))
+(test::assert-false (nil? fp))
+(test::assert-false (fs-exists? fp))
+
+(with-temp-file
+    (fn (tmp)
+        (test::assert-true (str-contains tmp "some-prefix")))
+    "some-prefix")
+
+(with-temp-file
+    (fn (tmp)
+        (test::assert-true (str-contains tmp "some-prefix"))
+        (test::assert-true (str-contains tmp "some-suffix")))
+    "some-prefix"
+    "some-suffix")
+
+(with-temp-file
+    (fn (tmp)
+        (test::assert-true (str-contains tmp "some-prefix"))
+        (test::assert-true (str-contains tmp "some-suffix"))
+        (test::assert-equal (len "some-prefix0123456789some-suffix") (len (fs-base tmp))))
+    "some-prefix"
+    "some-suffix"
+    10)
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/doc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../src/generated-sections/hashmap.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/doc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../src/generated-sections/hashmap.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

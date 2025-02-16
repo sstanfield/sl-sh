@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["numbers","primitives","text"],"trait":["SlAsMut","SlAsRef","SlFrom","SlFromRef","SlFromRefMut","SlInto","SlIntoRef","SlIntoRefMut"]};

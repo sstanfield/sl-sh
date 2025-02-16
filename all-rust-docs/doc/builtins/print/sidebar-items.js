@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["add_print_builtins","dasm","display_value","epr","eprn","fpr","fprn","pr","pretty_value","prn"]};

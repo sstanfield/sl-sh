@@ -1,0 +1,460 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Conditional - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="conditional"><a class="header" href="#conditional">conditional</a></h2>
+<p>{{ #include section-docs/conditional.md }}</p>
+<p>List of symbols:</p>
+<p><a href="#">&lt;</a>, <a href="#">&lt;=</a>, <a href="#">==</a>, <a href="#">&gt;</a>, <a href="#">&gt;=</a>, <a href="#and">and</a>, <a href="#cond">cond</a>, <a href="#if">if</a>, <a href="#match">match</a>, <a href="#not">not</a>, <a href="#or">or</a>, <a href="#when">when</a></p>
+<h3 id=""><a class="header" href="#">&lt;</a></h3>
+<p><strong>Usage:</strong> (&lt; val0 ... valN)</p>
+<p>Less than.  Works for int, float or string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (&lt; 1 2))
+(test::assert-true (&lt; 1 2 3 4))
+(test::assert-false (&lt; 2 2))
+(test::assert-false (&lt; 2 2 2))
+(test::assert-false (&lt; 2 2 3))
+(test::assert-true (&lt; 1.0 2.0))
+(test::assert-false (&lt; 2.0 2.0))
+(test::assert-false (&lt; 2.0 2.0 2.0))
+(test::assert-false (&lt; 2.0 2.0 3.0))
+(test::assert-false (&lt; 2.1 2.0 3.0))
+(test::assert-false (&lt; 2 1))
+(test::assert-false (&lt; 3 2 3))
+(test::assert-true (&lt; 1.0 1.1 ))
+(test::assert-true (&lt; 1.0 1.01 ))
+(test::assert-true (&lt; 1.0 1.001 ))
+(test::assert-true (&lt; 1.0 1.0001 ))
+(test::assert-true (&lt; 1.0 1.00001 ))
+(test::assert-true (&lt; 1.0 1.000001 ))
+(test::assert-true (&lt; 1.0 1.0000001 ))
+(test::assert-false (&lt; 1.0 1.00000000000001 ))
+</code></pre>
+<h3 id="-1"><a class="header" href="#-1">&lt;=</a></h3>
+<p><strong>Usage:</strong> (&lt;= val0 ... valN)</p>
+<p>Less than or equal.  Works for int, float or string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (&lt;= 1 2))
+(test::assert-true (&lt;= 2 2))
+(test::assert-true (&lt;= 2 2 2))
+(test::assert-true (&lt;= 2 2 3))
+(test::assert-true (&lt;= 1.0 2.0))
+(test::assert-true (&lt;= 2.0 2.0))
+(test::assert-true (&lt;= 2.0 2.0 2.0))
+(test::assert-true (&lt;= 2.0 2.0 3.0))
+(test::assert-false (&lt;= 2.1 2.0 3.0))
+(test::assert-false (&lt;= 2 1))
+(test::assert-false (&lt;= 3 2 3))
+(test::assert-true (&lt;= 1.00000000000001 1.0000000000001 ))
+(test::assert-true (&lt;= 10.0000000000001 10.000000000001))
+(test::assert-true (&lt;= 100.000000000001 100.00000000001))
+(test::assert-true (&lt;= 1000.000000000001 1000.00000000001))
+</code></pre>
+<h3 id="-2"><a class="header" href="#-2">==</a></h3>
+<p><strong>Usage:</strong> (== val0 ... valN)</p>
+<p>Equals.  Works for numeric types (int, float).</p>
+<p>Example:</p>
+<pre><code>(test::assert-false (== 1 2))
+(test::assert-true (== 2 2))
+(test::assert-true (== 2 2 2))
+(test::assert-false (== 3 2 2))
+(test::assert-false (== 3.0 2.0))
+(test::assert-true (== 2.0 2.0))
+(test::assert-true (== 2.0 2.0 2.0))
+(test::assert-false (== 3.0 2.0 2.0))
+(test::assert-false (== 2.1 2.0 3.0))
+(test::assert-false (== 2 1))
+(test::assert-false (== 3 2 1))
+(test::assert-false (== 1.1 1.0))
+(test::assert-true (== 1.1 1.1))
+(test::assert-false (== 3 2 3))
+</code></pre>
+<h3 id="-3"><a class="header" href="#-3">&gt;</a></h3>
+<p><strong>Usage:</strong> (&gt; val0 ... valN)</p>
+<p>Greater than.  Works for int, float or string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-false (&gt; 1 2))
+(test::assert-false (&gt; 2 2))
+(test::assert-false (&gt; 2 2 2))
+(test::assert-false (&gt; 3 2 2))
+(test::assert-true (&gt; 3.0 2.0))
+(test::assert-false (&gt; 2.0 2.0))
+(test::assert-false (&gt; 2.0 2.0 2.0))
+(test::assert-false (&gt; 3.0 2.0 2.0))
+(test::assert-false (&gt; 2.1 2.0 3.0))
+(test::assert-true (&gt; 2 1))
+(test::assert-true (&gt; 3 2 1))
+(test::assert-true (&gt; 1.1 1.0))
+(test::assert-false (&gt; 3 2 3))
+(test::assert-true (&gt; 1.001 1.0))
+(test::assert-true (&gt; 1.0000001 1.0))
+(test::assert-false (&gt; 1.00000000000001 1.0))
+</code></pre>
+<h3 id="-4"><a class="header" href="#-4">&gt;=</a></h3>
+<p><strong>Usage:</strong> (&gt;= val0 ... valN)</p>
+<p>Greater than or equal.  Works for int, float or string.</p>
+<p>Example:</p>
+<pre><code>(test::assert-false (&gt;= 1 2))
+(test::assert-true (&gt;= 2 2))
+(test::assert-true (&gt;= 2 2 2))
+(test::assert-true (&gt;= 3 2 2))
+(test::assert-true (&gt;= 3.0 2.0))
+(test::assert-true (&gt;= 2.0 2.0))
+(test::assert-true (&gt;= 2.0 2.0 2.0))
+(test::assert-true (&gt;= 3.0 2.0 2.0))
+(test::assert-false (&gt;= 2.1 2.0 3.0))
+(test::assert-true (&gt;= 2 1))
+(test::assert-true (&gt;= 1.1 1.0))
+(test::assert-false (&gt;= 3 2 3))
+(test::assert-true (&gt;= 1.0000000000001 1.00000000000001))
+(test::assert-true (&gt;= 10.000000000001 10.0000000000001))
+(test::assert-true (&gt;= 100.00000000001 100.000000000001))
+(test::assert-true (&gt;= 1000.00000000001 1000.000000000001))
+</code></pre>
+<h3 id="and"><a class="header" href="#and">and</a></h3>
+<p><strong>Usage:</strong> (and exp0 ... expN) -&gt; [false(#f) or expN result]</p>
+<p>Evaluates each form until one produces nil or false(#f), produces false(#f) if
+any form is nil/#f or the result of the last expression.</p>
+<p>The and form will stop evaluating when the first expression produces nil/#f.</p>
+<p>Example:</p>
+<pre><code>(test::assert-equal #f (and nil (err "and- can not happen")))
+(test::assert-equal #f (and #f (err "and- can not happen")))
+(test::assert-equal "and- done" (and #t "and- done"))
+(test::assert-equal "and- done" (and #t #t "and- done"))
+(test::assert-equal 6 (and #t #t (+ 1 2 3)))
+(test::assert-equal 6 (and (/ 10 5) (* 5 2) (+ 1 2 3)))
+</code></pre>
+<h3 id="cond"><a class="header" href="#cond">cond</a></h3>
+<p><strong>Usage:</strong> (cond ((test form*)*) -&gt; result</p>
+<p>Evaluate each test in order.  If it is true then evaluate the form(s) in an
+implicit do and return the result.  Stop evaluating at the first true test.
+Return nil if no conditions are true.</p>
+<p>Example:</p>
+<pre><code>(def b 0)
+(defn select-option (a)
+    (cond ((= a 1) "opt-one")
+          ((= a 2) (set! b 5) "opt-two")
+          ((= a 3) (str "opt" "-three"))))
+(defn select-option-def (a)
+    (cond ((= a 1) "opt-one")
+          ((= a 2) "opt-two")
+          ((= a 3) (str "opt" "-three"))
+          (#t "default")))
+(test::assert-equal "opt-one" (select-option 1))
+(test::assert-equal b 0)
+(test::assert-equal "opt-two" (select-option 2))
+(test::assert-equal b 5)
+(test::assert-equal "opt-three" (select-option 3))
+(test::assert-equal nil (select-option 4))
+(test::assert-equal "opt-one" (select-option-def 1))
+(test::assert-equal "opt-two" (select-option-def 2))
+(test::assert-equal "opt-three" (select-option-def 3))
+(test::assert-equal "default" (select-option-def 4))
+</code></pre>
+<h3 id="if"><a class="header" href="#if">if</a></h3>
+<p><strong>Usage:</strong> (if p1 a1 p2 a2 ... pn an?) -&gt; [evaled form result]</p>
+<p>If conditional.  Will evaluate p1 and if true (i.e. not nil or false) then
+return the evaluation of a1, if falsey(i.e. nil or false) evaluate p2 and so on.
+On an odd number of arguments (an is missing) then evaluate and return pn.
+Return false(#f) if no predicate is true.  This degenerates into the traditional
+(if predicate then-form else-form).
+NOTE: Both nil and false(#f) are 'falsey' for the purposes of if.</p>
+<p>Example:</p>
+<pre><code>(def test-if-one
+    (if #t "ONE TRUE" "ONE FALSE"))
+(def test-if-two
+    (if nil "TWO TRUE" "TWO FALSE"))
+(def test-if-three
+    (if #f "THREE TRUE" "THREE FALSE"))
+(test::assert-equal "ONE TRUE" test-if-one)
+(test::assert-equal "TWO FALSE" test-if-two)
+(test::assert-equal "THREE FALSE" test-if-three)
+
+(def test-if-one2
+    (if #t "ONE2 TRUE"))
+(def test-if-two2
+    (if nil "TWO2 TRUE"))
+(def test-if-three2
+    (if #f "THREE2 TRUE"))
+(test::assert-equal "ONE2 TRUE" test-if-one2)
+(test::assert-equal #f test-if-two2)
+(test::assert-equal #f test-if-three2)
+
+(def test-if-one2
+    (if nil "ONE FALSE" #t "ONE TRUE" #t "ONE TRUE2"))
+(def test-if-two2
+    (if nil "TWO TRUE" #f "TWO FALSE" #t "TWO TRUE2"))
+(def test-if-three2
+    (if #f "THREE TRUE" nil "THREE FALSE" "THREE DEFAULT"))
+(test::assert-equal "ONE TRUE" test-if-one2)
+(test::assert-equal "TWO TRUE2" test-if-two2)
+(test::assert-equal "THREE DEFAULT" test-if-three2)
+(test::assert-equal nil (if nil))
+(test::assert-equal #f (if nil #t nil #t nil #t))
+</code></pre>
+<h3 id="match"><a class="header" href="#match">match</a></h3>
+<p><strong>Usage:</strong> (match condition (value form*)*) -&gt; result</p>
+<p>Evaluate condition and look for matching value in each branch of type
+(value form*). Form(s) will be wrapped in an implicit do. Use nil to take
+action if no match (encouraged!).</p>
+<p>Example:</p>
+<pre><code>(defn select-option (a)
+    (match a (1 "opt-one")
+             (2 (set! b 5) "opt-two")
+             (3 (str "opt" "-three"))))
+(defn select-option-def (a)
+    (match a (1 "opt-one")
+             (2 "opt-two")
+             (3 (str "opt" "-three"))
+             (nil "default")))
+(def b 0)
+(test::assert-equal b 0)
+(test::assert-equal "opt-one" (select-option 1))
+(test::assert-equal "opt-two" (select-option 2))
+(test::assert-equal b 5)
+(test::assert-equal "opt-three" (select-option 3))
+(test::assert-equal #f (select-option 4))
+(test::assert-equal "opt-one" (select-option-def 1))
+(test::assert-equal "opt-two" (select-option-def 2))
+(test::assert-equal "opt-three" (select-option-def 3))
+(test::assert-equal "default" (select-option-def 4))
+</code></pre>
+<h3 id="not"><a class="header" href="#not">not</a></h3>
+<p><strong>Usage:</strong> (not expression)</p>
+<p>Return true(#t) if expression is nil, false(#f) otherwise.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (not nil))
+(test::assert-false (not 10))
+(test::assert-false (not #t))
+(test::assert-false (not (+ 1 2 3)))
+</code></pre>
+<h3 id="or"><a class="header" href="#or">or</a></h3>
+<p><strong>Usage:</strong> (or exp0 ... expN) -&gt; [false(#f) or first non nil expression]</p>
+<p>Evaluates each form until one produces a non-nil/non-false result, produces #f
+if all expressions are 'falsey'.</p>
+<p>The or form will stop evaluating when the first expression produces non-nil/false.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (or nil nil #t (err "and- can not happen")))
+(test::assert-true (or #f nil #t (err "and- can not happen")))
+(test::assert-true (or #f #f #t (err "and- can not happen")))
+(test::assert-equal #f (or nil nil nil))
+(test::assert-equal #f (or #f nil nil))
+(test::assert-equal #f (or #f nil #f))
+(test::assert-equal #f (or #f #f #f))
+(test::assert-equal "or- done" (or nil "or- done"))
+(test::assert-equal "or- done" (or nil nil "or- done"))
+(test::assert-equal 6 (or nil nil (+ 1 2 3)))
+(test::assert-equal 2 (or (/ 10 5) (* 5 2) (+ 1 2 3)))
+</code></pre>
+<h3 id="when"><a class="header" href="#when">when</a></h3>
+<p><strong>Usage:</strong> (when provided-condition if-true)</p>
+<p>when is a convenience function used to check a form, provided-condition,
+and run some form, if-true, if provided-condition evaluates to true.</p>
+<p>Example:</p>
+<pre><code>(test::assert-true (when #t #t))
+(test::assert-false (when #t nil))
+(test::assert-false (when nil nil))
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/collection.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../src/generated-sections/conversion.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/collection.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../src/generated-sections/conversion.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

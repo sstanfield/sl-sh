@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["ReadError","Reader","ReaderCharIter"],"trait":["PeekableIterator"],"type":["CharIter"]};

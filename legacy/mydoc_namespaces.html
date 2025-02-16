@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content="documentation,  namespaces">
+<title>Namespaces | sl-sh documentation</title>
+<link rel="stylesheet" href="css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+<link rel="stylesheet" href="css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="css/customstyles.css">
+<link rel="stylesheet" href="css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/jquery.navgoco.min.js"></script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
+<script src="js/toc.js"></script>
+<script src="js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="sl-sh documentation" href="https://sl-sh-dev.github.io/feed.xml">
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="index.html">&nbsp;<span class="projectTitle"> sl-sh documentation</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="mydoc_namespaces.html#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/sl-sh-dev/sl-sh" target="_blank" rel="noopener">GitHub</a></li>
+                
+                
+                
+                <li><a href="https://sl-sh-dev.github.io/sl-sh/news">News</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                <li class="dropdown">
+                    <a href="mydoc_namespaces.html#" class="dropdown-toggle" data-toggle="dropdown">Contact<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li><a href="https://gitter.im/sl-sh/community" target="_blank" rel="noopener">Gitter</a></li>
+                        
+                        
+                        
+                        <li><a href="https://github.com/sl-sh-dev/sl-sh/issues" target="_blank" rel="noopener">GitHub Issues</a></li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                <!--comment out this block if you want to hide search-->
+                <li>
+                    <!--start search-->
+                    <div id="search-demo-container">
+                        <input type="text" id="search-input" placeholder="search...">
+                        <ul id="results-container"></ul>
+                    </div>
+                    <script src="js/jekyll-search.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            SimpleJekyllSearch.init({
+                                searchInput: document.getElementById('search-input'),
+                                resultsContainer: document.getElementById('results-container'),
+                                dataSource: 'search.json',
+                                searchResultTemplate: '<li><a href="https://sl-sh-dev.github.io/sl-sh/{url}" title="Namespaces">{title}</a></li>',
+                    noResultsText: 'No results found.',
+                            limit: 10,
+                            fuzzy: true,
+                    })
+                    </script>
+                    <!--end search-->
+                </li>
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle">sl-sh doc 0.9.70</li>
+  
+  
+  
+      
+  
+  <li>
+      <a title="Overview" href="mydoc_namespaces.html#">Overview</a>
+      <ul>
+          
+          
+          
+          <li><a title="Get started" href="index.html">Get started</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Introduction" href="mydoc_introduction.html">Introduction</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Support" href="mydoc_support.html">Support</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="FAQ" href="mydoc_faq_layout.html">FAQ</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Lisp" href="mydoc_namespaces.html#">Lisp</a>
+      <ul>
+          
+          
+          
+          <li><a title="Documentation" href="mydoc_documentation.html">Documentation</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Reader" href="mydoc_reader.html">Reader</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Standard Library" href="mydoc_namespaces.html#">Standard Library</a>
+      <ul>
+          
+          
+          
+          <li><a title="Sl-sh Forms" href="mydoc_api.html">Sl-sh Forms</a></li>
+          
+          
+          
+          <li class="subfolders">
+              <a title="Quick Links" href="mydoc_namespaces.html#">Quick Links</a>
+              <ul>
+                  
+                  
+                  
+                  <li><a title="char" href="mydoc_api.html#char-body">char</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="conditional" href="mydoc_api.html#conditional-body">conditional</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="core" href="mydoc_api.html#core-body">core</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="file" href="mydoc_api.html#file-body">file</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="globals" href="mydoc_api.html#globals-body">globals</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="hashmap" href="mydoc_api.html#hashmap-body">hashmap</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="iterator" href="mydoc_api.html#iterator-body">iterator</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="logger" href="mydoc_api.html#logger-body">logger</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="math" href="mydoc_api.html#math-body">math</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="namespace" href="mydoc_api.html#namespace-body">namespace</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="pair" href="mydoc_api.html#pair-body">pair</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="pair-ext" href="mydoc_api.html#pair-ext-body">pair-ext</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="random" href="mydoc_api.html#random-body">random</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="regex" href="mydoc_api.html#regex-body">regex</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="root" href="mydoc_api.html#root-body">root</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="scripting" href="mydoc_api.html#scripting-body">scripting</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="sequence" href="mydoc_api.html#sequence-body">sequence</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="shell" href="mydoc_api.html#shell-body">shell</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="stats" href="mydoc_api.html#stats-body">stats</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="string" href="mydoc_api.html#string-body">string</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="struct" href="mydoc_api.html#struct-body">struct</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="system" href="mydoc_api.html#system-body">system</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="test" href="mydoc_api.html#test-body">test</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="threading-macros" href="mydoc_api.html#threading-macros-body">threading-macros</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="type" href="mydoc_api.html#type-body">type</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="vector" href="mydoc_api.html#vector-body">vector</a></li>
+                  
+                  
+                  
+              </ul>
+          </li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Shell" href="mydoc_namespaces.html#">Shell</a>
+      <ul>
+          
+          
+          
+          <li><a title="Shell Reader" href="mydoc_shellreader.html">Shell Reader</a></li>
+          
+          
+          
+          
+          
+          
+          <li class="active"><a title="Namespaces" href="mydoc_namespaces.html">Namespaces</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Slshrc config" href="mydoc_slshrc_config.html">Slshrc config</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Working with files" href="mydoc_files.html">Working with files</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Endfix notation on the REPL" href="mydoc_endfix.html">Endfix notation on the REPL</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Scripting" href="mydoc_scripting.html">Scripting</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Pipes" href="mydoc_pipes.html">Pipes</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Release Notes" href="mydoc_namespaces.html#">Release Notes</a>
+      <ul>
+          
+          
+          
+          <li><a title="1.0 Blockers" href="mydoc_blockers_1_0.html">1.0 Blockers</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Contributing" href="mydoc_namespaces.html#">Contributing</a>
+      <ul>
+          
+          
+          
+          <li><a title="Pull Requests" href="mydoc_pull_requests.html">Pull Requests</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+   <h1 class="post-title-main">Namespaces</h1>
+</div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+
+   <h1 id="using-namespaces-in-sl-sh">Using namespaces in sl-sh</h1>
+<hr />
+
+<h2 id="ns-push-and-pop">ns push and pop</h2>
+<p>The <a href="https://sl-sh-dev.github.io/pages/mydoc/mydoc_api.html#Namespace%20forms-body">namespace functions</a> are
+used to create and modify namespaces in sl-sh. <code class="language-plaintext highlighter-rouge">ns-push</code> 
+creates and/or enters a namespace, and <code class="language-plaintext highlighter-rouge">ns-pop</code> exits the current namespace.</p>
+
+<h3 id="ns-push">ns-push</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$&gt; (doc 'ns-push)
+
+;; ns-push
+;; Type: Macro
+;; Namespace: root
+;; 
+;; Usage: (ns-push 'namespace)
+;; 
+;; Pushes the current namespace on a stack for ns-pop and enters or creates namespace.
+;; 
+;; Section: namespace
+;; 
+;; Example:
+;; (def test-ns-push *ns*)
+;; (ns-push 'ns-pop-test-namespace)
+;; ; *ns* will not be right...
+;; (test::assert-equal "ns-pop-test-namespace" *active-ns*)
+;; (ns-push 'ns-pop-test-namespace2)
+;; (test::assert-equal "ns-pop-test-namespace2" *active-ns*)
+;; (ns-pop)
+;; (test::assert-equal "ns-pop-test-namespace" *active-ns*)
+;; (ns-pop)
+;; (test::assert-equal test-ns-push *ns*)
+;; 
+;; 
+;; 
+</code></pre></div></div>
+
+<h3 id="ns-pop">ns-pop</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$&gt; (doc 'ns-pop)
+
+;; ns-pop
+;; Type: Macro
+;; Namespace: root
+;; 
+;; Usage: (ns-pop)
+;; 
+;; Returns to the previous namespace saved in the last ns-push.
+;; 
+;; Section: namespace
+;; 
+;; Example:
+;; (def test-ns-pop *ns*)
+;; (ns-push 'ns-pop-test-namespace)
+;; (test::assert-equal "ns-pop-test-namespace" *active-ns*)
+;; (ns-pop)
+;; (test::assert-equal test-ns-pop *ns*)
+;; 
+;; 
+;; 
+</code></pre></div></div>
+
+<h2 id="a-basic-example">A basic example</h2>
+
+<p>any functions we want namespaced must occur between calls to ns-push and ns-pop.</p>
+
+<p><code class="language-plaintext highlighter-rouge">./basic-1-add.lisp</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(ns-push 'add)
+
+(defn plus1 (x)
+    (+ x 1))
+
+(ns-pop)
+</code></pre></div></div>
+
+<p>here, the function, <code class="language-plaintext highlighter-rouge">plus1</code> is now associated with the namespace <code class="language-plaintext highlighter-rouge">add</code>. Let’s try and use it.</p>
+
+<p><code class="language-plaintext highlighter-rouge">basic-ns-test.lisp</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/env sl-sh
+
+(load "./basic-1-add.lisp")
+
+(println (add::plus1 8))
+</code></pre></div></div>
+
+<p>result:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+;; 9
+</code></pre></div></div>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> the use of the load function. This allows the contents of the file <code class="language-plaintext highlighter-rouge">basic-1-add.lisp</code> to be evaluated in the current file.</div>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> the explicit call to <code class="language-plaintext highlighter-rouge">plus1</code> with <code class="language-plaintext highlighter-rouge">add::plus1</code>. In sl-sh, namespaced symbols can be accessed with the double colon :: operator. <code class="language-plaintext highlighter-rouge">plus1</code> is ‘namespaced’ under the symbol <code class="language-plaintext highlighter-rouge">add</code>, and available after the call to load.</div>
+
+<h2 id="exporting-and-importing">exporting and importing</h2>
+
+<h3 id="ns-export">ns-export</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$&gt; (doc 'ns-export)
+
+;; ns-export
+;; Type: Macro
+;; Namespace: root
+;; 
+;; Usage: (ns-export symbol_or_sequence)
+;; 
+;; Export a symbol or list of symbols to be imported into other namespaces.
+;; 
+;; Section: namespace
+;; 
+;; 
+</code></pre></div></div>
+
+<h3 id="ns-auto-export">ns-auto-export</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$&gt; (doc 'ns-auto-export)
+
+;; ns-auto-export
+;; Type: Macro
+;; Namespace: root
+;; 
+;; Usage: (ns-auto-export symbol)
+;; 
+;; Macro that takes a symbol, the symbol of the current namespace, and writes an
+;; ns-export statement that includes all symbols defined in the namespaces scope
+;; that do not begin with the '-' symbol. This is a convenience method that allows
+;; user to avoid enumerating all symbols while also introducing a mechanism to
+;; exclude symbols from being excluded. Note, if using ns-auto-export, it is
+;; not possible to export a symbol that is already defined in another namespace,
+;; if said functionality is desired the symbol must be manually exported with
+;; another ns-export statement; ns-auto-export can be used in conjunction with
+;; ns-export.
+;; 
+;; Section: namespace
+;; 
+;; 
+</code></pre></div></div>
+
+<h3 id="ns-import">ns-import</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$&gt; (doc 'ns-import)
+
+;; ns-import
+;; Type: Macro
+;; Namespace: root
+;; 
+;; Usage: (ns-import namespace)
+;; 
+;; Import any symbols exported from namespace into the current namespace.
+;; 
+;; Section: namespace
+;; 
+;; 
+</code></pre></div></div>
+
+<h2 id="an-example-using-exports-and-imports">An example using exports and imports</h2>
+
+<p>Exporting symbols from a given namespace allows those symbols to be imported
+directly into other namespaces. This allows referencing def’d symbols without
+the aforementioned :: syntax.</p>
+
+<p><code class="language-plaintext highlighter-rouge">add1.lisp</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(ns-push 'add1)
+
+(defn add1 (x)
+	(+ x 1))
+
+(ns-export '(add1))
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">add2.lisp</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(load "./add1.lisp")
+(ns-push 'add2)
+(ns-import 'add1) ;; ns-import call is after call to load.
+
+(defn -make-adder (to-add iterations)
+	(loop (add iter) (to-add 0) (if (&gt; iter (- iterations 1)) add (recur (add1 add) (add1 iter)))))
+
+(defn add2 (x)
+	(-make-adder x 2))
+
+(ns-auto-export 'add2)
+(ns-pop)
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ns-test.lisp</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/env sl-sh
+
+(load "./add2.lisp")
+(ns-push 'ns-test)
+(ns-import 'add2)
+
+(println (add2 8))
+
+;; -make-adder can only be accessed through the add2 namespace, it was not
+;; exported with ns-auto-export because it is prefixed with '-'.
+(println ((fn (x) (add2::-make-adder x 5)) 8))
+
+(ns-pop)
+</code></pre></div></div>
+
+<p>result:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./ns-test.lisp
+
+;; 10
+;; 13
+</code></pre></div></div>
+
+<h2 id="helpers">Helpers</h2>
+<h3 id="the-load-path">the load path</h3>
+<p>The load path refers to the sl-sh global variable <code class="language-plaintext highlighter-rouge">*load-path*</code>. This variable
+controls where lisp files are loaded from. By default, calls to load work for
+absolute and relative links, this is why in the previous examples, lines like:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(load "./add1.lisp")
+</code></pre></div></div>
+<p>work fine. The entrypoint script is given a path directly to a file. Lisp
+files on the load path can be accessed by name, without the need for directory
+syntax like:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(load "my-helper-script.lisp")
+</code></pre></div></div>
+<p>sl-sh looks for the file named <code class="language-plaintext highlighter-rouge">my-helper-script.lisp</code> in each directory on
+the load path. By default the load path is equivalent to the list
+`(“~/.config/sl-sh/”). To add a new directory to the load-path run:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(set! *load-path* (iterator::append-to! *load-path* '("/path/to/new/directory/")))'))
+</code></pre></div></div>
+
+<p>The load path can also be overriden entirely with a custom set of directories:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(set! *load-path* '("/path/to/dir1/" "/path/to/dir2/"))
+</code></pre></div></div>
+
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> Global variables def’d in sl-sh by convention are surrouned by the asterisk symbol, *, on both sides, these are called earmuffs.</div>
+
+<h3 id="mkli---make-lisp">mkli - MaKe LIsp</h3>
+<p>a function that creates an executable sl-sh script for you.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./mkli.lisp
+
+;; mkli
+;; Type: Lambda
+;; Namespace: shell
+;; 
+;; Usage: (mkli filepath [namespace] [body])
+;;     "make lisp".creates a sl-sh shell script. given a file, a namespace (optional 2nd arg), and a string
+;;     to populate as the body (optional 3rd arg), make a canonincal blank sl-sh script
+;;     complete with all the relevant imports, and boilerplate namespace code taken
+;;     care of to speed up development.
+;; 
+;;     It is recommended all calls to load are done at the top of the file (before
+;;     the calls to ns-enter or ns-create, in case a library sl-sh script calls a
+;;     library sl-sh script that created a namespace and forgot to call ns-pop.
+;;     This ensures the exported symbols for the first library's scripts
+;;     namespace are importable in the executing script's namespace.
+;; 
+;;     All calls to ns-import happen after a ns is created and entered so the
+;;     current namespace is the namespace that houses all the imported symbols.
+;; 
+;;     ns-export must be called before ns-pop so the appropriate symbols are
+;;     associated namespace, the one in which the symbols were created.
+;; 
+;;     Section: scripting
+;; 
+;;     Example:
+;; 
+;; (defn test-file (code file)
+;;     (let ((tmp (open file :read)))
+;;       (assert-equal
+;;         code
+;;         (read-all tmp))
+;;       (close tmp))
+;; 
+;; (with-temp (fn (tmp-dir)
+;;     (let ((tmp0 (get-temp-file tmp-dir))
+;;           (tmp1 (get-temp-file tmp-dir))
+;;           (tmp2 (get-temp-file tmp-dir)))
+;;         (mkli tmp0 'mytest (println "hello test"))
+;;         (test-file
+;;             '#((ns-push 'mytest)
+;;                 (ns-import 'shell)
+;;                 (println "hello test")
+;;                 (ns-auto-export 'mytest)
+;;                 (ns-pop))
+;;             tmp0)
+;;         (mkli tmp1 'mytest)
+;;         (test-file
+;;             '#((ns-push 'mytest)
+;;                 (ns-import 'shell)
+;;                 (ns-auto-export 'mytest)
+;;                 (ns-pop))
+;;             tmp1)
+;;         (mkli tmp2)
+;;         (test-file
+;;             '#(ns-import 'shell)
+;;             tmp2))))
+;; 
+;; 
+;; 
+</code></pre></div></div>
+<p>use mkli immediately once something in the repl starts to become unwieldy.
+For instance, if the following command is executed:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(for file in (map str-trim (str-split :whitespace (str (find $PWD -iname "*.log")))) (do (println "File: " file)))
+</code></pre></div></div>
+<p>All log files in current and child directories will be printed. If the desired
+goal is to do some custom processing on each file. Next execute:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkli find-logs.lisp logfinder *last-command*
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">*last-command*</code> is a global sl-sh variable (note the earmuffs!) that is always
+set to the last run command. Passing it along with the two other parameters
+to <code class="language-plaintext highlighter-rouge">mkli</code> produces:
+<code class="language-plaintext highlighter-rouge">find-logs.lisp</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/env sl-sh
+
+(ns-push 'logfinder)
+(ns-import 'shell)
+
+(for file in (map str-trim (str-split :whitespace (str (find $PWD -iname "*.log")))) (do (println "File: " file)))
+
+(ns-auto-export 'logfinder)
+(ns-pop)
+</code></pre></div></div>
+<p>This pattern allows for easily transitioning from workshopping commands on the
+shell to creating executable shell scripts when more complex syntax is necessitated.</p>
+
+<p><a href="https://sl-sh-dev.github.io">&lt;– back to the docs</a></p>
+
+
+
+    <div class="tags">
+        
+        <b>Tags: </b>
+        
+        
+        
+        <a href="https://sl-sh-dev.github.io/sl-sh/tag_documentation.html" class="btn btn-default navbar-btn cursorNorm" role="button">documentation</a>
+        
+        
+        
+    </div>
+
+</div>
+
+<hr class="shaded"/>
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+                2023 sl-sh. All rights reserved. <br />
+<span>Page last updated:</span> March 12, 2021<br/> Site last generated: May 8, 2023 <br />
+<p><img width="50em" src="images/sl-sh-icon.png" alt="sl-sh-icon"/></p>
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>

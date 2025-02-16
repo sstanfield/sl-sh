@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["GlobOutput"],"fn":["expand_glob"]};

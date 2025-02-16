@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content="documentation,  forms, sl-sh, examples, api, standard library">
+<title>Sl-sh Standard Library | sl-sh documentation</title>
+<link rel="stylesheet" href="css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+<link rel="stylesheet" href="css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="css/customstyles.css">
+<link rel="stylesheet" href="css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/jquery.navgoco.min.js"></script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
+<script src="js/toc.js"></script>
+<script src="js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="sl-sh documentation" href="https://sl-sh-dev.github.io/feed.xml">
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="index.html">&nbsp;<span class="projectTitle"> sl-sh documentation</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="mydoc_slshrc_config.html#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/sl-sh-dev/sl-sh" target="_blank" rel="noopener">GitHub</a></li>
+                
+                
+                
+                <li><a href="https://sl-sh-dev.github.io/sl-sh/news">News</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                <li class="dropdown">
+                    <a href="mydoc_slshrc_config.html#" class="dropdown-toggle" data-toggle="dropdown">Contact<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li><a href="https://gitter.im/sl-sh/community" target="_blank" rel="noopener">Gitter</a></li>
+                        
+                        
+                        
+                        <li><a href="https://github.com/sl-sh-dev/sl-sh/issues" target="_blank" rel="noopener">GitHub Issues</a></li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                <!--comment out this block if you want to hide search-->
+                <li>
+                    <!--start search-->
+                    <div id="search-demo-container">
+                        <input type="text" id="search-input" placeholder="search...">
+                        <ul id="results-container"></ul>
+                    </div>
+                    <script src="js/jekyll-search.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            SimpleJekyllSearch.init({
+                                searchInput: document.getElementById('search-input'),
+                                resultsContainer: document.getElementById('results-container'),
+                                dataSource: 'search.json',
+                                searchResultTemplate: '<li><a href="https://sl-sh-dev.github.io/sl-sh/{url}" title="Sl-sh Standard Library">{title}</a></li>',
+                    noResultsText: 'No results found.',
+                            limit: 10,
+                            fuzzy: true,
+                    })
+                    </script>
+                    <!--end search-->
+                </li>
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle">sl-sh doc 0.9.70</li>
+  
+  
+  
+      
+  
+  <li>
+      <a title="Overview" href="mydoc_slshrc_config.html#">Overview</a>
+      <ul>
+          
+          
+          
+          <li><a title="Get started" href="index.html">Get started</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Introduction" href="mydoc_introduction.html">Introduction</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Support" href="mydoc_support.html">Support</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="FAQ" href="mydoc_faq_layout.html">FAQ</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Lisp" href="mydoc_slshrc_config.html#">Lisp</a>
+      <ul>
+          
+          
+          
+          <li><a title="Documentation" href="mydoc_documentation.html">Documentation</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Reader" href="mydoc_reader.html">Reader</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Standard Library" href="mydoc_slshrc_config.html#">Standard Library</a>
+      <ul>
+          
+          
+          
+          <li><a title="Sl-sh Forms" href="mydoc_api.html">Sl-sh Forms</a></li>
+          
+          
+          
+          <li class="subfolders">
+              <a title="Quick Links" href="mydoc_slshrc_config.html#">Quick Links</a>
+              <ul>
+                  
+                  
+                  
+                  <li><a title="char" href="mydoc_api.html#char-body">char</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="conditional" href="mydoc_api.html#conditional-body">conditional</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="core" href="mydoc_api.html#core-body">core</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="file" href="mydoc_api.html#file-body">file</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="globals" href="mydoc_api.html#globals-body">globals</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="hashmap" href="mydoc_api.html#hashmap-body">hashmap</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="iterator" href="mydoc_api.html#iterator-body">iterator</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="logger" href="mydoc_api.html#logger-body">logger</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="math" href="mydoc_api.html#math-body">math</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="namespace" href="mydoc_api.html#namespace-body">namespace</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="pair" href="mydoc_api.html#pair-body">pair</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="pair-ext" href="mydoc_api.html#pair-ext-body">pair-ext</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="random" href="mydoc_api.html#random-body">random</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="regex" href="mydoc_api.html#regex-body">regex</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="root" href="mydoc_api.html#root-body">root</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="scripting" href="mydoc_api.html#scripting-body">scripting</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="sequence" href="mydoc_api.html#sequence-body">sequence</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="shell" href="mydoc_api.html#shell-body">shell</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="stats" href="mydoc_api.html#stats-body">stats</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="string" href="mydoc_api.html#string-body">string</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="struct" href="mydoc_api.html#struct-body">struct</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="system" href="mydoc_api.html#system-body">system</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="test" href="mydoc_api.html#test-body">test</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="threading-macros" href="mydoc_api.html#threading-macros-body">threading-macros</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="type" href="mydoc_api.html#type-body">type</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="vector" href="mydoc_api.html#vector-body">vector</a></li>
+                  
+                  
+                  
+              </ul>
+          </li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Shell" href="mydoc_slshrc_config.html#">Shell</a>
+      <ul>
+          
+          
+          
+          <li><a title="Shell Reader" href="mydoc_shellreader.html">Shell Reader</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Namespaces" href="mydoc_namespaces.html">Namespaces</a></li>
+          
+          
+          
+          
+          
+          
+          <li class="active"><a title="Slshrc config" href="mydoc_slshrc_config.html">Slshrc config</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Working with files" href="mydoc_files.html">Working with files</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Endfix notation on the REPL" href="mydoc_endfix.html">Endfix notation on the REPL</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Scripting" href="mydoc_scripting.html">Scripting</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Pipes" href="mydoc_pipes.html">Pipes</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Release Notes" href="mydoc_slshrc_config.html#">Release Notes</a>
+      <ul>
+          
+          
+          
+          <li><a title="1.0 Blockers" href="mydoc_blockers_1_0.html">1.0 Blockers</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Contributing" href="mydoc_slshrc_config.html#">Contributing</a>
+      <ul>
+          
+          
+          
+          <li><a title="Pull Requests" href="mydoc_pull_requests.html">Pull Requests</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+   <h1 class="post-title-main">Sl-sh Standard Library</h1>
+</div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+
+   <h1 id="slshrc-file">slshrc file</h1>
+
+<p>The config directory is ~/.config/sl-sh.  The binary will have a built in config (lisp/slshrc),
+you can put your own slshrc file the config directory (~/.config/sl-sh).
+See the file slshrc.example (at least look at this one), lisp/slshrc (this is the built in config)
+or the contrib directory for example configs (contrib/gpwclark/ contains an example of using bash
+completions with sl-sh as well as other handy things).  The other files in lisp/ are also built
+into the binary but versions can be copied to ~/.config/sl-sh and those will be used instead.
+These files contain the lisp code for the shell.</p>
+
+<h1 id="prompt-and-command-processing">prompt and command processing</h1>
+
+<h3 id="promptps1">Prompt/PS1</h3>
+<p>The command prompt for the shell is customize-able via the <code class="language-plaintext highlighter-rouge">__prompt</code> function. The
+function takes no arguments and expects a string to be returned. The canonical
+prompt in sl-sh would simply be:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(defn __prompt()
+		(str "$ "))
+</code></pre></div></div>
+
+<h3 id="command-processing">Command processing</h3>
+<p>sl-sh offers two “hooks” for intercepting commands being executed:
+<code class="language-plaintext highlighter-rouge">__completion_hook</code> and <code class="language-plaintext highlighter-rouge">__exec_hook</code>.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">__completion_hook</code> is used to aid in tab completions. It takes a varargs and
+expects a list of string to be returned. For convenience :path and :default
+are also allowable return values. :path represents the list of paths and
+:default is :path concatenated with all valid sl-sh forms.</li>
+  <li><code class="language-plaintext highlighter-rouge">__exec_hook</code> is an intercept function for every command sent to sl-sh. The
+function takes a string and expects a string or list to be returned. The string
+returned will be evaluated as a sl-sh form and a list will just be evaluated.
+This is useful if you want to check all input and modify said input if it meets
+certain conditions. For instance, if one were to decide that inputting any
+valid path to sl-sh should result in the shell changing the current working
+directory to that directory:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  (defn change-dir-if-arg-is-dir (cmd)
+          (if (fs-dir? cmd)
+              (str "cd " cmd)
+              cmd))
+
+  (defn __exec_hook (cmd-to-execute)
+      (let ((args-list (str-split " " cmd-to-execute)))
+              (match (length args-list)
+                  (1 (change-dir-if-arg-is-dir (first args-list)))
+                  (nil cmd-to-execute))))
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h1 id="history">history</h1>
+
+<h3 id="readline-functionality">Readline Functionality</h3>
+<p>sl-sh uses a readline-like library to make using the shell ergonomic. Like bash
+there are two “modes” vi and emacs, the default is emacs. Setting the mode
+explicitly to emacs:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(hash-set! *repl-settings* :keybindings :emacs)
+</code></pre></div></div>
+<p>Or setting the mode explicitly to vi:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(hash-set! *repl-settings* :keybindings :vi)
+</code></pre></div></div>
+<p>Setting the max number of history items (default 1000):</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(hash-set! *repl-settings* :max-history 1000)
+</code></pre></div></div>
+
+<ul>
+  <li>the history file is located at <code class="language-plaintext highlighter-rouge">~/.local/share/sl-sh/history</code></li>
+</ul>
+
+<h1 id="customizations">customizations</h1>
+
+<h4 id="vi-mods">vi mods</h4>
+
+<p>For the convenience of vi users the vi escape char can be changed:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(hash-set! *repl-settings* :vi_esc_sequence '("jk" 200))
+</code></pre></div></div>
+<p>The first argument is the list of chars that indicate the esc sequence and the
+seconds argument is the number of ms the readline library will wait to receive
+the full escape sequence.</p>
+
+<p>Because vi uses modal editing and because modal editing has state the readline
+library allows modifying the last line of PS1 in any way the user desires The
+following four settings apply:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(hash-set! *repl-settings* :vi-insert-prompt-prefix "")
+	(hash-set! *repl-settings* :vi-insert-prompt-suffix "")
+	(hash-set! *repl-settings* :vi-normal-prompt-prefix "")
+	(hash-set! *repl-settings* :vi-normal-prompt-suffix "")
+</code></pre></div></div>
+<p>In practice it is useful to extend the last line of PS1 in one or both of vi’s
+editing modes to be prefixed or suffixed with strings To provide context to
+the user. The -suffix commands are especially useful if using foreground or
+background color codes and restoration to the default is desired.</p>
+
+<h3 id="look-and-feel">Look and Feel</h3>
+<p>If syntax highlighting is desired it can be explicitly turned on:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(syntax-on)
+</code></pre></div></div>
+<p>The distinction is made between, sl-sh forms, invalid commands, valid
+executables, and any token that is not a sl-sh form and not the first string
+input as a command.</p>
+
+<p>Default colors are as follows:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(def tok-slsh-form-color shell::*fg-blue*)
+	(def tok-slsh-fcn-color shell::*fg-cyan*)
+	(def tok-default-color shell::*fg-default*)
+	(def tok-sys-command-color shell::*fg-white*)
+	(def tok-sys-alias-color shell::*fg-default*)
+	(def tok-string-color shell::*fg-magenta*)
+	(def tok-invalid-color shell::*fg-red*)
+</code></pre></div></div>
+
+<p>These symbols are exported from the shell namespace and can be set.  Example:
+(set tok-sys-alias-color shell::<em>fg-green</em>)</p>
+
+<h4 id="color">Color</h4>
+
+<p>The following
+colors are defined in the shell namespace:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(def *fg-default* "\x1b[39m")
+	(def *fg-black* "\x1b[30m")
+	(def *fg-red* "\x1b[31m")
+	(def *fg-green* "\x1b[32m")
+	(def *fg-yellow* "\x1b[33m")
+	(def *fg-blue* "\x1b[34m")
+	(def *fg-magenta* "\x1b[35m")
+	(def *fg-cyan* "\x1b[36m")
+	(def *fg-white* "\x1b[37m")
+
+	(def *bg-default* "\x1b[49m")
+	(def *bg-black* "\x1b[40m")
+	(def *bg-red* "\x1b[41m")
+	(def *bg-green* "\x1b[42m")
+	(def *bg-yellow* "\x1b[43m")
+	(def *bg-blue* "\x1b[44m")
+	(def *bg-magenta* "\x1b[45m")
+	(def *bg-cyan* "\x1b[46m")
+	(def *bg-white* "\x1b[47m")
+</code></pre></div></div>
+<p>Functions that take rgb values are also defined <code class="language-plaintext highlighter-rouge">(fg-color-rgb)</code> and
+<code class="language-plaintext highlighter-rouge">(bg-color-rgb)</code>. For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	(println
+		(str
+			(fg-color-rgb 255 0 0)
+			(bg-color-rgb 0 0 255)
+			"I have red text and a blue background"
+			shell::*fg-default*
+			shell::*bg-default*))
+</code></pre></div></div>
+<p>Prints this “truth-telling” string while also not changing any chars printed after
+by setting the fg and bg back to the default.</p>
+
+
+    <div class="tags">
+        
+        <b>Tags: </b>
+        
+        
+        
+        <a href="https://sl-sh-dev.github.io/sl-sh/tag_documentation.html" class="btn btn-default navbar-btn cursorNorm" role="button">documentation</a>
+        
+        
+        
+    </div>
+
+</div>
+
+<hr class="shaded"/>
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+                2023 sl-sh. All rights reserved. <br />
+<span>Page last updated:</span> March 1, 2021<br/> Site last generated: May 8, 2023 <br />
+<p><img width="50em" src="images/sl-sh-icon.png" alt="sl-sh-icon"/></p>
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>

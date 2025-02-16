@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["divide_words_by_space","last_non_ws_char_was_not_backslash"],"struct":["DefaultEditorRules","DefaultNewlineRule","DefaultWordDivideRule"],"trait":["EditorRules","NewlineRule","WordDivideRule"]};

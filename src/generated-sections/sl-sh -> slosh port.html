@@ -1,0 +1,732 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>sl-sh -&gt; slosh port - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="tracking-function-parity-between-sl-sh-and-slosh"><a class="header" href="#tracking-function-parity-between-sl-sh-and-slosh">tracking function Parity Between sl-sh and slosh</a></h1>
+<h2 id="forms-yet-to-be-implemented-325"><a class="header" href="#forms-yet-to-be-implemented-325">Forms yet to be implemented: 325</a></h2>
+<h2 id="forms-implemented-or-skipped-196"><a class="header" href="#forms-implemented-or-skipped-196">Forms implemented or skipped: 196</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>?</th><th>Slosh Form</th><th>Notes</th></tr></thead><tbody>
+<tr><td>✅</td><td><code>%                               </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*                               </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*active-ns*                     </code></td><td>Renamed to: <code>*ns*</code></td></tr>
+<tr><td>✅</td><td><code>*bg-black*                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*bg-blue*                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*bg-cyan*                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*bg-default*                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*bg-green*                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*bg-magenta*                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*bg-red*                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*bg-white*                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*bg-yellow*                     </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>*collection-src*                </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>*core-src*                      </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>✅</td><td><code>*euid*                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*euler*                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-black*                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-blue*                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-cyan*                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-default*                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-green*                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-magenta*                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-red*                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-white*                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*fg-yellow*                     </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>*getopts-log*                   </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>*getopts-src*                   </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>*iterator-src*                  </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>❌</td><td><code>*last-command*                  </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*last-status*                   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*lib-src*                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*load-path*                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>*ns*                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*ns-exports*                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*pi*                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*read-table*                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*read-table-terminal*           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*repl-settings*                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*run-script*                    </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>*seq-src*                       </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>*shell-read-src*                </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>*shell-src*                     </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>*slsh-std-src*                  </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>*slshrc-src*                    </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>❌</td><td><code>*std-lib-exported-syms-hash*    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*std-lib-namespaces*            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*std-lib-syms-hash*             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*stderr*                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*stdin*                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*stdout*                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>*string-read-table*             </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>*struct-src*                    </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>*test-src*                      </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>✅</td><td><code>*uid*                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>=+                              </code></td><td></td></tr>
+<tr><td>✅</td><td><code>-                               </code></td><td></td></tr>
+<tr><td>❌</td><td><code>-&gt;                              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>-&gt;&gt;                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>/                               </code></td><td></td></tr>
+<tr><td>❌</td><td><code>2pow                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>&lt;                               </code></td><td></td></tr>
+<tr><td>✅</td><td><code>&lt;=                              </code></td><td></td></tr>
+<tr><td>✅</td><td><code>=                               </code></td><td></td></tr>
+<tr><td>✅</td><td><code>&gt;                               </code></td><td></td></tr>
+<tr><td>✅</td><td><code>&gt;=                              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>^ns-stack-xyz^                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>__prompt                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>abs                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>alias                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>alias?                          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>and                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>and-let*                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>append                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>append-iter                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>append-to!                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>apply                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>apply-defaults                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>arccos                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>arcsin                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>arctan                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>args                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>arity-zero-can-not-be-required  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>assert-equal                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>assert-error                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>assert-error-msg                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>assert-false                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>assert-includes                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>assert-not-equal                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>assert-not-includes             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>assert-true                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>back-quote                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>bg                              </code></td><td></td></tr>
+<tr><td>✅</td><td><code>bg-color-rgb                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>block                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>boolean?                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>builtin?                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>butlast                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>caaar                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>caadr                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>caar                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cadar                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cadddr                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>caddr                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cadr                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>callable?                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>car                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>cd                              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cdaar                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cdadr                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cdar                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cddar                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cdddr                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cddr                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>cdr                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>ceil                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>chain                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>chain-and                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>chain-when                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>char-&gt;int                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>char-lower                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>char-upper                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>char-whitespace?                </code></td><td></td></tr>
+<tr><td>✅</td><td><code>char?                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>check                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>check-custom                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>clear-dirs                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>close                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>codepoints                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>collate-fs-changes              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>collect                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>collect-copy                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>collect-str                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>collect-vec                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>cond                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>consume-comment                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>consume-whitespace              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>cos                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>dec!                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>def                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>def?                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>defmacro                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>defn                            </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>defstruct                       </code></td><td>Will consider other implementations if struct-like functionality if desired.</td></tr>
+<tr><td>☑️</td><td><code>deftrait                        </code></td><td>Will consider other implementations if trait-like functionality is desired.</td></tr>
+<tr><td>❌</td><td><code>dirs                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>do                              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>do-unstr                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>doc                             </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>doc-raw                         </code></td><td>Possible now with command: (get-prop 'symbol :doc-string)</td></tr>
+<tr><td>✅</td><td><code>dotimes                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>dotimes-i                       </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>double-ended-iter?              </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>double-ended-iterator           </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>✅</td><td><code>dyn                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>empty-seq?                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>empty?                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>enforce-constrains              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>epoch                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>eprint                          </code></td><td>Renamed to: <code>epr</code></td></tr>
+<tr><td>✅</td><td><code>eprintln                        </code></td><td>Renamed to: <code>eprn</code></td></tr>
+<tr><td>✅</td><td><code>err                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>err&gt;                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>err&gt;&gt;                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>err&gt;null                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>error-stack-off                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>error-stack-on                  </code></td><td></td></tr>
+<tr><td>✅</td><td><code>eval                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>exit                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>exp                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>expand-brace                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>expand-dollar                   </code></td><td></td></tr>
+<tr><td>✅</td><td><code>expand-macro                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>expand-macro-all                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>expand-macro1                   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>expand-tilde                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>export                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>false?                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>falsey?                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>fc                              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>fg                              </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fg-color-rgb                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>file-iter                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>file?                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>filter                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>filter-iter                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>find-symbol                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>first                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>first-quartile                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>fix-one-arg-bindings            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>flatten-args                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>float-&gt;int                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>float?                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>floor                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>flush                           </code></td><td>Renamed to: <code>fflush</code></td></tr>
+<tr><td>✅</td><td><code>fn                              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>fn-to-predicate                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>fncall                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>for                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>for-i                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>fork                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>format                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>fract                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-accessed                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-base                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-crawl                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-dir?                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-exists?                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-file?                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-len                          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-modified                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>fs-notify                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-parent                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-rm                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>fs-same?                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>func?                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>gensym                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>get-arity                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>get-dirs                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>get-env                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>get-error                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>get-home                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>get-next-params                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>get-pid                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>get-rgb-seq                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>get-temp                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>get-temp-file                   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>get_pwd                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts-bad-first-arg           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts-bad-option-arity        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts-help                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts-help--options-map-is-map</code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts-illegal-option          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts-invalid-type-function   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts-options-map-is-map      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>getopts-type-error-message      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>glob                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>handle-last-command             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>handle-process                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>hash-clear!                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>hash-get                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>hash-haskey                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>hash-keys                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>hash-remove!                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>hash-set!                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>hash?                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>history-context                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>history-empty?                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>history-length                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>history-nth                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>history-push                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>history-push-throwaway          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>identity                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>if                              </code></td><td></td></tr>
+<tr><td>✅</td><td><code>import                          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>in?                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>inc!                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>int-&gt;float                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>int?                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>interleave                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>interleave-iter                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>intern-stats                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>is-getopts-option-string        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>is-multi-char-arg               </code></td><td></td></tr>
+<tr><td>❌</td><td><code>is-multi-single-char-args       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>is-single-char-arg              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>iter                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>iter-or-single                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>iter?                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>iterator                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>jobs                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>join                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>lambda?                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>last                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>len0?                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>len&gt;0?                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>length                          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>let                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>let*                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>let-env                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>list                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>list-iter                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>list-vec?                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>list?                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>lists=                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>lne                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>load                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>log                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>log2                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>logger                          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>loop                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>macro                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>macro?                          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>make-hash                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>make-hash-with-keys             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>make-regex                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>make-vec                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>map                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>map-iter                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>match                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>max                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>maybe-docstring?                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>maybe-glob?                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>mean                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>median                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>meld                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>meld-iter                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>meta-add-tags                   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>meta-column-no                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>meta-file-name                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>meta-line-no                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>meta-tag?                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>method                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>min                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>mkli                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>mode                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>next!                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>nil?                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>non-empty-seq?                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>none?                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>not                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>ns-auto-export                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>ns-create                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>ns-enter                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>ns-exists?                      </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>ns-export                       </code></td><td>Everything in slosh is exported by default.</td></tr>
+<tr><td>✅</td><td><code>ns-import                       </code></td><td>Renamed to: <code>import</code></td></tr>
+<tr><td>❌</td><td><code>ns-list                         </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>ns-pop                          </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>☑️</td><td><code>ns-push                         </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>❌</td><td><code>ns-symbols                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>nsubstitute!                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>nth                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>null                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>nyi                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>occurs                          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>open                            </code></td><td>Renamed to: <code>fopen</code></td></tr>
+<tr><td>✅</td><td><code>or                              </code></td><td></td></tr>
+<tr><td>❌</td><td><code>out-err&gt;                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>out-err&gt;&gt;                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>out-err&gt;null                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>out&gt;                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>out&gt;&gt;                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>out&gt;null                        </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>pair=                           </code></td><td>Do not need separate equals specifier for pair.</td></tr>
+<tr><td>✅</td><td><code>pair?                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>path_list_trunc                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>pid                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>pipe                            </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>pipe-err                        </code></td><td>Not necessary in slosh.</td></tr>
+<tr><td>❌</td><td><code>popd                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>pow                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>print                           </code></td><td>Renamed to: <code>pr</code></td></tr>
+<tr><td>☑️</td><td><code>print-error                     </code></td><td>Now one drops in to the debugger when an error occurs.</td></tr>
+<tr><td>✅</td><td><code>println                         </code></td><td>Renamed to: <code>prn</code></td></tr>
+<tr><td>✅</td><td><code>probool                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>process?                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>prompt                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>pushd                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>qsort                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>quote                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>random                          </code></td><td></td></tr>
+<tr><td>✅</td><td><code>random-str                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>range                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>range-iter                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>re-color                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>re-find                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>re-find-all                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>re-match                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>re-replace                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>read                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>read-all                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>read-line                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>read-list                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>read-string                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>read-var                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>read-var-bracket                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>reader-macro-dot                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>reap-jobs                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>recur                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>redir&amp;&gt;                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>redir&amp;&gt;&gt;                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>redir2&gt;                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>redir2&gt;&gt;                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>redir&gt;                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>redir&gt;&gt;                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>reduce                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>reduce-times                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>ref                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>regex?                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>register-alias                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>repeat                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>repeat-iter                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>repl                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>repl-eof                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>repl-line                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>required-argument               </code></td><td></td></tr>
+<tr><td>✅</td><td><code>rest                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>return-from                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>reverse                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>reverse-iter                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>rm-esc                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>round                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>run-bg-first                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>run-bg-prep-args                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>run-example                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>run-ns-example                  </code></td><td></td></tr>
+<tr><td>✅</td><td><code>seq-for                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>seq?                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>set!                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>set-dirs-max                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>set_prompt_tail                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>setnth!                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>setup-chainer                   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>shell-read                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>shell-read-int                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>sin                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>single-iter                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>sleep                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>slice                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>slice-iter                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>some?                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>sqrt                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>std-dev                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-&gt;float                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-&gt;int                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-append                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-bytes                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-cat-list                    </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-clear!                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-contains                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-empty?                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-iter-empty?                 </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-iter-next!                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-iter-peek                   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-iter-start                  </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-lower                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-ltrim                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-map                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-nth                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-push!                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-replace                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-rsplit                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-rsplitn                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>str-rtrim                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-split                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-splitn                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-starts-with                 </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-sub                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-trim                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>str-upper                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>string-iter                     </code></td><td></td></tr>
+<tr><td>✅</td><td><code>string?                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>substitute                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>summary-stats                   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>supported-types-map             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>sym                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>sym-&gt;str                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>symbol?                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>syntax-off                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>syntax-on                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>sys-apply                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>sys-command?                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>syscall                         </code></td><td>Renamed to: <code>sh</code></td></tr>
+<tr><td>❌</td><td><code>take                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>take-iter                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>tan                             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>temp-dir                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>third-quartile                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>time                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>timer                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>to-degrees                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>to-radians                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>tok-default-color               </code></td><td></td></tr>
+<tr><td>✅</td><td><code>tok-invalid-color               </code></td><td></td></tr>
+<tr><td>✅</td><td><code>tok-slsh-fcn-color              </code></td><td></td></tr>
+<tr><td>✅</td><td><code>tok-slsh-form-color             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>tok-string-color                </code></td><td></td></tr>
+<tr><td>✅</td><td><code>tok-sys-alias-color             </code></td><td></td></tr>
+<tr><td>✅</td><td><code>tok-sys-command-color           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>token-delim                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>true?                           </code></td><td></td></tr>
+<tr><td>✅</td><td><code>type                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>umask                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>unalias                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>undef                           </code></td><td></td></tr>
+<tr><td>❌</td><td><code>unexport                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>unregister-alias                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>unwind-protect                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>valid-first-arg?                </code></td><td></td></tr>
+<tr><td>❌</td><td><code>values                          </code></td><td></td></tr>
+<tr><td>❌</td><td><code>values-length                   </code></td><td></td></tr>
+<tr><td>❌</td><td><code>values-nth                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>values?                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>var                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>var-or-env                      </code></td><td></td></tr>
+<tr><td>✅</td><td><code>vec                             </code></td><td></td></tr>
+<tr><td>❌</td><td><code>vec-clear!                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>vec-empty?                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>vec-insert!                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>vec-iter                        </code></td><td></td></tr>
+<tr><td>❌</td><td><code>vec-nth                         </code></td><td></td></tr>
+<tr><td>✅</td><td><code>vec-pop!                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>vec-push!                       </code></td><td></td></tr>
+<tr><td>❌</td><td><code>vec-remove!                     </code></td><td></td></tr>
+<tr><td>❌</td><td><code>vec-set!                        </code></td><td></td></tr>
+<tr><td>✅</td><td><code>vec-slice                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>vec?                            </code></td><td></td></tr>
+<tr><td>☑️</td><td><code>verify-all-options-valid        </code></td><td>Leftover from getopts implementation.</td></tr>
+<tr><td>☑️</td><td><code>verify-arity                    </code></td><td>Leftover from getopts implementation.</td></tr>
+<tr><td>✅</td><td><code>version                         </code></td><td></td></tr>
+<tr><td>❌</td><td><code>wait                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>when                            </code></td><td></td></tr>
+<tr><td>❌</td><td><code>with-padding                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>with-temp                       </code></td><td></td></tr>
+<tr><td>✅</td><td><code>with-temp-file                  </code></td><td></td></tr>
+<tr><td>❌</td><td><code>write-line                      </code></td><td></td></tr>
+<tr><td>❌</td><td><code>write-string                    </code></td><td></td></tr>
+<tr><td>✅</td><td><code>xar!                            </code></td><td></td></tr>
+<tr><td>✅</td><td><code>xdr!                            </code></td><td></td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../src/generated-sections/vector.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../slosh-rust-docs/doc/slosh/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../src/generated-sections/vector.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../slosh-rust-docs/doc/slosh/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

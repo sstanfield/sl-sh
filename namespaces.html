@@ -1,0 +1,344 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Namespaces - Slosh Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Slosh Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="namespaces"><a class="header" href="#namespaces">Namespaces</a></h1>
+<h2 id="description"><a class="header" href="#description">Description</a></h2>
+<p>Namespaces are compiler bookkeeping for organizing global symbols.  When in a namespace then any symbols that are defined will have the current NAMESPACE:: prepended to the symbol.  When symbols are resolved the compiler will also try to prepend the current namespace first in order to find the symbol.</p>
+<h2 id="entering-a-namespace"><a class="header" href="#entering-a-namespace">Entering a namespace</a></h2>
+<p>From code use the 'with-ns' form.</p>
+<pre><code class="language-slosh">(doc 'with-ns)
+
+;; =&gt; "Usage: (with-ns SYMBOL sexp+)
+;;    
+;;    Create a namespace and compile sexp+ within it.  Restore the previous namespace when scope ends.
+;;    THe symbol "::" will return to the "root" namespace (i.e. no namespace prepended to globals).
+;;    This will cause all globals defined to have namespace:: prepended.
+;;    This will also clear any existing imports.
+;;    
+;;    Section: core
+;;    
+;;    Example:
+;;    (with-ns test-with-ns
+;;        (def ttf (fn () '(1 2 3)))
+;;        (test::assert-equal '(1 2 3) (ttf))
+;;        (test::assert-equal '(1 2 3) (test-out::ttf)))
+;;    (test::assert-equal '(1 2 3) (test-out::ttf))
+;;    "
+</code></pre>
+<p>From the top-level REPL you can use 'ns'.</p>
+<pre><code class="language-slosh">(doc 'ns)
+
+;; =&gt; "Usage: (ns SYMBOL)
+;;    
+;;    Changes to namespace.  This is "open-ended" change and is intended for use with
+;;    the REPL prefer with-ns for scripts.
+;;    The symbol "::" will return to the "root" namespace (i.e. no namespace prepended to globals).
+;;    This will cause all globals defined to have namespace:: prepended.
+;;    This will also clear any existing imports.
+;;    
+;;    Section: core
+;;    
+;;    Example:
+;;    (ns testing)
+;;    (def x #t)
+;;    (test::assert-true x)
+;;    (ns ::)
+;;    (test::assert-true testing::x)
+;;    "
+</code></pre>
+<p>This is an open-ended namespace change intended for the repl, prefer with-ns for a scoped namespace in code.</p>
+<h2 id="imports"><a class="header" href="#imports">Imports</a></h2>
+<p>Other namespaces can be imported to allow its symbols to be accessed in a shorter form.  Use the 'import' form for this .</p>
+<pre><code class="language-slosh">(doc 'import)
+
+;; =&gt; "Usage: (import namespace [:as symbol])
+;;    
+;;    Will import a namespace.  Without an :as then all symbols in the namespace will become available in the current
+;;    namespace as if local.  With [:as symbol] then all namespace symbols become available with symbol:: prepended.
+;;    
+;;    Section: core
+;;    
+;;    Example:
+;;    (ns testing)
+;;    (def x #t)
+;;    (test::assert-true x)
+;;    (ns ::)
+;;    (test::assert-true testing::x)
+;;    (import testing)
+;;    (test::assert-true x)
+;;    (import testing :as t)
+;;    (test::assert-true t::x)
+;;    "
+</code></pre>
+<p>For instance using <code>(import iter)</code> will allow any symbols in the iter namespace to be used without prepending 'iter::'.  You can also use the <code>(import iter :as i)</code>, the :as form allows the namespace to be given a different name.  In this case the iter namespace could be replaced with 'i', (i::for ...) instead of (iter::for ...) for example.  Imports are resolved in the order they are compiled in case of conflict (i.e. the first import that resolves a symbol wins).  Imports are attached to the current namespace, changing namespaces will clear imports (note that 'with-ns' saves and restores the previous namespace with imports).</p>
+<h2 id="loading-code"><a class="header" href="#loading-code">Loading code</a></h2>
+<p>To load new code into your environment use load or run-script.</p>
+<h3 id="load"><a class="header" href="#load">Load</a></h3>
+<p>The load form should generally be preferred.  It will compile the code at compile time (vs runtime) and execute it at runtime.  This means:</p>
+<ul>
+<li>The path parameter has to be known at compile time: a string const, defined global or form that does not need local inputs.</li>
+<li>Any symbols defined in the loaded code will be known to the compiler at compile time and available for use.</li>
+</ul>
+<pre><code class="language-slosh">(doc 'load)
+
+;; =&gt; "Usage: (load path) -&gt; [last form value]
+;;    
+;;    Read and eval a file (from path- a string).  The load special form executes at compile time.
+;;    This means it's parameter must resolve at compile time.  Most of the time you will want to use
+;;    this in conjunction with 'with-ns' to namespace the contents.
+;;    Note: on it's own does nothing with namespaces.
+;;    
+;;    Section: core
+;;    
+;;    Example:
+;;    (comp-time (def test-temp-file (get-temp-file)) nil)
+;;    (defer (fs-rm test-temp-file))
+;;    (let (tst-file (fopen test-temp-file :create))
+;;        (defer (fclose tst-file))
+;;        (fprn tst-file "(with-ns test-load")
+;;        (fprn tst-file "    (defn test-fn () '(1 2 3)))"))
+;;    (load test-temp-file) ; put stuff in it's own namespace
+;;    (test::assert-equal '(1 2 3) (test-load::test-fn))
+;;    
+;;    
+;;    (with-ns test-out2
+;;        (comp-time
+;;            (def test-temp-file (get-temp-file))
+;;            (let (tst-file (fopen test-temp-file :create))
+;;                (defer (fclose tst-file))
+;;                (fprn tst-file "(defn test-fn () '(1 2 3))"))
+;;            nil)
+;;        (defer (fs-rm test-temp-file))
+;;        (load test-temp-file) ; put new stuff in current namespace
+;;        (test::assert-equal '(1 2 3) (test-fn))
+;;        (test::assert-equal '(1 2 3) (test-out2::test-fn)))
+;;    "
+</code></pre>
+<h3 id="run-script"><a class="header" href="#run-script">Run Script</a></h3>
+<p>The run-script form loads each form in the file, compiles and executes it at runtime.  This means:</p>
+<ul>
+<li>It can take any parameter since it is resolved at runtime.</li>
+<li>Globals it defines will NOT be known until after it runs at runtime.</li>
+</ul>
+<pre><code class="language-slosh">(doc 'run-script)
+
+;; =&gt; "Usage: (run-script path) -&gt; [last form value]
+;;    
+;;    Read and eval a file (from path- a string).
+;;    
+;;    Section: scripting
+;;    
+;;    Example:
+;;    (def test-load::test-fn)
+;;    (with-temp-file (fn (tmp)
+;;        (let (tst-file (fopen tmp :create))
+;;            (defer (fclose tst-file))
+;;            (fprn tst-file "(with-ns test-load")
+;;            (fprn tst-file "    (defn test-fn () '(1 2 3)))"))
+;;        (run-script tmp)
+;;        (test::assert-equal '(1 2 3) (test-load::test-fn))))
+;;    "
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="equality.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="errors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="equality.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="errors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

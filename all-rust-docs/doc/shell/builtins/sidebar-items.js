@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["cd","compress_tilde","expand_tilde","run_builtin"]};

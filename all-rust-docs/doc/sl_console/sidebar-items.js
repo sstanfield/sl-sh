@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["is_tty","terminal_size","terminal_size_pixels"],"mod":["clear","color","console","cursor","event","input","raw","screen","scroll","style"]};

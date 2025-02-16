@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["Events","EventsAndRaw","Keys","MouseTerminal"],"trait":["ConsoleMouseExt","ConsoleReadExt"]};

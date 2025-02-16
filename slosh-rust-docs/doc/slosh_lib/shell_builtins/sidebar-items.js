@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["add_shell_builtins","env_var","sh","sh_str"]};

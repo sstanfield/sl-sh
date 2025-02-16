@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["STDERR_FILENO","STDIN_FILENO","STDOUT_FILENO"],"enum":["RLimit"],"struct":["RLimitVals","Sys","UnixFileDesc","UnixPid","UnixTermSettings"],"trait":["FromFileDesc","Platform"],"type":["FileDesc","OsSignal","Pid","RlimitResource","TermSettings","mode_t"]};

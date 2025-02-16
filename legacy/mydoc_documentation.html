@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content="documentation,  documentation">
+<title>Documentation in Sl-sh | sl-sh documentation</title>
+<link rel="stylesheet" href="css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+<link rel="stylesheet" href="css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="css/customstyles.css">
+<link rel="stylesheet" href="css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/jquery.navgoco.min.js"></script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
+<script src="js/toc.js"></script>
+<script src="js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="sl-sh documentation" href="https://sl-sh-dev.github.io/feed.xml">
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="index.html">&nbsp;<span class="projectTitle"> sl-sh documentation</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button -->
+                <li><a id="tg-sb-link" href="mydoc_documentation.html#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://github.com/sl-sh-dev/sl-sh" target="_blank" rel="noopener">GitHub</a></li>
+                
+                
+                
+                <li><a href="https://sl-sh-dev.github.io/sl-sh/news">News</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                <li class="dropdown">
+                    <a href="mydoc_documentation.html#" class="dropdown-toggle" data-toggle="dropdown">Contact<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li><a href="https://gitter.im/sl-sh/community" target="_blank" rel="noopener">Gitter</a></li>
+                        
+                        
+                        
+                        <li><a href="https://github.com/sl-sh-dev/sl-sh/issues" target="_blank" rel="noopener">GitHub Issues</a></li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                <!--comment out this block if you want to hide search-->
+                <li>
+                    <!--start search-->
+                    <div id="search-demo-container">
+                        <input type="text" id="search-input" placeholder="search...">
+                        <ul id="results-container"></ul>
+                    </div>
+                    <script src="js/jekyll-search.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            SimpleJekyllSearch.init({
+                                searchInput: document.getElementById('search-input'),
+                                resultsContainer: document.getElementById('results-container'),
+                                dataSource: 'search.json',
+                                searchResultTemplate: '<li><a href="https://sl-sh-dev.github.io/sl-sh/{url}" title="Documentation in Sl-sh">{title}</a></li>',
+                    noResultsText: 'No results found.',
+                            limit: 10,
+                            fuzzy: true,
+                    })
+                    </script>
+                    <!--end search-->
+                </li>
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+<ul id="mysidebar" class="nav">
+  <li class="sidebarTitle">sl-sh doc 0.9.70</li>
+  
+  
+  
+      
+  
+  <li>
+      <a title="Overview" href="mydoc_documentation.html#">Overview</a>
+      <ul>
+          
+          
+          
+          <li><a title="Get started" href="index.html">Get started</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Introduction" href="mydoc_introduction.html">Introduction</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Support" href="mydoc_support.html">Support</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="FAQ" href="mydoc_faq_layout.html">FAQ</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Lisp" href="mydoc_documentation.html#">Lisp</a>
+      <ul>
+          
+          
+          
+          <li class="active"><a title="Documentation" href="mydoc_documentation.html">Documentation</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Reader" href="mydoc_reader.html">Reader</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Standard Library" href="mydoc_documentation.html#">Standard Library</a>
+      <ul>
+          
+          
+          
+          <li><a title="Sl-sh Forms" href="mydoc_api.html">Sl-sh Forms</a></li>
+          
+          
+          
+          <li class="subfolders">
+              <a title="Quick Links" href="mydoc_documentation.html#">Quick Links</a>
+              <ul>
+                  
+                  
+                  
+                  <li><a title="char" href="mydoc_api.html#char-body">char</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="conditional" href="mydoc_api.html#conditional-body">conditional</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="core" href="mydoc_api.html#core-body">core</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="file" href="mydoc_api.html#file-body">file</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="globals" href="mydoc_api.html#globals-body">globals</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="hashmap" href="mydoc_api.html#hashmap-body">hashmap</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="iterator" href="mydoc_api.html#iterator-body">iterator</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="logger" href="mydoc_api.html#logger-body">logger</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="math" href="mydoc_api.html#math-body">math</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="namespace" href="mydoc_api.html#namespace-body">namespace</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="pair" href="mydoc_api.html#pair-body">pair</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="pair-ext" href="mydoc_api.html#pair-ext-body">pair-ext</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="random" href="mydoc_api.html#random-body">random</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="regex" href="mydoc_api.html#regex-body">regex</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="root" href="mydoc_api.html#root-body">root</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="scripting" href="mydoc_api.html#scripting-body">scripting</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="sequence" href="mydoc_api.html#sequence-body">sequence</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="shell" href="mydoc_api.html#shell-body">shell</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="stats" href="mydoc_api.html#stats-body">stats</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="string" href="mydoc_api.html#string-body">string</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="struct" href="mydoc_api.html#struct-body">struct</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="system" href="mydoc_api.html#system-body">system</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="test" href="mydoc_api.html#test-body">test</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="threading-macros" href="mydoc_api.html#threading-macros-body">threading-macros</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="type" href="mydoc_api.html#type-body">type</a></li>
+                  
+                  
+                  
+                  
+                  
+                  <li><a title="vector" href="mydoc_api.html#vector-body">vector</a></li>
+                  
+                  
+                  
+              </ul>
+          </li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Shell" href="mydoc_documentation.html#">Shell</a>
+      <ul>
+          
+          
+          
+          <li><a title="Shell Reader" href="mydoc_shellreader.html">Shell Reader</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Namespaces" href="mydoc_namespaces.html">Namespaces</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Slshrc config" href="mydoc_slshrc_config.html">Slshrc config</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Working with files" href="mydoc_files.html">Working with files</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Endfix notation on the REPL" href="mydoc_endfix.html">Endfix notation on the REPL</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Scripting" href="mydoc_scripting.html">Scripting</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a title="Pipes" href="mydoc_pipes.html">Pipes</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Release Notes" href="mydoc_documentation.html#">Release Notes</a>
+      <ul>
+          
+          
+          
+          <li><a title="1.0 Blockers" href="mydoc_blockers_1_0.html">1.0 Blockers</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+  
+  <li>
+      <a title="Contributing" href="mydoc_documentation.html#">Contributing</a>
+      <ul>
+          
+          
+          
+          <li><a title="Pull Requests" href="mydoc_pull_requests.html">Pull Requests</a></li>
+          
+          
+          
+          
+      </ul>
+   </li>
+     
+      
+      
+      <!-- if you aren't using the accordion, uncomment this block:
+         <p class="external">
+             <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+         </p>
+         -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <div class="post-header">
+   <h1 class="post-title-main">Documentation in Sl-sh</h1>
+</div>
+
+
+
+<div class="post-content">
+
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = $(this.getAttribute('href'))
+    , scroll_target = target.offset().top
+
+  $(window).scrollTop(scroll_target - 10);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc"></div>
+
+    
+
+
+
+   <h1 id="sl-sh-documentation">Sl-sh documentation</h1>
+
+<p>The <a href="https://sl-sh-dev.github.io">sl-sh documentation</a> relies on github pages which is in turn powered by jekyll to build
+documentation. In the docs/ sub directory of the sl-sh root project all
+of the resources needed to run the docs locally can be found.</p>
+
+<h2 id="background">Background</h2>
+<p>Sl-sh relies on the <a href="https://idratherbewriting.com/documentation-theme-jekyll/index.html">Jekyll Documentation Theme</a> and utilizes a sl-sh script, <code class="language-plaintext highlighter-rouge">./docify.lisp</code> to programmatic-ally edit key
+resources and insert all of the documentation/pages/post needed to generate
+the sl-sh static documentation site.</p>
+
+<p>Read through the README.docker to get a docker container running that will
+automatically watch the docs directory and re-build the site on localhost:4000
+if any files change.</p>
+
+<p>Running the <code class="language-plaintext highlighter-rouge">./docify</code> script builds the version of the sl-sh documentation site
+for the standard library, however, it is possible to generate a version of the
+site that builds documentation for all user created forms.</p>
+
+<h2 id="writing-sl-sh-docs">Writing sl-sh docs</h2>
+<p>Sl-sh optionally allows the third argument to def/defn to be a doc string.
+Here is the doc string for the symbol <code class="language-plaintext highlighter-rouge">'for'</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"
+Loops over each element in an iterator.  Will call iter on the input object.
+bind is bound to the current element of items and is accesible
+in body. body is evaluated a number of times equal to the the number of items
+in in_list.
+
+Section: iterator
+
+Example:
+(def i 0)
+(iterator::for x in (iterator::range 11) (set! i (+ 1 i)))
+(assert-equal 11 i)
+"
+</code></pre></div></div>
+<p>Doc strings have the following structure:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[sl-sh] {[ frostig ]}: ~/dvlpmnt/slsh/ (docs/update)
+λ⸨⚙ ⸩ → doc for
+for
+Type: Macro
+Namespace: iterator
+
+Usage: (for bind in items body)
+
+
+Loops over each element in an iterator.  Will call iter on the input object.
+bind is bound to the current element of items and is accesible
+in body. body is evaluated a number of times equal to the the number of items
+in in_list.
+
+Section: iterator
+
+Example:
+(def i 0)
+(iterator::for x in (iterator::range 11) (set! i (+ 1 i)))
+(assert-equal 11 i)
+</code></pre></div></div>
+<p>First and foremost ORDER MATTERS and so do COLONS. All these sections must occur in exactly
+the order listed above and they must be on their own line and they must be
+immediately followed by a colon, no exceptions (unless you like errors).</p>
+
+<h3 id="symbol-name-type-namespace-usage">Symbol name, Type, Namespace, Usage</h3>
+<p>The Symbol name, Type, Namespace, and Usage sections are automatically
+generated. The first line printed is the symbol name. Type
+refers to the type of the symbol. Namespace refers to the namespace in which
+the symbol is declared. Usage shows how the symbol is used.</p>
+
+<p>Usage can be manually provided in the doc string if needed.</p>
+
+<h3 id="description-section-and-example">Description, Section, and Example</h3>
+<p>The paragraph/section after Usage and before Section is called the description.
+The key here is to be descriptive about what the symbol is/does/is used for/etc.</p>
+
+<p>The Section tag can be anything. Make sure to pick string values that remain
+consistent to create logical groupings for the sake of documentation
+presentation. Each section used in a doc will be heading on the user docs page.</p>
+
+<p>Optionally (but encouraged) is the Example section. Here tests that
+illustrate the use / verify correctness of the symbol can be written.
+For examples of how to use/import the sl-sh test api check out the lisp
+files in the lisp/ sub directory. Almost (soon to be all!) all of the sl-sh
+functions in the standard library include documentation.</p>
+
+<h2 id="building-personal-documentation-in-slshrc">Building personal documentation in slshrc</h2>
+
+<p>The ~/.config/sl-sh/slshrc file runs when sl-sh starts up. All forms created
+in this file are automatically added to the <code class="language-plaintext highlighter-rouge">'user</code> namespace. It is possible
+and encouraged to load and import other namespaces into your slshrc to
+create re-usable code, see the <a href="https://sl-sh-dev.github.io/mydoc_namespaces.html">namespaces</a> article
+for more context.</p>
+
+<p>Add the following code to your slshrc to automatically generate sl-sh docs
+for all user declared symbols.</p>
+
+<p>Notes:</p>
+
+<ul>
+  <li>make sure to edit the call to pushd “/path/to/sl-sh/docs” to match
+the actual path on your machine.</li>
+  <li>the current default is to use the find command and only regenerate the
+docs if the api page has not changed in a day. Since the slshrc is loaded
+every time a new shell is loaded this is desired so the docs aren’t always
+regenerated. If needed, just delete the “pages/mydoc/mydoc_api.md” page
+and then start a new shell to regenerate the docs.</li>
+  <li>to actually see the docs site you must run the jekyll docker container. To
+have personal docs for your personal shell functions forever run the command
+in the README.docker that lets the docker daemon handle starting the jekyll
+container on reboot to persist personal docs site.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(def api-page-name "mydoc_api.md")
+(def sidebar-page-name "mydoc_sidebar.yml")
+(def api-page (str "pages/mydoc/" api-page-name))
+(def sidebar-page (str "_data/sidebars/" sidebar-page-name))
+(shell::pushd "/path/to/sl-sh/docs")
+(def docs-error-ret
+    (get-error (when (or
+        (nil? (fs-exists? api-page))
+        (= api-page (str-trim (str $(find $api-page -type f -mmin "+1440"))))) (do
+
+    (load "mk-docs.lisp")
+    (load "mk-sidebar.lisp")
+
+    (let* ((ns-to-filter-out (append-to! (list "mksidebar" "mkdocs") *std-lib-namespaces*))
+          (almost-proper-sym-list (iterator::reduce
+                (fn (fst nxt)
+                    (append-to! fst (ns-symbols nxt)))
+                (list)
+                (filter (fn (x) (not (in? ns-to-filter-out x))) (ns-list))))
+          (proper-user-sym-list-no-std-lib-defs (collect (iterator::filter
+                (fn (x)
+                    (not (in? (hash-keys *std-lib-syms-hash*) x)))
+                almost-proper-sym-list))))
+        (mkdocs::make-md-file
+            api-page
+            proper-user-sym-list-no-std-lib-defs)
+        (mksidebar::write-sidebar sidebar-page proper-user-sym-list-no-std-lib-defs "User Standard Lib" "User Forms" "/mydoc_api.html"))
+
+    (println "Built docs!")))))
+(shell::popd)
+(if (not (= (car docs-error-ret) :ok))
+    (println "Failed to build docs: " (cdr docs-error-ret)))
+</code></pre></div></div>
+
+<h2 id="viewing-personal-docs">Viewing personal docs</h2>
+
+<p>After re-loading slshrc file and triggering the above code to run (either by
+deleting pages/mydoc/mydoc_api.md or by loading slshrc when said file has not
+been modified in one day) when you visit localhost:4000 the sidebar will say
+“User Standard Lib” instead of “Standard Library” clicking on that link will
+reveal all the forms you created in your slshrc and any exported symbols you
+import into your slshrc. The Quick Links section will show a list of all
+the sections you defined in the user doc strings for the <code class="language-plaintext highlighter-rouge">Section:</code> tag and
+all user docs will be grouped under the appropriate section heading.</p>
+
+<p>Hopefully this will make it easier to create LOTS of custom sl-sh functions,
+while still maintaining visibility into what you’ve down historically to make
+organization easier.</p>
+
+
+    <div class="tags">
+        
+        <b>Tags: </b>
+        
+        
+        
+        <a href="https://sl-sh-dev.github.io/sl-sh/tag_documentation.html" class="btn btn-default navbar-btn cursorNorm" role="button">documentation</a>
+        
+        
+        
+    </div>
+
+</div>
+
+<hr class="shaded"/>
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+                2023 sl-sh. All rights reserved. <br />
+<span>Page last updated:</span> May 28, 2021<br/> Site last generated: May 8, 2023 <br />
+<p><img width="50em" src="images/sl-sh-icon.png" alt="sl-sh-icon"/></p>
+                </div>
+            </div>
+</footer>
+
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+</html>
